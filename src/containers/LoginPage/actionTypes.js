@@ -1,0 +1,3 @@
+export const SET_ROLE = 'LOGIN_ACTION:SET_ROLE';
+export const SET_IS_LOADING = 'LOGIN_ACTION:SET_IS_LOADING';
+export const SET_USER = 'LOGIN_ACTION:SET_USER';
