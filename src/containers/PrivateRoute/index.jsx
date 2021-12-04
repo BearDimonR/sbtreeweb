@@ -1,16 +1,24 @@
 import React from 'react';
 import {Route, Redirect} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import style from "./index.module.scss";
 import ContentContainer from '../ContentContainer';
+import Navbar from '../../components/NavBar';
+import {logout} from '../LoginPage/actions';
 
-const PrivateRoute = ({component: Component, access, ...rest}) => {
+const PrivateRoute = ({component: Component, access, logout: signOut, ...rest}) => {
     return (<Route
         {...rest}
         render={props => (access ? (
-                <div className={style.mainContainer}>
-                    <ContentContainer component={Component}></ContentContainer>
+                <div className={style.page}>
+                    <div className={style.headerContainer}>
+                        <Navbar logout={signOut}/>
+                    </div>
+                    <div className={style.mainContainer}>
+                        <ContentContainer component={Component}></ContentContainer>
+                    </div>
                 </div>
                     )
                 :
@@ -34,4 +42,6 @@ const mapStateToProps = rootState => ({
     access: rootState.profile.access,
 });
 
-export default connect(mapStateToProps)(PrivateRoute);
+const mapDispatchToProps = dispatch => bindActionCreators({logout}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute);

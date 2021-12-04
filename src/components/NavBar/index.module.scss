@@ -1,0 +1,124 @@
+.navbarContainer {
+  height: 100%;
+  width: 100%;
+  background: #f0f3fb;
+  border-radius: 0 25px 25px 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 35px;
+  transition: all 0.3s;
+}
+
+.menuLeftContainer {
+  display: flex;
+}
+
+.logoContainer {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+}
+
+.logo {
+  font-size: 26pt;
+  color: #4a6ee8;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 0;
+  align-self: center;
+  font-family: 'Red Hat Text', sans-serif;
+  transition: all 0.3s;
+}
+
+.logoSmall {
+  font-size: 26pt;
+  color: #4a6ee8;
+  margin-bottom: 0;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Red Hat Text', sans-serif;
+  display: none;
+  transition: all 0.3s;
+}
+
+.subLogo {
+  font-size: 12pt;
+  margin-left: 2px;
+  margin-top: 15px;
+  color: #4a6ee8;
+  font-weight: bold;
+  cursor: pointer;
+  align-self: center;
+  font-family: 'Red Hat Text', sans-serif;
+}
+
+.menuItem {
+  display: flex;
+  font-size: 14pt;
+  color: #aeb4c7;
+  font-weight: 300;
+  cursor: pointer;
+  font-family: 'Red Hat Text', sans-serif;
+  margin-top: 3px;
+  margin-left: 30px;
+  padding: 0 5px;
+  align-items: center;
+  border-radius: 10px;
+  height: 45px;
+}
+
+.menuItem:hover {
+  color: #8e94a5;
+  transition: all 0.3s;
+}
+
+.menuItemActive {
+  color: white;
+  background: #4a6ee8;
+  border-radius: 10px;
+  transition: all 0.5s;
+  box-shadow: 0 2px 5px #4c77fa;
+}
+
+.menuItemActive:hover {
+  color: white;
+  background: rgba(76, 119, 250, 0.9);
+}
+
+.menuItemText {
+  margin-left: 5px;
+}
+
+.menuItemIcon {
+  min-height: 25px;
+  min-width: 25px;
+}
+
+@media (max-width: 900px) {
+  .navbarContainer {
+    padding: 10px 20px;
+  }
+  .logoContainer {
+      margin-top: 0;
+  }
+  .menuItemText {
+    display: none;
+  }
+
+  .menuItem {
+    padding: 10px;
+  }
+
+  .logo {
+    display: none;
+  }
+  .logoSmall {
+    margin-left: 25px;
+    display: block;
+  }
+
+  .logoContainer {
+    justify-content: start;
+  }
+}

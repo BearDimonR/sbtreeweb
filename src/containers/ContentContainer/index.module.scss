@@ -1,8 +1,8 @@
 .contentContainer {
   background: #fcfdfe;
   width: calc((100% - 60px));
-  height: calc((100% - 60px));
-  margin: 30px;
+  height: calc((100% - 20px));
+  margin: 0 30px 30px 30px;
   border-radius: 30px;
   padding: 20px 30px 20px 30px;
   box-shadow: 0 3px 3px #aeb4c7;
@@ -39,8 +39,9 @@
   margin-top: 20px !important;
 }
 
-@media (max-width: 1750px) {
+@media (max-width: 900px) {
   .contentContainer {
-    width: calc((100% - 160px));
+    margin: 0 15px 15px 15px;
+    width: calc((100% - 30px));
   }
 }
