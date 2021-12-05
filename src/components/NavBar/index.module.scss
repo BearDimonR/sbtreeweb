@@ -18,6 +18,7 @@
   height: 100%;
   width: 100%;
   justify-content: center;
+  margin-right: 30px;
 }
 
 .logo {
@@ -61,7 +62,7 @@
   cursor: pointer;
   font-family: 'Red Hat Text', sans-serif;
   margin-top: 3px;
-  margin-left: 30px;
+  margin-left: 20px;
   padding: 0 5px;
   align-items: center;
   border-radius: 10px;
@@ -86,13 +87,47 @@
   background: rgba(76, 119, 250, 0.9);
 }
 
+.subMenuItem {
+  padding: 5px;
+  color: #aeb4c7;
+  font-weight: 300;
+  cursor: pointer;
+  font-family: 'Red Hat Text', sans-serif;
+  border-radius: 4px;
+}
+
+.subMenuItem:hover {
+  color: #8e94a5;
+  transition: all 0.3s;
+}
+
+.subMenuActiveItem {
+  color: white;
+  background: #4a6ee8;
+  border-radius: 4px;
+  transition: all 0.5s;
+  box-shadow: 0 1px 4px #4c77fa;
+}
+
+.subMenuActiveItem:hover {
+  color: white;
+  background: rgba(76, 119, 250, 0.9);
+}
+
 .menuItemText {
   margin-left: 5px;
+  margin-bottom: 0;
 }
 
 .menuItemIcon {
   min-height: 25px;
   min-width: 25px;
+}
+
+.divider {
+  border-left: 1px solid #aeb4c7;
+  margin-left: 20px;
+  width: 1px;
 }
 
 @media (max-width: 900px) {
@@ -101,6 +136,7 @@
   }
   .logoContainer {
       margin-top: 0;
+      margin-right: 10px;
   }
   .menuItemText {
     display: none;

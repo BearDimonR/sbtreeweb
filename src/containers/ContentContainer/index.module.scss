@@ -23,8 +23,37 @@
 
 .titleContainer {
   display: flex;
-  justify-content: flex-start;
+  width: 100%;
+  justify-content: space-between;
   align-items: center;
+}
+
+.leftContainer {
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+}
+
+.rightContainer {
+  flex: 1;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.sortWrapper {
+  display: flex;
+  margin: auto 10% auto 0;
+  height: fit-content;
+
+  & p {
+    margin: auto 5px auto 0;
+    height: fit-content;
+  }
+
+  & div {
+    height: fit-content;
+  }
 }
 
 .title {
@@ -37,6 +66,42 @@
 
 .divider {
   margin-top: 20px !important;
+}
+
+.avatarContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.titleContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.avatar {
+  width: 35px;
+}
+
+.userName {
+  font-size: 13pt;
+  color: #aeb4c7;
+  margin: 0 15px 0 0 !important;
+  font-weight: 500;
+  font-family: 'Red Hat Text', sans-serif;
+}
+
+.title {
+  font-size: 18pt;
+  color: #aeb4c7;
+  margin: 0 20px 0 0 !important;
+  font-weight: 500;
+  font-family: 'Red Hat Text', sans-serif;
+}
+
+.breadcrumb {
+
 }
 
 @media (max-width: 900px) {

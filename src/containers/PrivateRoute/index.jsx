@@ -17,7 +17,7 @@ const PrivateRoute = ({component: Component, access, logout: signOut, ...rest}) 
                         <Navbar logout={signOut}/>
                     </div>
                     <div className={style.mainContainer}>
-                        <ContentContainer component={Component}></ContentContainer>
+                        <ContentContainer component={Component} {...rest}></ContentContainer>
                     </div>
                 </div>
                     )

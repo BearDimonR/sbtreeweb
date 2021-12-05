@@ -9,6 +9,12 @@ import PropTypes from 'prop-types';
 import {Dimmer, Loader} from "semantic-ui-react";
 import LoginPage from '../LoginPage';
 import {checkLoggedIn} from '../LoginPage/actions';
+import HomePage from '../HomePage';
+import EventsPage from '../EventsPage';
+import PeoplePage from '../PeoplePage';
+import ProfilePage from '../ProfilePage';
+import EventPage from '../EventPage';
+import {eventsSortOptions} from '../../utils/sortOptions';
 
 const Routing = ({
                      access,
@@ -32,7 +38,11 @@ const Routing = ({
             <main className="fill">
                 <Switch>
                     <PublicRoute exact path="/login" component={LoginPage}/>
-                    <PrivateRoute exact path="/" component={() => <div></div>}/>
+                    <PrivateRoute exact path="/home" component={HomePage}/>
+                    <PrivateRoute exact path="/events" sortOptions={eventsSortOptions} component={EventsPage}/>
+                    <PrivateRoute exact path="/events/:id" component={EventPage}/>
+                    <PrivateRoute exact path="/people" sortOptions={{}} component={PeoplePage}/>
+                    <PrivateRoute exact path="/profile" component={ProfilePage}/>
                     <Route path="*" exact component={NotFound}/>
                 </Switch>
             </main>

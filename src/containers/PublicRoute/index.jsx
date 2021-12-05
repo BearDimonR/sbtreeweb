@@ -8,7 +8,7 @@ const PublicRoute = ({component: Component, access, ...rest}) => (
         {...rest}
         render={props => {
             if (access) {
-                return (<Redirect to={{pathname: '/', state: {from: props.location}}}/>)
+                return (<Redirect to={{pathname: '/home', state: {from: props.location}}}/>)
             }
             return (<Component {...props} />)
         }

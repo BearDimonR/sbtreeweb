@@ -8,6 +8,7 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createBrowserHistory } from 'history';
 import profileReducer from './containers/LoginPage/reducer';
+import eventReducer from './containers/EventsPage/reducer';
 
 export const history = createBrowserHistory();
 
@@ -20,6 +21,7 @@ const middlewares = [
 
 const reducers = {
     profile: profileReducer,
+    event: eventReducer,
 };
 
 const rootReducer = combineReducers({
