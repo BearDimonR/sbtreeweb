@@ -11,7 +11,7 @@ import { Pagination } from 'semantic-ui-react'
 
 const PAGE_SIZE = 12;
 
-const EventsPage = ({loadEvents: loadData, user, events, sort, ...props}) => {
+const EventsPage = ({loadEvents: loadData, user, events, ...props}) => {
     const paginator = useRef(null);
     const [page, setPage] = useState(1);
     const [changed, setChanged] = useState(false);
@@ -19,8 +19,8 @@ const EventsPage = ({loadEvents: loadData, user, events, sort, ...props}) => {
     const [eventId, setEventId] = useState(null);
     
     useEffect(() => {
-        loadData(sort);
-    }, [loadData, sort]);
+        loadData();
+    }, [loadData]);
 
     useEffect(() => {
         setTotalPages(Number.parseInt(events.length / PAGE_SIZE))

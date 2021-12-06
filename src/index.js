@@ -5,6 +5,7 @@ import App from './scenes/App/App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/reset.scss';
 import './styles/common.scss';
+import 'rsuite/dist/rsuite.min.css';
 import 'semantic-ui-css/semantic.min.css'
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 

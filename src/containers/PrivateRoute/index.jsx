@@ -7,8 +7,9 @@ import style from "./index.module.scss";
 import ContentContainer from '../ContentContainer';
 import Navbar from '../../components/NavBar';
 import {logout} from '../LoginPage/actions';
+import Sidebar from '../../components/SideBar';
 
-const PrivateRoute = ({component: Component, access, logout: signOut, ...rest}) => {
+const PrivateRoute = ({component: Component, access, logout: signOut, filterComponent, ...rest}) => {
     return (<Route
         {...rest}
         render={props => (access ? (
@@ -17,7 +18,9 @@ const PrivateRoute = ({component: Component, access, logout: signOut, ...rest}) 
                         <Navbar logout={signOut}/>
                     </div>
                     <div className={style.mainContainer}>
+                        {filterComponent ? <Sidebar sidebarContent={filterComponent} pusherComponent={ContentContainer} component={Component} {...rest} /> :
                         <ContentContainer component={Component} {...rest}></ContentContainer>
+                        }
                     </div>
                 </div>
                     )

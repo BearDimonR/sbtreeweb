@@ -5,10 +5,9 @@ import {Image, Breadcrumb, Dropdown} from 'semantic-ui-react';
 import {NavLink, useLocation, useHistory} from 'react-router-dom';
 import _ from 'lodash';
 
-const ContentContainer = ({component: Component, user, sortOptions, ...props}) => {
+const ContentContainer = ({component: Component, user, sortOptions, sort, setSort, setSidebarVisible, ...props}) => {
     const location = useLocation();
     const history = useHistory();
-    const [sort, setSort] = useState(sortOptions[0].value)
     let path = location.pathname;
     const profilePage = location.pathname === '/profile';
 
@@ -26,6 +25,7 @@ const ContentContainer = ({component: Component, user, sortOptions, ...props}) =
     };
 
     const handleSortChange = useCallback((e, data) => setSort(data.value), [setSort]);
+    const handleSidebarVisible = useCallback(() => setSidebarVisible(true), [setSidebarVisible]);
 
     return <div className={style.contentContainer}>
         <div className={style.header}>
@@ -34,15 +34,18 @@ const ContentContainer = ({component: Component, user, sortOptions, ...props}) =
                     <Breadcrumb className={`${style.breadcrumb} ${style.title}`} divider='/' sections={getBreadCrumb()} />
                 </div>
                 <div className={style.rightContainer}>
+                    {setSidebarVisible && (
+                        <Dropdown text='Filter' multiple icon='filter' onClick={handleSidebarVisible} />
+                    )}
                     {sortOptions && (
                         <div className={style.sortWrapper}>
                             <p>
-                                Sort: 
+                                Sort
                             </p>
                             <Dropdown
                                     inline
                                     header='Sort by'
-                                    defaultValue={sortOptions[0].value}
+                                    value={sort}
                                     options={sortOptions} 
                                     onChange={handleSortChange}
                             />
@@ -56,7 +59,7 @@ const ContentContainer = ({component: Component, user, sortOptions, ...props}) =
                 </div>
             </div>
         </div>
-        <Component sort={sort} {...props}/>
+        <Component {...props}/>
     </div>
 }
 
