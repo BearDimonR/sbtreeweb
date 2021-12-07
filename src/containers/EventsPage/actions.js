@@ -37,7 +37,7 @@ export const applyFilter = (value=[]) => async (dispatch, getRootState) => {
     dispatch(loadEvents(event.sort, value));
 };
 
-export const applySort = value => async (dispatch, getRootState) => {
+export const applyEventSort = value => async (dispatch, getRootState) => {
     const { event } = getRootState();
     dispatch(setSort(value));
     dispatch(loadEvents(value, event.filters));

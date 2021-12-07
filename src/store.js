@@ -9,6 +9,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { createBrowserHistory } from 'history';
 import profileReducer from './containers/LoginPage/reducer';
 import eventReducer from './containers/EventsPage/reducer';
+import personReducer from './containers/PeoplePage/reducer';
 
 export const history = createBrowserHistory();
 
@@ -22,6 +23,7 @@ const middlewares = [
 const reducers = {
     profile: profileReducer,
     event: eventReducer,
+    person: personReducer,
 };
 
 const rootReducer = combineReducers({

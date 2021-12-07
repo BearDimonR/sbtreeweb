@@ -13,9 +13,7 @@ const EventPage = ({event, loadEvent: loadData, ...props}) => {
     const [editModeOn, setEditModeOn] = useState(false);
 
     useEffect(() => {
-        if (_.isEmpty(event)) {
-            loadData(id);
-        }
+        loadData(id);
     }, [loadData, event, id]);
 
     const toggleEditMode = () => {

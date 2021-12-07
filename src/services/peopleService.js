@@ -4,13 +4,15 @@ import { people } from "../utils/json";
 
 const getOp = key => {
     switch(key) {
-        //TODO write filter
         case 'start':
-            return ({start, end}, b) => moment(b).isBefore(end) && moment(b).isAfter(start);
-        case 'name':
-            return (a, b) => _.findIndex(a, el => el === b) !== -1;
-        case 'category':
-            return (a, b) => _.findIndex(a, el => el === b) !== -1;
+            return ({start, end}, b) => {
+                const val = b['start'];
+                moment(val).isBefore(end) && moment(val).isAfter(start)
+            };
+        case 'fullName':
+            return (a, b) => _.findIndex(a, el => el === `${b.surname} ${b.name}`) !== -1;
+        case 'status':
+            return (a, b) => _.findIndex(a, el => el === b.status) !== -1;
         default:
             return new Error('Unknown key');
     }
@@ -22,7 +24,7 @@ const filter = (array, filters={}) => array.filter((obj) => Object.keys(filters)
     if (_.isEmpty(value)) {
         return true;
     }
-    return op(value, obj[key]);
+    return op(value, obj);
 }));
 
 export const getPeople = (sort, filters) => {

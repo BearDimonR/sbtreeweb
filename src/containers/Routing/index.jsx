@@ -9,14 +9,16 @@ import PropTypes from 'prop-types';
 import {Dimmer, Loader} from "semantic-ui-react";
 import LoginPage from '../LoginPage';
 import {checkLoggedIn} from '../LoginPage/actions';
-import { applySort } from '../EventsPage/actions';
+import { applyEventSort } from '../EventsPage/actions';
+import { applyPersonSort } from '../PeoplePage/actions';
 import HomePage from '../HomePage';
 import EventsPage from '../EventsPage';
 import PeoplePage from '../PeoplePage';
 import ProfilePage from '../ProfilePage';
 import EventPage from '../EventPage';
 import EventFilterWrapper from '../EventFilterWrapper';
-import {eventsSortOptions} from '../../utils/sortOptions';
+import PersonFilterWrapper from '../PersonFilterWrapper';
+import {eventsSortOptions, peopleSortOptions} from '../../utils/sortOptions';
 import AboutPage from '../AboutPage';
 
 const Routing = ({
@@ -24,7 +26,9 @@ const Routing = ({
                      checkLoggedIn: checkLogged,
                      isLoading,
                      eventSort,
-                     applySort: setEventSort,
+                     personSort,
+                     applyEventSort: setEventSort,
+                     applyPersonSort: setPersonSort,
                  }) => {
     useEffect(() => {
         if (!access) {
@@ -51,7 +55,13 @@ const Routing = ({
                         component={EventsPage}
                     />
                     <PrivateRoute exact path="/events/:id" component={EventPage}/>
-                    <PrivateRoute exact path="/people" filterComponent={EventFilterWrapper} component={PeoplePage}/>
+                    <PrivateRoute exact path="/people"
+                        sortOptions={peopleSortOptions}
+                        sort={personSort}
+                        setSort={setPersonSort}
+                        filterComponent={PersonFilterWrapper}
+                        component={PeoplePage}
+                    />
                     <PrivateRoute exact path="/profile" component={ProfilePage}/>
                     <PrivateRoute exact path="/home/about" component={AboutPage}/>
                     <Route path="*" exact component={NotFound}/>
@@ -73,13 +83,14 @@ Routing.propTypes = {
     checkLoggedIn: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({profile, event}) => ({
+const mapStateToProps = ({profile, event, person}) => ({
     access: profile.access,
     isLoading: profile.isLoading,
     eventSort: event.sort,
+    personSort: person.sort,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkLoggedIn, applySort}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({checkLoggedIn, applyEventSort, applyPersonSort}, dispatch);
 
 export default connect(
     mapStateToProps,

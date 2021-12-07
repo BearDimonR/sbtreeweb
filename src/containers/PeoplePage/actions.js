@@ -36,7 +36,7 @@ export const applyFilter = (value=[]) => async (dispatch, getRootState) => {
     dispatch(loadPeople(event.sort, value));
 };
 
-export const applySort = value => async (dispatch, getRootState) => {
+export const applyPersonSort = value => async (dispatch, getRootState) => {
     const { event } = getRootState();
     dispatch(setSort(value));
     dispatch(loadPeople(value, event.filters));
@@ -54,12 +54,12 @@ export const loadPerson = (id) => async dispatch => {
     dispatch(setInstance(person));
 };
 
-export const loadCategories = () => async dispatch => {
+export const loadStatuses = () => async dispatch => {
     const statuses = getPeopleStatuses();
     dispatch(setStatuses(statuses));
 };
 
-export const loadNames = () => async dispatch => {
+export const loadFullNames = () => async dispatch => {
     const names = getPeopleFullNames();
     dispatch(setFullNames(names));
 };

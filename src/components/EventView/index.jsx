@@ -1,5 +1,6 @@
 import React from 'react';
 import style from "./index.module.scss";
+import _ from 'lodash';
 import { Grid, Image, List, Label} from 'semantic-ui-react';
 import {Panel} from 'rsuite';
 
@@ -41,7 +42,7 @@ const EventView = ({event}) => {
             <Grid.Column className={style.infoColumn}>
                 <Panel header="Activity" bordered>
                 <List divided selection className={style.activity}>
-                    {event.people.map(val => (
+                    {event.people && _.map(event.people, (val => (
                         <List.Item>
                             <Image avatar src={val.avatar} />
                             <List.Content>
@@ -52,7 +53,7 @@ const EventView = ({event}) => {
                                 </List.Description>
                             </List.Content>
                         </List.Item>
-                    ))}
+                    )))}
                 </List>
                 </Panel>
             </Grid.Column>
