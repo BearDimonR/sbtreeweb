@@ -28,7 +28,10 @@ const EventFilter = ({filters, names, categories, apply, reset}) => {
       }
     }, [currentFilters, setCurrentFilters]);
 
-    const handleReset = useCallback(() => setCurrentFilters([]), [setCurrentFilters]);
+    const handleReset = useCallback(() => {
+      setCurrentFilters([]);
+      reset();
+    }, [setCurrentFilters, reset]);
 
     return <Form className={style.form} onSubmit={() => apply(currentFilters)}>
       <div className={style.section}>

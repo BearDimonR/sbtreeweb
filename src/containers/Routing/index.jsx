@@ -17,6 +17,7 @@ import ProfilePage from '../ProfilePage';
 import EventPage from '../EventPage';
 import EventFilterWrapper from '../EventFilterWrapper';
 import {eventsSortOptions} from '../../utils/sortOptions';
+import AboutPage from '../AboutPage';
 
 const Routing = ({
                      access,
@@ -52,6 +53,7 @@ const Routing = ({
                     <PrivateRoute exact path="/events/:id" component={EventPage}/>
                     <PrivateRoute exact path="/people" filterComponent={EventFilterWrapper} component={PeoplePage}/>
                     <PrivateRoute exact path="/profile" component={ProfilePage}/>
+                    <PrivateRoute exact path="/home/about" component={AboutPage}/>
                     <Route path="*" exact component={NotFound}/>
                 </Switch>
             </main>

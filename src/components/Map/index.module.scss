@@ -1,0 +1,11 @@
+.mapStyles {
+    width: 100px;
+    height: 100px;
+}
+.pin {
+    color: blue;
+    & p {
+        width: 100px;
+        font-size: 12px;
+    }
+}
