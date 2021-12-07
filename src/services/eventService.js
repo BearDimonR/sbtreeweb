@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import moment from 'moment';
-import { events } from "../utils/eventsConstatns";
+import { events, eventPerson, people } from "../utils/json";
 
 const getOp = key => {
     switch(key) {
@@ -33,8 +33,22 @@ export const getEvent = (id) => {
     if (_.isEmpty(event)) {
         return null;
     }
-    return event;
+    return {...event, people: getEventPeople(id)};
 }
 
 export const getEventNames = () => _.sortBy(_.uniq(events.map(e => e.name.trim())), a => a.toLowerCase());
 export const getEventСategories = () => _.sortBy(_.uniq(events.map(e => e.category.trim())), a => a.toLowerCase());
+
+export const getEventPeople = (id) => {
+    const ep = _.filter(eventPerson, ['event_id', id]);
+    const res = people.reduce((res, obj) => {
+        const i = _.findIndex(ep, ['person_id', obj.id]);
+        if (i === -1) {
+            return res;
+        }
+        const epValue = ep[i];
+        return [...res, {...(_.omit(obj, ['email', 'about', 'telephone', 'start', 'end'])),
+            role: epValue.role, about: epValue.about}];
+    }, []);
+    return res;
+};

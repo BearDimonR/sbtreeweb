@@ -1,0 +1,10 @@
+[{"event_id":"e310198e-124c-4c6f-bd3d-3ec250f9c4a6","person_id":"8476365d-6a62-4a08-91c9-590dfdff82a5","role":"Road","about":null},
+{"event_id":"e310198e-124c-4c6f-bd3d-3ec250f9c4a6","person_id":"14451630-7c1c-4e35-ad41-67c3c3625e0d","role":"Hill","about":"Small bowel series"},
+{"event_id":"e310198e-124c-4c6f-bd3d-3ec250f9c4a6","person_id":"0f1fc7df-f1b4-4e4d-b6cc-7339e1e71acf","role":"Park","about":"Type II tympanoplasty"},
+{"event_id":"e310198e-124c-4c6f-bd3d-3ec250f9c4a6","person_id":"cea06846-9e95-43b9-b4f8-7513a0b6652d","role":"Place","about":"Repair of corneal laceration or wound with conjunctival flap"},
+{"event_id":"e310198e-124c-4c6f-bd3d-3ec250f9c4a6","person_id":"f46b210e-38f1-4d7d-b8c7-b5a41e2fb99a","role":"Park","about":null},
+{"event_id":"e310198e-124c-4c6f-bd3d-3ec250f9c4a6","person_id":"94c9ff2c-a142-494a-816e-6737bd6c48a2","role":"Road","about":"Closed reduction of fracture without internal fixation, carpals and metacarpals"},
+{"event_id":"eb0cb7de-b491-4a1b-930f-e35280d8f405","person_id":"8476365d-6a62-4a08-91c9-590dfdff82a5","role":"Court","about":"Other repair of laceration of eyelid, full-thickness"},
+{"event_id":"eb0cb7de-b491-4a1b-930f-e35280d8f405","person_id":"14451630-7c1c-4e35-ad41-67c3c3625e0d","role":"Road","about":"Excision of lesion or tissue of large intestine"},
+{"event_id":"eb0cb7de-b491-4a1b-930f-e35280d8f405","person_id":"0f1fc7df-f1b4-4e4d-b6cc-7339e1e71acf","role":"Lane","about":"Other unilateral oophorectomy"},
+{"event_id":"eb0cb7de-b491-4a1b-930f-e35280d8f405","person_id":"cea06846-9e95-43b9-b4f8-7513a0b6652d","role":"Alley","about":"Digital examination of rectum"}]

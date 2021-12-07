@@ -15,3 +15,16 @@ export const eventsSortOptions = [
         text: 'Category',
     }
 ];
+
+export const peopleSortOptions = [
+    {
+        key: 'start',
+        value: 'start',
+        text: 'Date',
+    },
+    {
+        key: 'status',
+        value: 'status',
+        text: 'Status',
+    }
+];

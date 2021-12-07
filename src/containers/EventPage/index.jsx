@@ -21,7 +21,6 @@ const EventPage = ({event, loadEvent: loadData, ...props}) => {
     const toggleEditMode = () => {
         setEditModeOn(!editModeOn);
     }
-
     return <div className={style.profileContainer}>
         {!editModeOn &&
         <EventView event={event} toggleEditMode={toggleEditMode}/>}

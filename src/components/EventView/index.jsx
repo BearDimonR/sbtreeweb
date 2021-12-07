@@ -41,86 +41,18 @@ const EventView = ({event}) => {
             <Grid.Column className={style.infoColumn}>
                 <Panel header="Activity" bordered>
                 <List divided selection className={style.activity}>
-                    <List.Item>
-                        <Image avatar src='https://react.semantic-ui.com/images/avatar/small/rachel.png' />
-                        <List.Content>
-                            <List.Header as='a'>Name</List.Header>
-                            <List.Content>Top Manager</List.Content>
-                            <List.Description>
-                                Helps to organize all, do a lot of things
-                            </List.Description>
-                        </List.Content>
-                    </List.Item>
-                    <List.Item>
-                        <Image avatar src='https://react.semantic-ui.com/images/avatar/small/rachel.png' />
-                        <List.Content>
-                            <List.Header as='a'>Name</List.Header>
-                            <List.Content>Top Manager</List.Content>
-                            <List.Description>
-                                Helps to organize all, do a lot of things
-                            </List.Description>
-                        </List.Content>
-                    </List.Item>
-                    <List.Item>
-                        <Image avatar src='https://react.semantic-ui.com/images/avatar/small/rachel.png' />
-                        <List.Content>
-                            <List.Header as='a'>Name</List.Header>
-                            <List.Content>Top Manager</List.Content>
-                            <List.Description>
-                                Helps to organize all, do a lot of things
-                            </List.Description>
-                        </List.Content>
-                    </List.Item>
-                    <List.Item>
-                        <Image avatar src='https://react.semantic-ui.com/images/avatar/small/rachel.png' />
-                        <List.Content>
-                            <List.Header as='a'>Name</List.Header>
-                            <List.Content>Top Manager</List.Content>
-                            <List.Description>
-                                Helps to organize all, do a lot of things
-                            </List.Description>
-                        </List.Content>
-                    </List.Item>
-                    <List.Item>
-                        <Image avatar src='https://react.semantic-ui.com/images/avatar/small/rachel.png' />
-                        <List.Content>
-                            <List.Header as='a'>Name</List.Header>
-                            <List.Content>Top Manager</List.Content>
-                            <List.Description>
-                                Helps to organize all, do a lot of things
-                            </List.Description>
-                        </List.Content>
-                    </List.Item>
-                    <List.Item>
-                        <Image avatar src='https://react.semantic-ui.com/images/avatar/small/rachel.png' />
-                        <List.Content>
-                            <List.Header as='a'>Name</List.Header>
-                            <List.Content>Top Manager</List.Content>
-                            <List.Description>
-                                Helps to organize all, do a lot of things
-                            </List.Description>
-                        </List.Content>
-                    </List.Item>
-                    <List.Item>
-                        <Image avatar src='https://react.semantic-ui.com/images/avatar/small/rachel.png' />
-                        <List.Content>
-                            <List.Header as='a'>Name</List.Header>
-                            <List.Content>Top Manager</List.Content>
-                            <List.Description>
-                                Helps to organize all, do a lot of things
-                            </List.Description>
-                        </List.Content>
-                    </List.Item>
-                    <List.Item>
-                        <Image avatar src='https://react.semantic-ui.com/images/avatar/small/rachel.png' />
-                        <List.Content>
-                            <List.Header as='a'>Name</List.Header>
-                            <List.Content>Top Manager</List.Content>
-                            <List.Description>
-                                Helps to organize all, do a lot of things
-                            </List.Description>
-                        </List.Content>
-                    </List.Item>
+                    {event.people.map(val => (
+                        <List.Item>
+                            <Image avatar src={val.avatar} />
+                            <List.Content>
+                                <List.Header as='a'>{val.name}</List.Header>
+                                <List.Content>{val.role}</List.Content>
+                                <List.Description>
+                                    {val.about}
+                                </List.Description>
+                            </List.Content>
+                        </List.Item>
+                    ))}
                 </List>
                 </Panel>
             </Grid.Column>
