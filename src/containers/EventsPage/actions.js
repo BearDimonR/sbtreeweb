@@ -84,6 +84,7 @@ export const editEvent = (data) => async (dispatch, getRootState) => {
 export const editActivity = (data) => async (dispatch, getRootState) => {
     putActivity(data);
     dispatch(loadEvent(data.event_id));
+
 };
 
 export const removeEvent = (id) => async (dispatch, getRootState) => {
@@ -94,4 +95,5 @@ export const removeEvent = (id) => async (dispatch, getRootState) => {
 export const removeActivity = (id) => async (dispatch, getRootState) => {
     const activity = deleteActivity(id);
     dispatch(loadEvent(activity.event_id));
+
 };

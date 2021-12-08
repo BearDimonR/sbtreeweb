@@ -1,4 +1,5 @@
-import { getPeople, getPerson, getPeopleFullNames, getPeopleStatuses } from "../../services/peopleService"
+import { getPeople, getPerson, getPeopleFullNames, getPeopleStatuses, putPerson, deletePerson } from "../../services/peopleService"
+import { putActivity, deleteActivity } from "../../services/eventService"
 import {SET_PEOPLE, SET_INSTANCE, SET_FILTER, SET_SORT, SET_FULL_NAMES, SET_STATUSES} from './actionTypes';
 
 const setPeople = value => async dispatch => dispatch({
@@ -62,4 +63,26 @@ export const loadStatuses = () => async dispatch => {
 export const loadFullNames = () => async dispatch => {
     const names = getPeopleFullNames();
     dispatch(setFullNames(names));
+};
+
+export const editPerson = (data) => async (dispatch, getRootState) => {
+    putPerson(data);
+    dispatch(loadPerson(data.id));
+};
+
+export const editActivity = (data) => async (dispatch, getRootState) => {
+    putActivity(data);
+    dispatch(loadPerson(data.person_id));
+
+};
+
+export const removePerson = (id) => async (dispatch, getRootState) => {
+    deletePerson(id);
+    dispatch(loadPeople());
+}
+
+export const removeActivity = (id) => async (dispatch, getRootState) => {
+    const activity = deleteActivity(id);
+    dispatch(loadPerson(activity.person_id));
+
 };

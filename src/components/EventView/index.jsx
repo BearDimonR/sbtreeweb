@@ -5,7 +5,9 @@ import { Grid, Image, List, Label} from 'semantic-ui-react';
 import {Panel} from 'rsuite';
 
 
+
 const EventView = ({event, onEdit, onDelete, onActivityEdit, onActivityDelete}) => {
+
     const getHeader = () => (
         <div className={style.infoTitle}>
             <p>Інформація про подію</p>

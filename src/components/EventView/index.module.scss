@@ -56,11 +56,15 @@
   right: 5%;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 750px) {
   .image {
-    height: 30%;
+    height: 25%;
+  }
+  .infoGrid {
+    height: 70%;
   }
   .infoColumn {
+    margin-top: 10px;
     height: 50%;
   }
 }
