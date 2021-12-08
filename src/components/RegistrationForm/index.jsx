@@ -26,6 +26,7 @@ const RegistrationForm = ({register: signUp, toggle, setIsLoading, isLoading, is
             toggle(LOGIN_WORD);
             toast('🥳 Hooray! You successfully registered!');
         } catch (err) {
+            console.log(err);
             toast('🤯 Oops! It looks like your user with such an email or name already exists!');
             setIsLoading(false);
         }

@@ -35,8 +35,9 @@ export const login = (request) => async dispatch => {
     }
 };
 
-export const register = async (request) => {
+export const register = (request) => async dispatch => {
     await authService.registration(request);
+    await dispatch(setIsLoading(false));
 };
 
 export const logout = () => async (dispatch) => {
