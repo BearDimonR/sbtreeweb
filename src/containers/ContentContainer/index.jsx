@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import style from "./index.module.scss";
 import {connect} from 'react-redux';
 import {Image, Breadcrumb, Dropdown} from 'semantic-ui-react';

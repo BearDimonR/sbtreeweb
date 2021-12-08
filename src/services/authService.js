@@ -4,14 +4,14 @@ import { v4 as uuidv4 } from 'uuid';
 import {ROLES} from '../utils/rolesConstrants';
 
 export const login = async request => {
-    const access = getAccessCall();
-
-    
-    const auth = _.find(await access, request);
-    if (_.isEmpty(auth)) {
+    const access = await getAccessCall();
+    const users = await getUsersCall(0);
+    const auth = _.find(access, request);
+    const user = _.find(users, ['id', auth?.userId]);
+    if (_.isEmpty(auth) || _.isEmpty(user)) {
         return null;
     }
-    return auth;
+    return {...user, role: access?.role || 'user'};;
 };
 
 export const registration = async request => {

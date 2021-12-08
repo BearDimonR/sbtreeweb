@@ -32,10 +32,8 @@ const Routing = ({
                      applyPersonSort: setPersonSort,
                  }) => {
     useEffect(() => {
-        if (!access) {
-            checkLogged();
-        }
-    });
+        checkLogged();
+    }, [checkLogged]);
 
     const spinner = () => (
         <Dimmer active inverted>

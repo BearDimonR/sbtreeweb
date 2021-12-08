@@ -4,6 +4,7 @@ import evPpl from './json/eventPerson.json';
 
 const emulateApi = async (val, ms) => {
     return new Promise(resolve => setTimeout(() => resolve(val), ms || 1000))
+    //return new Promise(resolve => resolve(val));
 };
 
 export const events = ev;

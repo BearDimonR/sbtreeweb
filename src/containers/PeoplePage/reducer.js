@@ -9,6 +9,7 @@ const reducer = (state = {
         statuses: [],
         fullNames: [],
     }, action) => {
+    console.log('person: ' + action.type);
     switch (action.type) {
         case SET_PEOPLE:
             return {
