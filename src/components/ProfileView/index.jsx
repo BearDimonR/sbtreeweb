@@ -23,7 +23,7 @@ const ProfileView = ({user, onEdit, onDelete, onActivityEdit, onActivityDelete})
                         src={user.avatar || 'https://cdn-icons-png.flaticon.com/512/660/660611.png'}/>
             </Grid.Column>
             <Grid.Column className={style.column}>
-                    <Panel header={getHeader()} shaded bordered className={style.panel} horizonal>
+                    <Panel header={getHeader()} shaded bordered className={style.panel}>
                         <List divided selection>
                             <List.Item>
                             <Label color='blue' horizontal>
@@ -72,7 +72,7 @@ const ProfileView = ({user, onEdit, onDelete, onActivityEdit, onActivityDelete})
             <Panel header="Події" bordered prefix='custom-panel'>
                     <List divided selection className={style.activity}>
                         {user.events && _.map(user.events, (val => (
-                            <List.Item className={style.activityItem}>
+                            <List.Item key={val.id} className={style.activityItem}>
                                 <div className={style.actionIcons}>
                                     <Label as='a' icon='edit' basic className={style.label} onClick={() => onActivityEdit(val.activity_id)} />
                                     <Label as='a' icon='delete' basic className={style.label} onClick={() => onActivityDelete(val.activity_id)} />

@@ -61,8 +61,8 @@ const EventPage = ({user, event, activity, fullNames, eventNames, loadEvent: loa
 
     return <div className={style.profileContainer}>
         <EventView event={event} onEdit={handleEdit} onDelete={handleDelete} onActivityEdit={handleActivityEdit} onActivityDelete={handleActivityDelete} />
-        <EventModal open={editing} onClose={handleModalClose} user={user} event={event} onSubmit={handleSubmit}></EventModal>
-        <ActivityModal open={activity !== null} onClose={handleModalClose} user={user} activity={activity} fullNames={fullNames} eventNames={eventNames} onSubmit={handleActivitySubmit}></ActivityModal>
+        <EventModal open={editing} onClose={handleModalClose} user={user} event={event} onSubmit={handleSubmit} />
+        <ActivityModal open={activity !== null} onClose={handleModalClose} user={user} activity={activity} fullNames={fullNames} eventNames={eventNames} onSubmit={handleActivitySubmit} />
     </div>
 }
 const mapStateToProps = rootState => ({

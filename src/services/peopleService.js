@@ -37,7 +37,6 @@ export const getPerson = (id, ppl=true) => {
         return null;
     }
     if (ppl) {
-        //TODO events
         return {...person, events: getPersonEvents(person.id)};
     }
     return person;

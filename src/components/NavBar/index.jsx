@@ -24,7 +24,7 @@ const Navbar = ({logout}) => {
                     <Dropdown.Menu>
                         <Dropdown.Item>
                             <NavLink exact 
-                                to="/home" 
+                                to="/home"
                                 activeClassName={style.subMenuActiveItem} 
                                 className={style.subMenuItem}>
                                     Home

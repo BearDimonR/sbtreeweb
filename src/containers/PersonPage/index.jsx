@@ -6,11 +6,14 @@ import ProfileView from '../../components/ProfileView'
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { loadPerson, loadFullNames, editPerson, removePerson, editActivity, removeActivity } from '../PeoplePage/actions';
 import { loadActivity, loadNames, setActivity } from '../EventsPage/actions';
+import _ from 'lodash';
+import ActivityModal from '../../components/ActivityModal';
+import PersonModal from '../../components/PersonModal';
 
 
 
 const PersonPage = ({
-    user, person, loadPerson, loadActivity, setActivity, loadNames, loadFullNames, editPerson, editActivity, removePerson, removeActivity
+    user, person, activity, fullNames, eventNames, loadPerson, loadActivity, setActivity, loadNames, loadFullNames, editPerson, editActivity, removePerson, removeActivity
 }) => {
     const {id} = useParams();
     const location = useLocation();
@@ -24,13 +27,52 @@ const PersonPage = ({
         loadFullNames();
     }, [loadPerson, loadNames, loadFullNames, id]);
 
+    const handleModalClose = useCallback(() => {
+        setEditing(false);
+        if (activity) {
+            setActivity(null);
+        }
+    }, [setEditing, setActivity, activity]);
+
+    const handleEdit = useCallback(() => {
+        loadPerson(person.id);
+        setEditing(true);
+    }, [setEditing, loadPerson, person]);
+
+    const handleDelete = useCallback(() => {
+        removePerson(person.id);
+        const spl = path.split('/');
+        history.push(_.slice(spl, 0, spl.length - 1).join('/'));
+    }, [removePerson, person, history, path]);
+
+    const handleActivityEdit = useCallback((id) => {
+        loadActivity(id);
+    }, [loadActivity])
+
+    const handleActivityDelete = useCallback((id) => {
+        removeActivity(id);
+    }, [removeActivity]);
+
+    const handleSubmit = useCallback((data) => {
+        editPerson(data);
+    }, [editPerson]);
+
+    const handleActivitySubmit = useCallback((data) => {
+        editActivity(data);
+    }, [editActivity]);
+
     return <div className={style.profileContainer}>
-        <ProfileView user={person} />
+        <ProfileView user={person} onEdit={handleEdit} onDelete={handleDelete} onActivityEdit={handleActivityEdit} onActivityDelete={handleActivityDelete} />
+        <PersonModal open={editing} onClose={handleModalClose} user={user} person={person} onSubmit={handleSubmit} />
+        <ActivityModal open={activity !== null} onClose={handleModalClose} user={user} activity={activity} fullNames={fullNames} eventNames={eventNames} onSubmit={handleActivitySubmit} />
     </div>
 }
 const mapStateToProps = rootState => ({
     user: rootState.profile.user,
-    person: rootState.person.instance
+    person: rootState.person.instance,
+    activity: rootState.event.activity,
+    fullNames: rootState.person.fullNames,
+    eventNames: rootState.event.names,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({loadPerson, loadActivity, setActivity, loadNames, loadFullNames, editPerson, editActivity, removePerson, removeActivity}, dispatch);
