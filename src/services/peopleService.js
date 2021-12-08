@@ -45,3 +45,5 @@ export const getPerson = (id, events=true) => {
 
 export const getPeopleFullNames = () => _.sortBy(_.uniq(people.map(e => `${e.surname} ${e.name}`)), a => a.toLowerCase());
 export const getPeopleStatuses = () => _.sortBy(_.uniq(people.map(e => e.status)), a => a.toLowerCase());
+
+export const getPersonByFullName = (fullName) => _.find(people, (p) => `${p.surname} ${p.name}` === fullName);

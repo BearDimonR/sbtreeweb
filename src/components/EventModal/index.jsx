@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Modal, Form, ButtonToolbar, Button, DateRangePicker, Uploader, Schema, Input } from 'rsuite';
+import _ from 'lodash';
 
 const { StringType, ArrayType } = Schema.Types;
 
@@ -37,9 +38,8 @@ const EventModal = ({open, user, event={}, onClose, onSubmit}) => {
         if (!formRef.current.check()) {
             return;
         }
-        debugger;
-        console.log(formValue);
-        onSubmit(formValue);
+        onSubmit(_.omit({...formValue, start: formValue.dateRangePicker[0], end: formValue.dateRangePicker[1], id: event.id}, 'dateRangePicker'));
+        handleReset();
     };
 
     const handleReset = () => {

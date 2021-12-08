@@ -48,9 +48,8 @@ const ActivityModal = ({open, user, activity={}, fullNames, eventNames, onClose,
         if (!formRef.current.check()) {
             return;
         }
-        debugger;
-        console.log(formValue);
-        onSubmit(formValue);
+        onSubmit({...formValue, id: activity.id, event_id: activity.event_id, person_id: activity.person_id});
+        handleReset();
     };
 
     const handleReset = () => {

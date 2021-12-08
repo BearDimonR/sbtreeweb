@@ -3,16 +3,20 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import style from "./index.module.scss";
 import EventView from '../../components/EventView';
-import { loadEvent, loadAction, setActivity, loadNames, editEvent, editActivity, deleteEvent, deleteActivity } from '../EventsPage/actions';
+import { loadEvent, loadActivity, setActivity, loadNames, editEvent, editActivity, removeEvent, removeActivity } from '../EventsPage/actions';
 import { loadFullNames } from '../PeoplePage/actions';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
 import EventModal from '../../components/EventModal';
 import ActivityModal from '../../components/ActivityModal';
+import _ from 'lodash';
 
 const EventPage = ({user, event, activity, fullNames, eventNames, loadEvent: loadData, loadNames: getNames, 
-    loadFullNames: getFullNames, loadAction: getAction, setActivity: updateActivity,
-    editEvent, editActivity, deleteEvent, deleteActivity, ...props}) => {
+    loadFullNames: getFullNames, loadActivity: getActivity, setActivity: updateActivity,
+    editEvent, editActivity, removeEvent, removeActivity, ...props}) => {
     const {id} = useParams();
+    const location = useLocation();
+    const history = useHistory();
+    const path = location.pathname;
     const [editing, setEditing] = useState(false);
 
     useEffect(() => {
@@ -34,16 +38,18 @@ const EventPage = ({user, event, activity, fullNames, eventNames, loadEvent: loa
     }, [setEditing, loadData, event]);
 
     const handleDelete = useCallback(() => {
-        deleteEvent(event.id);
-    }, [deleteEvent, event]);
+        removeEvent(event.id);
+        const spl = path.split('/');
+        history.push(_.slice(spl, 0, spl.length - 1).join('/'));
+    }, [removeEvent, event, history, path]);
 
     const handleActivityEdit = useCallback((id) => {
-        getAction(id);
-    }, [getAction])
+        getActivity(id);
+    }, [getActivity])
 
     const handleActivityDelete = useCallback((id) => {
-        deleteActivity(id);
-    }, [deleteActivity]);
+        removeActivity(id);
+    }, [removeActivity]);
 
     const handleSubmit = useCallback((data) => {
         editEvent(data);
@@ -67,6 +73,6 @@ const mapStateToProps = rootState => ({
     eventNames: rootState.event.names,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({loadEvent, loadAction, setActivity, loadNames, loadFullNames, editEvent, editActivity, deleteEvent, deleteActivity}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({loadEvent, loadActivity, setActivity, loadNames, loadFullNames, editEvent, editActivity, removeEvent, removeActivity}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventPage);

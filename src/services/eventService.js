@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import { events, eventPerson, people } from "../utils/json";
-import {getPerson} from "./peopleService";
+import {getPerson, getPersonByFullName} from "./peopleService";
 
 const getOp = key => {
     switch(key) {
@@ -25,7 +25,7 @@ const filter = (array, filters={}) => array.filter((obj) => Object.keys(filters)
     return op(value, obj[key]);
 }));
 
-export const getEvents = (sort, filters) => {
+export const getEvents = (sort={}, filters=[]) => {
     return _.sortBy(filter(events, filters), sort);
 };
 
@@ -57,11 +57,41 @@ export const getEventPeople = (id) => {
     return res;
 };
 
-export const getActivity = (id) => {
+export const getActivity = (id, additional=true) => {
     const activity = _.find(eventPerson, ['id', id]);
     if (_.isEmpty(activity)) {
         return null;
     }
-    //TODO get person and event
-    return {...activity, person: getPerson(activity.person_id, false), event: getEvent(activity.event_id, false)};
+    if (additional) {
+        return {...activity, person: getPerson(activity.person_id, false), event: getEvent(activity.event_id, false)};
+    }
+    return activity;
 }
+
+export const putEvent = (data) => {
+    let event = getEvent(data.id, false);
+    event = _.merge(event, _.omitBy(data, _.isEmpty));
+    return event;
+}
+
+export const getEventByName = (name) => {
+    return _.find(events, (e) => e.name === name);
+};
+
+export const putActivity = (data) => {
+    const person = getPersonByFullName(data.person);
+    const event = getEventByName(data.event);
+    let activity = getActivity(data.id, false);
+    //TODO errors?
+    activity = _.merge(activity, _.omitBy(data, _.isEmpty), {person_id: person.id, event_id: event.id});
+    return activity;
+}
+
+export const deleteEvent = (id) => {
+    _.remove(events, ['id', id]);
+    _.remove(eventPerson, ['event_id', id]);
+};
+
+export const deleteActivity = (id) => {
+    return _.first(_.remove(eventPerson, ['id', id]));
+};
