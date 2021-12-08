@@ -1,4 +1,4 @@
-import {SET_EVENTS, SET_INSTANCE, SET_FILTER, SET_SORT, SET_NAMES, SET_CATEGORIES} from './actionTypes';
+import {SET_EVENTS, SET_INSTANCE, SET_FILTER, SET_SORT, SET_NAMES, SET_CATEGORIES, SET_ACTIVITY} from './actionTypes';
 import {eventsSortOptions} from '../../utils/sortOptions';
 
 const reducer = (state = {
@@ -8,6 +8,7 @@ const reducer = (state = {
         sort: eventsSortOptions[0].value,
         categories: [],
         names: [],
+        activity: null,
     }, action) => {
     switch (action.type) {
         case SET_EVENTS:
@@ -39,6 +40,11 @@ const reducer = (state = {
             return {
                 ...state,
                 categories: action.value,
+            }
+        case SET_ACTIVITY:
+            return {
+                ...state,
+                activity: action.value,
             }
         default:
             return state;

@@ -30,3 +30,11 @@ $blue: #439FD9;
 .progress-bar.bg-blue{
   background-color: #049DBF!important;
 }
+
+div[prefix=custom-panel] {
+  height: 100%;
+
+  & div[role=region] {
+    height: 100%;
+  }
+}

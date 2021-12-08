@@ -31,10 +31,14 @@ export const getPeople = (sort, filters) => {
     return _.sortBy(filter(people, filters), sort);
 };
 
-export const getPerson = (id) => {
+export const getPerson = (id, events=true) => {
     const person = _.find(people, ['id', id]);
     if (_.isEmpty(person)) {
         return null;
+    }
+    if (events) {
+        //TODO events
+        return person;
     }
     return person;
 }

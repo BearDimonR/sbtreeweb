@@ -1,6 +1,6 @@
 import { set } from "lodash";
-import { getEvents, getEvent, getEventNames, getEventСategories } from "../../services/eventService"
-import { SET_EVENTS, SET_INSTANCE, SET_SORT, SET_FILTER, SET_CATEGORIES, SET_NAMES } from "./actionTypes";
+import { getEvents, getEvent, getEventNames, getEventСategories, getActivity } from "../../services/eventService"
+import { SET_EVENTS, SET_INSTANCE, SET_SORT, SET_FILTER, SET_CATEGORIES, SET_NAMES, SET_ACTIVITY } from "./actionTypes";
 
 const setEvents = value => async dispatch => dispatch({
     type: SET_EVENTS,
@@ -31,6 +31,12 @@ export const setNames = value => async dispatch => dispatch({
     type: SET_NAMES,
     value
 });
+
+export const setActivity = value => async dispatch => dispatch({
+    type: SET_ACTIVITY,
+    value
+});
+
 export const applyFilter = (value=[]) => async (dispatch, getRootState) => {
     const { event } = getRootState();
     dispatch(setFilter(value));
@@ -62,6 +68,25 @@ export const loadCategories = () => async dispatch => {
 
 export const loadNames = () => async dispatch => {
     const names = getEventNames();
-    console.log(names);
     dispatch(setNames(names));
+};
+
+export const loadAction = (id) => async dispatch => {
+    const activity = getActivity(id);
+    dispatch(setActivity(activity));
+};
+
+export const editEvent = (data) => async dispatch => {
+
+};
+
+export const editActivity = (data) => async dispatch => {
+
+};
+
+export const deleteEvent = (data) => async dispatch => {
+}
+
+export const deleteActivity = (data) => async dispatch => {
+    
 };

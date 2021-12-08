@@ -42,7 +42,7 @@ const EventsPage = ({loadEvents: loadData, user, events, ...props}) => {
 
     return <div className={style.pageWrapper}>
         <Grid className={style.eventsContainer} textAlign="center">
-            {_.map(slice, (event) => <Grid.Column mobile={16} tablet={8} computer={5}>
+            {_.map(slice, (event) => <Grid.Column mobile={16} tablet={8} computer={5} className={style.column}>
                     <EventCard key={event.id} user={user} event={event} onClick={setEventId}/>
                 </Grid.Column>
             )}

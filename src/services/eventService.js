@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import { events, eventPerson, people } from "../utils/json";
+import {getPerson} from "./peopleService";
 
 const getOp = key => {
     switch(key) {
@@ -28,12 +29,15 @@ export const getEvents = (sort, filters) => {
     return _.sortBy(filter(events, filters), sort);
 };
 
-export const getEvent = (id) => {
+export const getEvent = (id, people=true) => {
     const event = _.find(events, ['id', id]);
     if (_.isEmpty(event)) {
         return null;
     }
-    return {...event, people: getEventPeople(id)};
+    if (people) {
+        return {...event, people: getEventPeople(id)};
+    }
+    return event;
 }
 
 export const getEventNames = () => _.sortBy(_.uniq(events.map(e => e.name.trim())), a => a.toLowerCase());
@@ -48,7 +52,16 @@ export const getEventPeople = (id) => {
         }
         const epValue = ep[i];
         return [...res, {...(_.omit(obj, ['email', 'about', 'telephone', 'start', 'end'])),
-            role: epValue.role, about: epValue.about}];
+            role: epValue.role, about: epValue.about, activity_id: epValue.id}];
     }, []);
     return res;
 };
+
+export const getActivity = (id) => {
+    const activity = _.find(eventPerson, ['id', id]);
+    if (_.isEmpty(activity)) {
+        return null;
+    }
+    //TODO get person and event
+    return {...activity, person: getPerson(activity.person_id, false), event: getEvent(activity.event_id, false)};
+}
