@@ -8,11 +8,11 @@ const HomePage = () => {
     return <div className={style.homeContainer}>
         <Header as='h1' className={style.title}>Ми СБ і ми круті!</Header>
         <Carousel className={style.carousel} autoplay shape='bar'>
-            <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=1" alt="First in carousel" />
-            <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=2" height="300" alt="Second in carousel" />
-            <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=3" height="300" alt="Third in carousel" />
-            <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=4" height="300" alt="Fourth in carousel" />
-            <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=5" height="300" alt="Fifth in carousel" />
+            <img src="https://i.imgur.com/reeHIuU.jpg" alt="First in carousel" />
+            <img src="https://i.imgur.com/FCl6TzK.jpg" alt="Second in carousel" />
+            <img src="https://i.imgur.com/vO4EkTQ.jpg" alt="Third in carousel" />
+            <img src="https://i.imgur.com/SmQq03w.jpg" alt="Fourth in carousel" />
+            <img src="https://i.imgur.com/UcrN51E.jpg" alt="Fifth in carousel" />
         </Carousel>
     </div>
 }
