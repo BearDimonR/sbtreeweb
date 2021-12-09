@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import moment from 'moment';
-import { people, eventPerson, events } from "../utils/json";
+import { getPeopleCall, getActivityCall, getEventsCall } from "../utils/json";
 
 const getOp = key => {
     switch(key) {
@@ -27,22 +27,30 @@ const filter = (array, filters={}) => array.filter((obj) => Object.keys(filters)
     return op(value, obj);
 }));
 
-export const getPeople = (sort, filters) => {
+export const getPeople = async (sort, filters) => {
+    const people = await getPeopleCall();
+
     return _.sortBy(filter(people, filters), sort);
 };
 
-export const getPerson = (id, ppl=true) => {
+export const getPerson = async (id, ppl=true) => {
+    const people = await getPeopleCall();
+
     const person = _.find(people, ['id', id]);
     if (_.isEmpty(person)) {
         return null;
     }
     if (ppl) {
-        return {...person, events: getPersonEvents(person.id)};
+        return {...person, events: await getPersonEvents(person.id)};
     }
     return person;
 }
 
-export const getPersonEvents = (id) => {
+export const getPersonEvents = async (id) => {
+    const eventPerson = await getActivityCall();
+    const events = await getEventsCall(0);
+
+
     const ep = _.filter(eventPerson, ['person_id', id]);
     const res = events.reduce((res, obj) => {
         const i = _.findIndex(ep, ['event_id', obj.id]);
@@ -56,18 +64,34 @@ export const getPersonEvents = (id) => {
     return res;
 };
 
-export const getPeopleFullNames = () => _.sortBy(_.uniq(people.map(e => `${e.surname} ${e.name}`)), a => a.toLowerCase());
-export const getPeopleStatuses = () => _.sortBy(_.uniq(people.map(e => e.status)), a => a.toLowerCase());
+export const getPeopleFullNames = async () => {
+    const people = await getPeopleCall();
 
-export const getPersonByFullName = (fullName) => _.find(people, (p) => `${p.surname} ${p.name}` === fullName);
 
-export const deletePerson = (id) => {
+    return _.sortBy(_.uniq(people.map(e => `${e.surname} ${e.name}`)), a => a.toLowerCase());
+}
+export const getPeopleStatuses = async () => {
+    const people = await getPeopleCall();
+
+    return _.sortBy(_.uniq(people.map(e => e.status)), a => a.toLowerCase());
+}
+
+export const getPersonByFullName = async (fullName) => {
+    const people = await getPeopleCall();
+
+    return _.find(people, (p) => `${p.surname} ${p.name}` === fullName);
+}
+
+export const deletePerson = async (id) => {
+    const people = await getPeopleCall();
+    const eventPerson = await getActivityCall();
+
     _.remove(people, ['id', id]);
     _.remove(eventPerson, ['person_id', id]);
 };
 
-export const putPerson = (data) => {
-    let person = getPerson(data.id, false);
+export const putPerson = async (data) => {
+    let person = await getPerson(data.id, false);
     person = _.merge(person, _.omitBy(data, _.isEmpty));
     return person;
 }

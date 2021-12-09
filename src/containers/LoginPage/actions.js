@@ -1,5 +1,5 @@
 import * as authService from '../../services/authService';
-import {SET_IS_LOADING, SET_USER} from './actionTypes';
+import {SET_IS_LOADING, SET_USER, SET_CONTENT_IS_LOADING} from './actionTypes';
 
 const setTokens = (token, refreshToken) => {
     localStorage.setItem('token', token);
@@ -49,3 +49,8 @@ export const loadCurrentUser = () => async (dispatch) => {
     const user = await authService.getCurrentUser();
     await dispatch(setUser(user));
 };
+
+export const setContentIsLoading = (value) => async (dispatch) => dispatch({
+    type: SET_CONTENT_IS_LOADING,
+    value
+})

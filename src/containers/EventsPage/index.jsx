@@ -8,10 +8,11 @@ import {loadEvents} from './actions';
 import _ from 'lodash';
 import EventCard from '../../components/EventCard';
 import { Pagination } from 'semantic-ui-react'
+import {setContentIsLoading} from '../LoginPage/actions';
 
 const PAGE_SIZE = 12;
 
-const EventsPage = ({loadEvents: loadData, user, events, ...props}) => {
+const EventsPage = ({loadEvents: loadData, user, events, setContentIsLoading, ...props}) => {
     const paginator = useRef(null);
     const [page, setPage] = useState(1);
     const [changed, setChanged] = useState(false);
@@ -19,8 +20,10 @@ const EventsPage = ({loadEvents: loadData, user, events, ...props}) => {
     const [eventId, setEventId] = useState(null);
     
     useEffect(() => {
+        setContentIsLoading(true);
         loadData();
-    }, [loadData]);
+        setContentIsLoading(false);
+    }, [loadData, setContentIsLoading]);
 
     useEffect(() => {
         setTotalPages(Number.parseInt(events.length / PAGE_SIZE))
@@ -64,6 +67,6 @@ const mapStateToProps = rootState => ({
     user: rootState.profile.user,
     events: rootState.event.list,
 });
-const mapDispatchToProps = dispatch => bindActionCreators({loadEvents}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({loadEvents, setContentIsLoading}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventsPage);

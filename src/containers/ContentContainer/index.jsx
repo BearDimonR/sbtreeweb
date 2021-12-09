@@ -1,11 +1,17 @@
 import React, { useCallback } from 'react';
 import style from "./index.module.scss";
 import {connect} from 'react-redux';
-import {Image, Breadcrumb, Dropdown} from 'semantic-ui-react';
+import {Image, Breadcrumb, Dropdown, Dimmer, Loader} from 'semantic-ui-react';
 import {NavLink, useLocation, useHistory} from 'react-router-dom';
 import _ from 'lodash';
 
-const ContentContainer = ({component: Component, user, sortOptions, sort, setSort, setSidebarVisible, ...props}) => {
+const spinner = () => (
+        <Dimmer active inverted>
+            <Loader size="massive" inverted/>
+        </Dimmer>
+);
+
+const ContentContainer = ({component: Component, user, sortOptions, sort, setSort, setSidebarVisible, contentIsLoading, ...props}) => {
     const location = useLocation();
     const history = useHistory();
     let path = location.pathname;
@@ -59,12 +65,14 @@ const ContentContainer = ({component: Component, user, sortOptions, sort, setSor
                 </div>
             </div>
         </div>
-        <Component {...props}/>
+        {contentIsLoading ? spinner() : <Component {...props}/>}
+        
     </div>
 }
 
 const mapStateToProps = rootState => ({
-    user: rootState.profile.user
+    user: rootState.profile.user,
+    contentIsLoading: rootState.profile.contentIsLoading
 });
 
 export default connect(mapStateToProps)(ContentContainer);

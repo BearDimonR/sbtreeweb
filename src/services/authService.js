@@ -11,7 +11,7 @@ export const login = async request => {
     if (_.isEmpty(auth) || _.isEmpty(user)) {
         return null;
     }
-    return {...user, role: access?.role || 'user'};;
+    return {...user, role: auth.role || 'user', token: auth.token, refresh: auth.refresh};
 };
 
 export const registration = async request => {
