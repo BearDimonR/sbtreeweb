@@ -25,10 +25,11 @@
   height: 100%;
   overflow-y: auto;
 }
-.activity::-webkit-scrollbar, .infoGrid::-webkit-scrollbar {
+.activity::-webkit-scrollbar,
+.infoGrid::-webkit-scrollbar {
   display: none;
 }
-.infoTitle{
+.infoTitle {
   display: flex;
   justify-content: space-between;
   & p {

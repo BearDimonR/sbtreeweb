@@ -6,7 +6,6 @@
   height: 300px !important;
   padding: 0 !important;
   display: flex;
-
 }
 
 .avatar {
@@ -21,14 +20,14 @@
   font-size: 24pt;
   color: #262523;
   font-weight: bold;
-  font-family: 'Red Hat Text', sans-serif;
+  font-family: "Red Hat Text", sans-serif;
 }
 
 .role {
   font-size: 14pt;
   color: #4c77fa;
   font-weight: 500;
-  font-family: 'Red Hat Text', sans-serif;
+  font-family: "Red Hat Text", sans-serif;
 }
 
 .infoColumn {
@@ -36,7 +35,6 @@
   margin-top: 30px !important;
   padding: 0 !important;
   display: flex;
-
 }
 
 .infoRow {
@@ -45,7 +43,7 @@
   color: #aeb4c7;
   font-weight: 300;
   cursor: pointer;
-  font-family: 'Red Hat Text', sans-serif;
+  font-family: "Red Hat Text", sans-serif;
   margin-left: 30px;
   margin-bottom: 20px;
   align-items: center;
@@ -67,7 +65,7 @@
   padding-right: 30px;
 }
 
-.actionIcon{
+.actionIcon {
   font-size: 18pt;
   color: #aeb4c7;
   transition: all 0.3s;
@@ -75,7 +73,7 @@
   cursor: pointer;
 }
 
-.actionIcon:hover{
+.actionIcon:hover {
   color: #4c77fa;
   transition: all 0.3s;
 }

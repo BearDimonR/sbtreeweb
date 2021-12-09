@@ -1,19 +1,19 @@
 .card {
   text-align: left;
-  width:100%;
+  width: 100%;
   height: 100%;
   max-width: 500px;
   min-width: 250px;
   display: block;
   margin: 20px auto;
-  transition: .25s;
+  transition: 0.25s;
   border-radius: 10px 10px 0 0;
   box-shadow: 0 0 0 1px #aeb4c7;
-  
+
   &:hover {
     box-shadow: 1px 1px 10px 3px darken(rgba(76, 119, 250, 0.9), 5%);
     cursor: pointer;
-    
+
     .button-primary {
       transform: translate(10px, 0);
     }
@@ -24,8 +24,8 @@
   height: 250px;
   width: 100%;
   padding: 15px;
-  background-size:cover;
-  color:#fff;
+  background-size: cover;
+  color: #fff;
 }
 
 .cardHeaderTitle {
@@ -36,8 +36,8 @@
 
 .cardBody {
   padding: 15px;
-  background-color:#fff;
-  width:100%;
+  background-color: #fff;
+  width: 100%;
 }
 
 .date {

@@ -6,7 +6,7 @@
 .formContainer {
   width: 100%;
   height: 100%;
-  background: #F2F0EB;
+  background: #f2f0eb;
   border-radius: 25px;
   position: absolute;
 }
@@ -41,48 +41,48 @@
   font-size: 24pt;
   font-weight: 500;
   color: #262523;
-  font-family: 'Red Hat Text', sans-serif;
-  margin:50px 0 35px 0!important;
+  font-family: "Red Hat Text", sans-serif;
+  margin: 50px 0 35px 0 !important;
 }
 
 .formSwitcher {
   font-size: 11pt;
-  color: #439FD9;
+  color: #439fd9;
   cursor: pointer;
   margin-top: 5px;
-  font-family: 'Red Hat Text', sans-serif;
+  font-family: "Red Hat Text", sans-serif;
 }
 .formSwitcher:hover {
   font-size: 11pt;
-  color: #3D90D9;
+  color: #3d90d9;
   cursor: pointer;
   margin-top: 5px;
-  font-family: 'Red Hat Text', sans-serif;
+  font-family: "Red Hat Text", sans-serif;
 }
 
-.formButton{
-  margin-top: 15px!important;
+.formButton {
+  margin-top: 15px !important;
   width: 170px;
-  border-style: solid!important;
-  border-radius: 10px!important;
+  border-style: solid !important;
+  border-radius: 10px !important;
 }
 
 .formField {
   width: 250px;
   height: 35px;
-  font-family: 'Red Hat Text', sans-serif;
+  font-family: "Red Hat Text", sans-serif;
 }
 
-.form{
+.form {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.formError{
+.formError {
   color: #cf9897;
-  font-family: 'Red Hat Text', sans-serif;
-  margin: 0!important;
-  margin-bottom: 5px!important;
-  margin-top: -5px!important;
+  font-family: "Red Hat Text", sans-serif;
+  margin: 0 !important;
+  margin-bottom: 5px !important;
+  margin-top: -5px !important;
 }
