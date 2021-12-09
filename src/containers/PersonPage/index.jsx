@@ -9,11 +9,11 @@ import { loadActivity, loadNames, setActivity } from '../EventsPage/actions';
 import _ from 'lodash';
 import ActivityModal from '../../components/ActivityModal';
 import PersonModal from '../../components/PersonModal';
-
+import { setContentIsLoading } from '../LoginPage/actions';
 
 
 const PersonPage = ({
-    user, person, activity, fullNames, eventNames, loadPerson, loadActivity, setActivity, loadNames, loadFullNames, editPerson, editActivity, removePerson, removeActivity
+    user, person, activity, fullNames, eventNames, loadPerson, loadActivity, setActivity, loadNames, loadFullNames, editPerson, editActivity, removePerson, removeActivity, setContentIsLoading
 }) => {
     const {id} = useParams();
     const location = useLocation();
@@ -21,11 +21,17 @@ const PersonPage = ({
     const path = location.pathname;
     const [editing, setEditing] = useState(false);
 
+    const wrapInSetContentLoading = useCallback((func, after = () => {}) => {
+        setContentIsLoading(true);
+        func().then(() => {
+            after();
+            setContentIsLoading(false);
+        })
+    }, [setContentIsLoading])
+
     useEffect(() => {
-        loadPerson(id);
-        loadNames();
-        loadFullNames();
-    }, [loadPerson, loadNames, loadFullNames, id]);
+        wrapInSetContentLoading(() => loadPerson(id));
+    }, [wrapInSetContentLoading, loadPerson, id]);
 
     const handleModalClose = useCallback(() => {
         setEditing(false);
@@ -35,31 +41,32 @@ const PersonPage = ({
     }, [setEditing, setActivity, activity]);
 
     const handleEdit = useCallback(() => {
-        loadPerson(person.id);
-        setEditing(true);
-    }, [setEditing, loadPerson, person]);
+        wrapInSetContentLoading(() => loadPerson(person.id), () => setEditing(true));
+    }, [wrapInSetContentLoading, setEditing, loadPerson, person]);
 
     const handleDelete = useCallback(() => {
         removePerson(person.id);
-        const spl = path.split('/');
-        history.push(_.slice(spl, 0, spl.length - 1).join('/'));
-    }, [removePerson, person, history, path]);
+        wrapInSetContentLoading(() => removePerson(person.id), () => {
+            const spl = path.split('/');
+            history.push(_.slice(spl, 0, spl.length - 1).join('/'));
+        });
+    }, [wrapInSetContentLoading, removePerson, person, history, path]);
 
     const handleActivityEdit = useCallback((id) => {
-        loadActivity(id);
-    }, [loadActivity])
+        wrapInSetContentLoading(() => Promise.all([loadActivity(id), loadNames(), loadFullNames()]));
+    }, [wrapInSetContentLoading, loadNames, loadFullNames, loadActivity])
 
     const handleActivityDelete = useCallback((id) => {
-        removeActivity(id);
-    }, [removeActivity]);
+        wrapInSetContentLoading(() => removeActivity(id));
+    }, [wrapInSetContentLoading, removeActivity]);
 
     const handleSubmit = useCallback((data) => {
-        editPerson(data);
-    }, [editPerson]);
+        wrapInSetContentLoading(() => editPerson(data));
+    }, [wrapInSetContentLoading, editPerson]);
 
     const handleActivitySubmit = useCallback((data) => {
-        editActivity(data);
-    }, [editActivity]);
+        wrapInSetContentLoading(() => editActivity(data));
+    }, [wrapInSetContentLoading, editActivity]);
 
     return <div className={style.profileContainer}>
         <ProfileView user={person} onEdit={handleEdit} onDelete={handleDelete} onActivityEdit={handleActivityEdit} onActivityDelete={handleActivityDelete} />
@@ -75,6 +82,6 @@ const mapStateToProps = rootState => ({
     eventNames: rootState.event.names,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({loadPerson, loadActivity, setActivity, loadNames, loadFullNames, editPerson, editActivity, removePerson, removeActivity}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({loadPerson, loadActivity, setActivity, loadNames, loadFullNames, editPerson, editActivity, removePerson, removeActivity, setContentIsLoading}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(PersonPage);

@@ -21,8 +21,7 @@ const EventsPage = ({loadEvents: loadData, user, events, setContentIsLoading, ..
     
     useEffect(() => {
         setContentIsLoading(true);
-        loadData();
-        setContentIsLoading(false);
+        loadData().then(() => setContentIsLoading(false));
     }, [loadData, setContentIsLoading]);
 
     useEffect(() => {
@@ -45,8 +44,8 @@ const EventsPage = ({loadEvents: loadData, user, events, setContentIsLoading, ..
 
     return <div className={style.pageWrapper}>
         <Grid className={style.eventsContainer} textAlign="center">
-            {_.map(slice, (event) => <Grid.Column mobile={16} tablet={8} computer={5} className={style.column}>
-                    <EventCard key={event.id} user={user} event={event} onClick={setEventId}/>
+            {_.map(slice, (event) => <Grid.Column key={event.id} mobile={16} tablet={8} computer={5} className={style.column}>
+                    <EventCard user={user} event={event} onClick={setEventId}/>
                 </Grid.Column>
             )}
             {eventId && <Redirect to={{pathname: `/events/${eventId}`, state: {from: props.location}}}/>}

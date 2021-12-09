@@ -65,7 +65,8 @@ const ContentContainer = ({component: Component, user, sortOptions, sort, setSor
                 </div>
             </div>
         </div>
-        {contentIsLoading ? spinner() : <Component {...props}/>}
+        {contentIsLoading && spinner()}
+        <Component {...props}/>
         
     </div>
 }

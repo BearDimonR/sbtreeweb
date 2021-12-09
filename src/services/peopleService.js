@@ -67,7 +67,6 @@ export const getPersonEvents = async (id) => {
 export const getPeopleFullNames = async () => {
     const people = await getPeopleCall();
 
-
     return _.sortBy(_.uniq(people.map(e => `${e.surname} ${e.name}`)), a => a.toLowerCase());
 }
 export const getPeopleStatuses = async () => {

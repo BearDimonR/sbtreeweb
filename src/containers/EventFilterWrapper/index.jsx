@@ -3,19 +3,22 @@ import EventFilter from '../../components/EventFilter';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import { applyFilter, loadCategories, loadNames} from '../EventsPage/actions';
+import { setContentIsLoading } from '../LoginPage/actions';
 
-const EventFilterWrapper = ({applyFilter: apply, loadCategories: getCategories, loadNames: getNames, filters, names, categories, ...props}) => {
+const EventFilterWrapper = ({applyFilter: apply, loadCategories: getCategories, loadNames: getNames, setContentIsLoading, filters, names, categories, contentIsLoading, ...props}) => {
     useEffect(() => {
-        getCategories();
-        getNames();
-    }, [getCategories, getNames]);
+        setContentIsLoading(true);
+        Promise.all([getCategories(), getNames()]).then(() => setContentIsLoading(false));
+    }, [setContentIsLoading, getCategories, getNames]);
 
     const handleFilter = useCallback((filters) => {
-        apply(filters);
-    }, [apply]);
-    const handleReset = useCallback(() => apply(), [apply]);
+        setContentIsLoading(true);
+        apply(filters).then(() => setContentIsLoading(false));
+    }, [setContentIsLoading, apply]);
 
-    return <EventFilter filters={filters} categories={categories} names={names} apply={handleFilter} reset={handleReset} {...props}/>;
+    const handleReset = useCallback(() => handleFilter(), [handleFilter]);
+    console.log(contentIsLoading);
+    return <EventFilter filters={filters} categories={categories} names={names} contentIsLoading={contentIsLoading} apply={handleFilter} reset={handleReset} {...props}/>;
 }
 
 const mapStateToProps = rootState => ({
@@ -23,6 +26,6 @@ const mapStateToProps = rootState => ({
     categories: rootState.event.categories,
     names: rootState.event.names,
 });
-const mapDispatchToProps = dispatch => bindActionCreators({applyFilter, loadCategories, loadNames}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({applyFilter, loadCategories, loadNames, setContentIsLoading}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventFilterWrapper);

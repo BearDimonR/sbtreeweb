@@ -9,21 +9,28 @@ import { useParams, useLocation, useHistory } from 'react-router-dom';
 import EventModal from '../../components/EventModal';
 import ActivityModal from '../../components/ActivityModal';
 import _ from 'lodash';
+import { setContentIsLoading } from '../LoginPage/actions';
 
 const EventPage = ({user, event, activity, fullNames, eventNames, loadEvent: loadData, loadNames: getNames, 
     loadFullNames: getFullNames, loadActivity: getActivity, setActivity: updateActivity,
-    editEvent, editActivity, removeEvent, removeActivity, ...props}) => {
+    editEvent, editActivity, removeEvent, removeActivity, setContentIsLoading, ...props}) => {
     const {id} = useParams();
     const location = useLocation();
     const history = useHistory();
     const path = location.pathname;
     const [editing, setEditing] = useState(false);
 
+    const wrapInSetContentLoading = useCallback((func, after = () => {}) => {
+        setContentIsLoading(true);
+        func().then(() => {
+            after();
+            setContentIsLoading(false);
+        })
+    }, [setContentIsLoading]);
+
     useEffect(() => {
-        loadData(id);
-        getNames();
-        getFullNames();
-    }, [loadData, getNames, getFullNames, id]);
+        wrapInSetContentLoading(() => loadData(id));
+    }, [loadData, id, wrapInSetContentLoading]);
 
     const handleModalClose = useCallback(() => {
         setEditing(false);
@@ -33,31 +40,31 @@ const EventPage = ({user, event, activity, fullNames, eventNames, loadEvent: loa
     }, [setEditing, updateActivity, activity]);
 
     const handleEdit = useCallback(() => {
-        loadData(event.id);
-        setEditing(true);
-    }, [setEditing, loadData, event]);
+        wrapInSetContentLoading(() => loadData(event.id), () => setEditing(true));
+    }, [setEditing, wrapInSetContentLoading, loadData, event]);
 
     const handleDelete = useCallback(() => {
-        removeEvent(event.id);
-        const spl = path.split('/');
-        history.push(_.slice(spl, 0, spl.length - 1).join('/'));
-    }, [removeEvent, event, history, path]);
+        wrapInSetContentLoading(() => removeEvent(event.id), () => {
+            const spl = path.split('/');
+            history.push(_.slice(spl, 0, spl.length - 1).join('/'));
+        });
+    }, [removeEvent, wrapInSetContentLoading, event, history, path]);
 
     const handleActivityEdit = useCallback((id) => {
-        getActivity(id);
-    }, [getActivity])
+        wrapInSetContentLoading(() => Promise.all([getActivity(id), getNames(), getFullNames()]));
+    }, [wrapInSetContentLoading, getActivity, getNames, getFullNames])
 
     const handleActivityDelete = useCallback((id) => {
-        removeActivity(id);
-    }, [removeActivity]);
+        wrapInSetContentLoading(() => removeActivity(id));
+    }, [wrapInSetContentLoading, removeActivity]);
 
     const handleSubmit = useCallback((data) => {
-        editEvent(data);
-    }, [editEvent]);
+        wrapInSetContentLoading(() => editEvent(data));
+    }, [wrapInSetContentLoading, editEvent]);
 
     const handleActivitySubmit = useCallback((data) => {
-        editActivity(data);
-    }, [editActivity]);
+        wrapInSetContentLoading(() => editActivity(data));
+    }, [wrapInSetContentLoading, editActivity]);
 
     return <div className={style.profileContainer}>
         <EventView event={event} onEdit={handleEdit} onDelete={handleDelete} onActivityEdit={handleActivityEdit} onActivityDelete={handleActivityDelete} />
@@ -73,6 +80,6 @@ const mapStateToProps = rootState => ({
     eventNames: rootState.event.names,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({loadEvent, loadActivity, setActivity, loadNames, loadFullNames, editEvent, editActivity, removeEvent, removeActivity}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({loadEvent, loadActivity, setActivity, loadNames, loadFullNames, editEvent, editActivity, removeEvent, removeActivity, setContentIsLoading}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventPage);

@@ -1,5 +1,5 @@
-import { getPeople, getPerson, getPeopleFullNames, getPeopleStatuses, putPerson, deletePerson } from "../../services/peopleService"
-import { putActivity, deleteActivity } from "../../services/eventService"
+import * as peopleService from "../../services/peopleService"
+import * as eventService from "../../services/eventService"
 import {SET_PEOPLE, SET_INSTANCE, SET_FILTER, SET_SORT, SET_FULL_NAMES, SET_STATUSES} from './actionTypes';
 
 const setPeople = value => async dispatch => dispatch({
@@ -33,56 +33,54 @@ export const setFullNames = value => async dispatch => dispatch({
 });
 export const applyFilter = (value=[]) => async (dispatch, getRootState) => {
     const { event } = getRootState();
-    dispatch(setFilter(value));
-    dispatch(loadPeople(event.sort, value));
+    await dispatch(setFilter(value));
+    return await dispatch(loadPeople(event.sort, value));
 };
 
 export const applyPersonSort = value => async (dispatch, getRootState) => {
     const { event } = getRootState();
-    dispatch(setSort(value));
-    dispatch(loadPeople(value, event.filters));
+    await dispatch(setSort(value));
+    return await dispatch(loadPeople(value, event.filters));
 };
 
 
 export const loadPeople = () => async (dispatch, getRootState) => {
     const { person } = getRootState();
-    const people = getPeople(person.sort, person.filters);
-    dispatch(setPeople(people));
+    const people = await peopleService.getPeople(person.sort, person.filters);
+    return await dispatch(setPeople(people));
 }
 
 export const loadPerson = (id) => async dispatch => {
-    const person = getPerson(id);
-    dispatch(setInstance(person));
+    const person = await peopleService.getPerson(id);
+    return await dispatch(setInstance(person));
 };
 
 export const loadStatuses = () => async dispatch => {
-    const statuses = getPeopleStatuses();
-    dispatch(setStatuses(statuses));
+    const statuses = await peopleService.getPeopleStatuses();
+    return await dispatch(setStatuses(statuses));
 };
 
 export const loadFullNames = () => async dispatch => {
-    const names = getPeopleFullNames();
-    dispatch(setFullNames(names));
+    const names = await peopleService.getPeopleFullNames();
+    return await dispatch(setFullNames(names));
 };
 
 export const editPerson = (data) => async (dispatch, getRootState) => {
-    putPerson(data);
-    dispatch(loadPerson(data.id));
+    await peopleService.putPerson(data);
+    return await dispatch(loadPerson(data.id));
 };
 
 export const editActivity = (data) => async (dispatch, getRootState) => {
-    putActivity(data);
-    dispatch(loadPerson(data.person_id));
-
+    await eventService.putActivity(data);
+    return await dispatch(loadPerson(data.person_id));
 };
 
 export const removePerson = (id) => async (dispatch, getRootState) => {
-    deletePerson(id);
-    dispatch(loadPeople());
+    await peopleService.deletePerson(id);
+    return await dispatch(loadPeople());
 }
 
 export const removeActivity = (id) => async (dispatch, getRootState) => {
-    const activity = deleteActivity(id);
-    dispatch(loadPerson(activity.person_id));
-
+    const activity = await eventService.deleteActivity(id);
+    return await dispatch(loadPerson(activity.person_id));
 };

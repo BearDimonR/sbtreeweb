@@ -1,4 +1,4 @@
-import { getEvents, getEvent, getEventNames, getEventСategories, getActivity, putEvent, deleteEvent, putActivity, deleteActivity } from "../../services/eventService"
+import * as eventService from "../../services/eventService"
 import { SET_EVENTS, SET_INSTANCE, SET_SORT, SET_FILTER, SET_CATEGORIES, SET_NAMES, SET_ACTIVITY } from "./actionTypes";
 import _ from 'lodash';
 
@@ -39,61 +39,61 @@ export const setActivity = value => async dispatch => dispatch({
 
 export const applyFilter = (value=[]) => async (dispatch, getRootState) => {
     const { event } = getRootState();
-    dispatch(setFilter(value));
-    dispatch(loadEvents(event.sort, value));
+    await dispatch(setFilter(value));
+    await dispatch(loadEvents(event.sort, value));
 };
 
 export const applyEventSort = value => async (dispatch, getRootState) => {
     const { event } = getRootState();
-    dispatch(setSort(value));
-    dispatch(loadEvents(value, event.filters));
+    await dispatch(setSort(value));
+    await dispatch(loadEvents(value, event.filters));
 };
 
 
 export const loadEvents = () => async (dispatch, getRootState) => {
     const { event } = getRootState();
-    const events = getEvents(event.sort, event.filters);
-    dispatch(setEvents(events));
+    const events = await eventService.getEvents(event.sort, event.filters);
+    return dispatch(setEvents(events));
 }
 
 export const loadEvent = (id) => async dispatch => {
-    const event = getEvent(id);
-    dispatch(setInstance(event));
+    const event = await eventService.getEvent(id);
+    return dispatch(setInstance(event));
 };
 
 export const loadCategories = () => async dispatch => {
-    const categories = getEventСategories();
-    dispatch(setCategories(categories));
+    const categories = await eventService.getEventСategories();
+    return dispatch(setCategories(categories));
 };
 
 export const loadNames = () => async dispatch => {
-    const names = getEventNames();
-    dispatch(setNames(names));
+    const names = await eventService.getEventNames();
+    return dispatch(setNames(names));
 };
 
 export const loadActivity = (id) => async dispatch => {
-    const activity = getActivity(id);
-    dispatch(setActivity(activity));
+    const activity = await eventService.getActivity(id);
+    return dispatch(setActivity(activity));
 };
 
 export const editEvent = (data) => async (dispatch, getRootState) => {
-    putEvent(data);
-    dispatch(loadEvent(data.id));
+    await eventService.putEvent(data);
+    return dispatch(loadEvent(data.id));
 };
 
 export const editActivity = (data) => async (dispatch, getRootState) => {
-    putActivity(data);
-    dispatch(loadEvent(data.event_id));
+    await eventService.putActivity(data);
+    return dispatch(loadEvent(data.event_id));
 
 };
 
 export const removeEvent = (id) => async (dispatch, getRootState) => {
-    deleteEvent(id);
-    dispatch(loadEvents());
+    await eventService.deleteEvent(id);
+    return dispatch(loadEvents());
 }
 
 export const removeActivity = (id) => async (dispatch, getRootState) => {
-    const activity = deleteActivity(id);
-    dispatch(loadEvent(activity.event_id));
+    const activity = await eventService.deleteActivity(id);
+    return dispatch(loadEvent(activity.event_id));
 
 };

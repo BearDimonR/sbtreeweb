@@ -42,7 +42,7 @@ const EventFilter = ({filters, names, categories, apply, reset}) => {
         <Header>Category</Header>
         <div className={style.categories}>
           {categories && categories.map(c => (
-            <Form.Checkbox control={() => <Checkbox key={c} label={c} value={c} checked={_.indexOf(currentFilters.category, c) !== -1} onChange={(e, data) => handleChange(e, data, 'category')} />} />
+            <Form.Checkbox key={c} control={() => <Checkbox label={c} value={c} checked={_.indexOf(currentFilters.category, c) !== -1} onChange={(e, data) => handleChange(e, data, 'category')} />} />
           ))}
         </div>
       </div>
@@ -50,7 +50,7 @@ const EventFilter = ({filters, names, categories, apply, reset}) => {
         <Header>Name</Header>
         <div className={style.names}>
           {names && names.map(n => (
-           <Form.Checkbox control={() => <Checkbox key={n} label={n} value={n} checked={_.indexOf(currentFilters.name, n) !== -1} onChange={(e, data) => handleChange(e, data, 'name')} />} />
+            <Form.Checkbox key={n} control={() => <Checkbox label={n} value={n} checked={_.indexOf(currentFilters.name, n) !== -1} onChange={(e, data) => handleChange(e, data, 'name')} />} />
           ))}
         </div>
       </div>

@@ -3,7 +3,7 @@ import ppl from './json/people.json'
 import evPpl from './json/eventPerson.json';
 
 const emulateApi = async (val, ms) => {
-    return new Promise(resolve => setTimeout(() => resolve(val), ms || 1000))
+    return new Promise(resolve => setTimeout(() => resolve(val), ms || 2000))
     //return new Promise(resolve => resolve(val));
 };
 

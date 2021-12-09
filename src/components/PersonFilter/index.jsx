@@ -32,7 +32,6 @@ const EventFilter = ({filters, fullNames, statuses, apply, reset}) => {
       setCurrentFilters([]);
       reset();
     }, [setCurrentFilters, reset]);
-
     return <Form className={style.form} onSubmit={() => apply(currentFilters)}>
       <div className={style.section}>
         <Header>Date</Header>
@@ -42,7 +41,7 @@ const EventFilter = ({filters, fullNames, statuses, apply, reset}) => {
         <Header>Statuses</Header>
         <div className={style.categories}>
           {statuses && statuses.map(c => (
-            <Form.Checkbox control={() => <Checkbox key={c} label={c} value={c} checked={_.indexOf(currentFilters.status, c) !== -1} onChange={(e, data) => handleChange(e, data, 'status')} />} />
+            <Form.Checkbox key={c} control={() => <Checkbox label={c} value={c} checked={_.indexOf(currentFilters.status, c) !== -1} onChange={(e, data) => handleChange(e, data, 'status')} />} />
           ))}
         </div>
       </div>
@@ -50,7 +49,7 @@ const EventFilter = ({filters, fullNames, statuses, apply, reset}) => {
         <Header>FullNames</Header>
         <div className={style.names}>
           {fullNames && fullNames.map(n => (
-           <Form.Checkbox control={() => <Checkbox key={n} label={n} value={n} checked={_.indexOf(currentFilters.fullName, n) !== -1} onChange={(e, data) => handleChange(e, data, 'fullName')} />} />
+           <Form.Checkbox key={n} control={() => <Checkbox label={n} value={n} checked={_.indexOf(currentFilters.fullName, n) !== -1} onChange={(e, data) => handleChange(e, data, 'fullName')} />} />
           ))}
         </div>
       </div>

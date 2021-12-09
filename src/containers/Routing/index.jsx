@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import NotFound from '../../scenes/NotFound';
@@ -30,6 +30,7 @@ const Routing = ({
                      personSort,
                      applyEventSort: setEventSort,
                      applyPersonSort: setPersonSort,
+                     ...props
                  }) => {
     useEffect(() => {
         checkLogged();
@@ -64,6 +65,7 @@ const Routing = ({
                     <PrivateRoute exact path="/people/:id" component={PersonPage} />
                     <PrivateRoute exact path="/profile" component={ProfilePage}/>
                     <PrivateRoute exact path="/home/about" component={AboutPage}/>
+                    <PrivateRoute exact path="" component={() => <Redirect to={{pathname: "/home", state: {from: props.location}}}/>} />
                     <Route path="*" exact component={NotFound}/>
                 </Switch>
             </main>
