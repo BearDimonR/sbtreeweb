@@ -12,6 +12,7 @@ const PersonCard = ({user, person, onClick}) => (
         </Card.Header>
         <Card.Meta>{moment(person.start).format('ll')} - {person.end ? moment(person.end).format('ll') : 'Present'}</Card.Meta>
         <Card.Description>
+            {person.about ? person.about.split('.')[0] : ''}
         </Card.Description>
         </Card.Content>
         <Card.Content extra>

@@ -1,9 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import style from "./index.module.scss";
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {Image, Breadcrumb, Dropdown, Dimmer, Loader} from 'semantic-ui-react';
+import {Image, Breadcrumb, Dropdown, Dimmer, Loader, Search, Input} from 'semantic-ui-react';
 import {NavLink, useLocation, useHistory} from 'react-router-dom';
 import _ from 'lodash';
+import { setContentIsLoading } from '../LoginPage/actions';
 
 const spinner = () => (
         <Dimmer active inverted>
@@ -11,9 +13,10 @@ const spinner = () => (
         </Dimmer>
 );
 
-const ContentContainer = ({component: Component, user, sortOptions, sort, setSort, setSidebarVisible, contentIsLoading, ...props}) => {
+const ContentContainer = ({component: Component, user, sortOptions, sort, setSort, setSidebarVisible, contentIsLoading, handleSearch, setContentIsLoading, ...props}) => {
     const location = useLocation();
     const history = useHistory();
+    const [searchVal, setSearchVal] = useState('');
     let path = location.pathname;
     const profilePage = location.pathname === '/profile';
 
@@ -32,6 +35,11 @@ const ContentContainer = ({component: Component, user, sortOptions, sort, setSor
 
     const handleSortChange = useCallback((e, data) => setSort(data.value), [setSort]);
     const handleSidebarVisible = useCallback(() => setSidebarVisible(true), [setSidebarVisible]);
+    const handleSearchChange = useCallback((e) => {
+        setContentIsLoading(true);
+        handleSearch(e.target.value).then(() => setContentIsLoading(false));
+        setSearchVal(e.target.value);
+    }, [setContentIsLoading, handleSearch]);
 
     return <div className={style.contentContainer}>
         <div className={style.header}>
@@ -41,7 +49,7 @@ const ContentContainer = ({component: Component, user, sortOptions, sort, setSor
                 </div>
                 <div className={style.rightContainer}>
                     {setSidebarVisible && (
-                        <Dropdown text='Filter' multiple icon='filter' onClick={handleSidebarVisible} />
+                        <Dropdown text='Filter' className={style.filterWrapper} multiple icon='filter' onClick={handleSidebarVisible} />
                     )}
                     {sortOptions && (
                         <div className={style.sortWrapper}>
@@ -57,8 +65,15 @@ const ContentContainer = ({component: Component, user, sortOptions, sort, setSor
                             />
                         </div>
                     )}
+                    {handleSearch && (
+                        <Search className={style.search}
+                            input={() => <Input icon='search' iconPosition='left' className={style.searchInput} />}
+                            onChange={handleSearchChange}
+                            value={searchVal}
+                        />
+                    )}
                     {!profilePage && <NavLink to="/profile" className={style.avatarContainer}>
-                        <p className={style.userName}>{user.nickname}</p>
+                        <p className={style.userName}>{user.username}</p>
                         <Image circular className={style.avatar}
                             src='https://cdn-icons-png.flaticon.com/512/660/660611.png'/>
                     </NavLink>}
@@ -67,7 +82,6 @@ const ContentContainer = ({component: Component, user, sortOptions, sort, setSor
         </div>
         {contentIsLoading && spinner()}
         <Component {...props}/>
-        
     </div>
 }
 
@@ -76,4 +90,6 @@ const mapStateToProps = rootState => ({
     contentIsLoading: rootState.profile.contentIsLoading
 });
 
-export default connect(mapStateToProps)(ContentContainer);
+const mapDispatchToProps = dispatch => bindActionCreators({setContentIsLoading}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContentContainer);

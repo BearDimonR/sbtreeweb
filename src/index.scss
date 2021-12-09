@@ -1,40 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
 
-$blue: #439FD9;
-
-.progress{
-  min-height: 20px!important;
-  max-height: 20px!important;
-  border-radius: 0.5rem!important;
-  font-size: 10pt!important;
-  font-weight: 500;
-  font-family: 'Red Hat Text', sans-serif!important;
-}
-
-.progress-bar.bg-red{
-  background-color: #F25835!important;
-}
-
-.progress-bar.bg-green{
-  background-color: #03A678!important;
-}
-
-.progress-bar.bg-yellow{
-  background-color: #F2C12E!important;
-}
-
-.progress-bar.bg-orange{
-  background-color: #F28705!important;
-}
-
-.progress-bar.bg-blue{
-  background-color: #049DBF!important;
-}
-
 div[prefix=custom-panel] {
   height: 100%;
 
   & div[role=region] {
     height: 100%;
   }
+}
+
+.pushable {
+  background: transparent !important;
+  border: none !important;
 }

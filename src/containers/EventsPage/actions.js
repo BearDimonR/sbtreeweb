@@ -1,6 +1,5 @@
 import * as eventService from "../../services/eventService"
 import { SET_EVENTS, SET_INSTANCE, SET_SORT, SET_FILTER, SET_CATEGORIES, SET_NAMES, SET_ACTIVITY } from "./actionTypes";
-import _ from 'lodash';
 
 const setEvents = value => async dispatch => dispatch({
     type: SET_EVENTS,
@@ -95,5 +94,13 @@ export const removeEvent = (id) => async (dispatch, getRootState) => {
 export const removeActivity = (id) => async (dispatch, getRootState) => {
     const activity = await eventService.deleteActivity(id);
     return dispatch(loadEvent(activity.event_id));
+};
 
+export const searchEvents = (name) => async (dispatch, getRootState) => {
+    const { event } = getRootState();
+    const events = await eventService.getEvents(event.sort, event.filters);
+    if (name) {
+        return dispatch(setEvents(events.filter((e) => e.name.toLowerCase().includes(name.toLowerCase().trim()))));
+    }
+    return dispatch(setEvents(events));
 };

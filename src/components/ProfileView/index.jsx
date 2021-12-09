@@ -35,7 +35,7 @@ const ProfileView = ({user, onEdit, onDelete, onActivityEdit, onActivityDelete})
                             <Label color='green' horizontal>
                                 Статус
                             </Label>
-                            {user.name}
+                            {user.status}
                             </List.Item>
                             <List.Item>
                             <Label color='purple' horizontal>
@@ -62,7 +62,7 @@ const ProfileView = ({user, onEdit, onDelete, onActivityEdit, onActivityDelete})
                             <Label color='orange' horizontal>
                                 Опис
                             </Label>
-                            {user.description}
+                            {user.about}
                             </List.Item>
                         </List>
                     </Panel>

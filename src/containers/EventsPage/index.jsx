@@ -25,7 +25,7 @@ const EventsPage = ({loadEvents: loadData, user, events, setContentIsLoading, ..
     }, [loadData, setContentIsLoading]);
 
     useEffect(() => {
-        setTotalPages(Number.parseInt(events.length / PAGE_SIZE))
+        setTotalPages(Math.round((events.length + PAGE_SIZE / 2) / PAGE_SIZE))
     }, [setTotalPages, events]);
 
     useEffect(() => {
@@ -50,6 +50,7 @@ const EventsPage = ({loadEvents: loadData, user, events, setContentIsLoading, ..
             )}
             {eventId && <Redirect to={{pathname: `/events/${eventId}`, state: {from: props.location}}}/>}
         </Grid>
+        {slice.length ?
         <div className={style.paginator} ref={paginator}>
             <Pagination
                 activePage={page}
@@ -59,6 +60,7 @@ const EventsPage = ({loadEvents: loadData, user, events, setContentIsLoading, ..
                 onPageChange={handlePageChange}
             />
         </div>
+        : ''}
     </div>
 }
 

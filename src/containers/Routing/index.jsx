@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
 import {Dimmer, Loader} from "semantic-ui-react";
 import LoginPage from '../LoginPage';
 import {checkLoggedIn} from '../LoginPage/actions';
-import { applyEventSort } from '../EventsPage/actions';
-import { applyPersonSort } from '../PeoplePage/actions';
+import { applyEventSort, searchEvents } from '../EventsPage/actions';
+import { applyPersonSort, searchPeople } from '../PeoplePage/actions';
 import HomePage from '../HomePage';
 import EventsPage from '../EventsPage';
 import PeoplePage from '../PeoplePage';
@@ -30,6 +30,8 @@ const Routing = ({
                      personSort,
                      applyEventSort: setEventSort,
                      applyPersonSort: setPersonSort,
+                     searchEvents,
+                     searchPeople,
                      ...props
                  }) => {
     useEffect(() => {
@@ -53,6 +55,7 @@ const Routing = ({
                         setSort={setEventSort}
                         filterComponent={EventFilterWrapper}
                         component={EventsPage}
+                        handleSearch={searchEvents}
                     />
                     <PrivateRoute exact path="/events/:id" component={EventPage}/>
                     <PrivateRoute exact path="/people"
@@ -61,6 +64,7 @@ const Routing = ({
                         setSort={setPersonSort}
                         filterComponent={PersonFilterWrapper}
                         component={PeoplePage}
+                        handleSearch={searchPeople}
                     />
                     <PrivateRoute exact path="/people/:id" component={PersonPage} />
                     <PrivateRoute exact path="/profile" component={ProfilePage}/>
@@ -92,7 +96,7 @@ const mapStateToProps = ({profile, event, person}) => ({
     personSort: person.sort,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkLoggedIn, applyEventSort, applyPersonSort}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({checkLoggedIn, applyEventSort, applyPersonSort, searchEvents, searchPeople}, dispatch);
 
 export default connect(
     mapStateToProps,

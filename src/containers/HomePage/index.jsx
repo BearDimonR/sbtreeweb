@@ -2,20 +2,18 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import style from "./index.module.scss";
-import { Carousel } from 'react-responsive-carousel';
+import { Carousel, Header } from 'rsuite';
 
 const HomePage = () => {
     return <div className={style.homeContainer}>
-        {/* <Carousel className={style.gallery} width={600}>
-            <div>
-                    <img src="https://robohash.org/iustonesciuntlibero.png?size=400x400&set=set1"/>
-                    <p className="legend">Legend 1</p>
-                </div>
-                <div>
-                    <img src="https://robohash.org/iustonesciuntlibero.png?size=500x500&set=set1" />
-                    <p className="legend">Legend 2</p>
-                </div>
-        </Carousel> */}
+        <Header as='h1' className={style.title}>Ми СБ і ми круті!</Header>
+        <Carousel className={style.carousel} autoplay shape='bar'>
+            <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=1" alt="First in carousel" />
+            <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=2" height="300" alt="Second in carousel" />
+            <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=3" height="300" alt="Third in carousel" />
+            <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=4" height="300" alt="Fourth in carousel" />
+            <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=5" height="300" alt="Fifth in carousel" />
+        </Carousel>
     </div>
 }
 

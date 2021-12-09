@@ -84,3 +84,12 @@ export const removeActivity = (id) => async (dispatch, getRootState) => {
     const activity = await eventService.deleteActivity(id);
     return await dispatch(loadPerson(activity.person_id));
 };
+
+export const searchPeople = (fullName) => async (dispatch, getRootState) => {
+    const { person } = getRootState();
+    const people = await peopleService.getPeople(person.sort, person.filters);
+    if (fullName) {
+        return dispatch(setPeople(people.filter((e) => `${e.surname} ${e.name} ${e.parental || ''}`.toLowerCase().includes(fullName.toLowerCase().trim()))));
+    }
+    return dispatch(setPeople(people));
+};

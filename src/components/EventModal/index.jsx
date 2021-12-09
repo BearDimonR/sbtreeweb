@@ -4,17 +4,19 @@ import _ from 'lodash';
 
 const { StringType, ArrayType } = Schema.Types;
 
+const reqField = 'Це поле не може бути пустим';
+
 const model = Schema.Model({
-  name: StringType().isRequired('This field is required.'),
-  dateRangePicker: ArrayType().minLength(2, 'Thi field is required.'),
-  description: StringType().isRequired('This field is required.').minLength(30, 'Write more.').maxLength(3000, 'Max length 3000.'),
-  category: StringType().isRequired('This field is required'),
+  name: StringType().isRequired(reqField),
+  dateRangePicker: ArrayType().minLength(2, reqField),
+  about: StringType().isRequired(reqField).minLength(30, 'Мінімально 10 символів.').maxLength(1000, 'Мінімально 1000 символів.'),
+  category: StringType().isRequired(reqField),
 });
 
 const getInitial = (event) => ({
         name: event.name || '',
         dateRangePicker: [Date.parse(event.start) || new Date(), Date.parse(event.end) || new Date()],
-        description: event.description || '',
+        about: event.about || '',
         category: event.category || '',
 });
 
@@ -77,9 +79,9 @@ const EventModal = ({open, user, event={}, onClose, onSubmit}) => {
                     <Form.ControlLabel>Картинка</Form.ControlLabel>
                     <Form.Control name="uploader" accepter={getUploader} />
                 </Form.Group>
-                <Form.Group controlId="description">
+                <Form.Group controlId="about">
                     <Form.ControlLabel>Детальний опис події</Form.ControlLabel>
-                    <Form.Control name="description" error={formError.description} accepter={getInput} />
+                    <Form.Control name="about" error={formError.about} accepter={getInput} />
                 </Form.Group>
                 <Form.Group>
                 <ButtonToolbar style={{margin: 'auto', width: 'fit-content'}}>

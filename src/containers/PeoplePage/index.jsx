@@ -7,7 +7,7 @@ import {Grid} from 'semantic-ui-react';
 import {loadPeople} from './actions';
 import _ from 'lodash';
 import PersonCard from '../../components/PersonCard';
-import { Pagination } from 'semantic-ui-react'
+import { Pagination, Header } from 'semantic-ui-react'
 import {setContentIsLoading} from '../LoginPage/actions';
 
 
@@ -26,7 +26,7 @@ const PeoplePage = ({loadPeople: loadData, setContentIsLoading, user, people, ..
     }, [loadData, setContentIsLoading]);
 
     useEffect(() => {
-        setTotalPages(Number.parseInt(people.length / PAGE_SIZE))
+        setTotalPages(Math.round((people.length + PAGE_SIZE / 2) / PAGE_SIZE))
     }, [setTotalPages, people]);
 
     useEffect(() => {
@@ -51,15 +51,17 @@ const PeoplePage = ({loadPeople: loadData, setContentIsLoading, user, people, ..
             )}
             {personId && <Redirect to={{pathname: `/people/${personId}`, state: {from: props.location}}}/>}
         </Grid>
-        <div className={style.paginator} ref={paginator}>
-            <Pagination
-                activePage={page}
-                pointing
-                secondary
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
-        </div>
+        {slice.length ?
+            <div className={style.paginator} ref={paginator}>
+                <Pagination
+                    activePage={page}
+                    pointing
+                    secondary
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
+            </div>
+        : ''}
     </div>
 }
 

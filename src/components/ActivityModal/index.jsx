@@ -4,11 +4,13 @@ import { Modal, Form, ButtonToolbar, Button, SelectPicker, Schema, Input } from 
 
 const { StringType } = Schema.Types;
 
+const reqField = 'Це поле не може бути пустим';
+
 const model = Schema.Model({
-  person: StringType().isRequired('This field is required.'),
-  event: StringType().isRequired('This field is required.'),
-  description: StringType().isRequired('This field is required.').minLength(10, 'Write more.').maxLength(500, 'Max length 500.'),
-  role: StringType().isRequired('This field is required'),
+  person: StringType().isRequired(reqField),
+  event: StringType().isRequired(reqField),
+  description: StringType().isRequired(reqField).minLength(10, 'Мінімально 10 символів.').maxLength(500, 'Максимально 500 символів.'),
+  role: StringType().isRequired(reqField),
 });
 
 const getInitial = (activity) => {

@@ -1,14 +1,18 @@
-.mainContainer {
-  height: 100%;
-  width: 100%;
-}
-
 .homeContainer {
-  height: calc((100% - 80px));
+  margin-top: 50px;
+  height: calc((100% - 150px));
   width: 100%;
 }
 
-.gallery {
+.title {
+  text-align: center;
+  color: #4a6ee8;
+}
+
+.carousel {
+  position: absolute !important;
+  left: 0;
+  top: 30%;
   width: 100%;
   height: 300px;
   margin: auto;

@@ -46,7 +46,7 @@ const EventView = ({event, onEdit, onDelete, onActivityEdit, onActivityDelete}) 
                         <Label color='orange' horizontal>
                             Опис
                         </Label>
-                        <p>{event.description}</p>
+                        <p>{event.about}</p>
                         </List.Item>
                     </List>
                 </Panel>

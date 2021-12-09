@@ -26,6 +26,7 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
 }
 
@@ -33,10 +34,11 @@
   flex: 1;
   display: flex;
   align-items: baseline;
+  min-width: 100px;
 }
 
 .rightContainer {
-  flex: 2;
+  flex: 5;
   display: flex;
   width: 100%;
   justify-content: flex-end;
@@ -44,7 +46,7 @@
 
 .sortWrapper {
   display: flex;
-  margin: auto 10% auto 0;
+  margin: auto 20px auto 0;
   height: fit-content;
 
   & p {
@@ -55,6 +57,11 @@
   & div {
     height: fit-content;
   }
+}
+
+.filterWrapper {
+  padding: 0;
+  margin: auto 0;
 }
 
 .title {
@@ -73,6 +80,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  min-width: 100px;
 }
 
 .titleContainer {
@@ -104,6 +112,15 @@
 .filter {
   background: transparent;
   
+}
+
+.search {
+  width: 20% !important;
+  margin: auto 10px;
+  height: 100%;
+}
+.searchInput {
+  width: 100%;
 }
 
 @media (max-width: 900px) {
