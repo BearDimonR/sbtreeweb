@@ -55,7 +55,9 @@ const PersonPage = ({
   );
 
   useEffect(() => {
-    wrapInSetContentLoading("Error in loading person", () => loadPerson(user.id));
+    wrapInSetContentLoading("Error in loading person", () =>
+      loadPerson(user.id)
+    );
   }, [wrapInSetContentLoading, loadPerson, user]);
 
   const handleModalClose = useCallback(() => {

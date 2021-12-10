@@ -62,13 +62,8 @@ const PeoplePage = ({
     <div className={style.pageWrapper}>
       <Grid className={style.eventsContainer} textAlign="center">
         {_.map(slice, (person) => (
-          <Grid.Column mobile={8} tablet={5} computer={4}>
-            <PersonCard
-              key={person.id}
-              user={user}
-              person={person}
-              onClick={setPersonId}
-            />
+          <Grid.Column mobile={8} tablet={5} computer={4} key={person.id}>
+            <PersonCard user={user} person={person} onClick={setPersonId} />
           </Grid.Column>
         ))}
         {personId && (

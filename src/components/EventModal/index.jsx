@@ -28,8 +28,8 @@ const model = Schema.Model({
 const getInitial = (event) => ({
   name: event.name || "",
   dateRangePicker: [
-    Date.parse(event.start) || new Date(),
-    Date.parse(event.end) || new Date(),
+    new Date(event.start) || new Date(),
+    new Date(event.end) || new Date(),
   ],
   about: event.about || "",
   category: event.category || "",
@@ -49,7 +49,7 @@ const getInput = (props) => (
 const EventModal = ({ open, user, event = {}, onClose, onSubmit }) => {
   const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
-  const [formValue, setFormValue] = React.useState(getInitial(event));
+  const [formValue, setFormValue] = React.useState(getInitial({}));
 
   useEffect(() => {
     setFormValue(getInitial(event));

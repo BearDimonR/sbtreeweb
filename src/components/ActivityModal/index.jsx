@@ -17,7 +17,7 @@ const reqField = "Це поле не може бути пустим";
 const model = Schema.Model({
   person: StringType().isRequired(reqField),
   event: StringType().isRequired(reqField),
-  description: StringType()
+  about: StringType()
     .isRequired(reqField)
     .minLength(10, "Мінімально 10 символів.")
     .maxLength(500, "Максимально 500 символів."),
@@ -31,7 +31,7 @@ const getInitial = (activity) => {
     person: person ? `${person.surname} ${person.name}` : "",
     event: event ? event.name : "",
     role: activity?.role || "",
-    description: activity?.about || "",
+    about: activity?.about || "",
   };
 };
 
@@ -122,11 +122,11 @@ const ActivityModal = ({
             <Form.ControlLabel>Роль</Form.ControlLabel>
             <Form.Control name="role" error={formError.role} />
           </Form.Group>
-          <Form.Group controlId="description">
+          <Form.Group controlId="about">
             <Form.ControlLabel>Опис вкладу</Form.ControlLabel>
             <Form.Control
-              name="description"
-              error={formError.description}
+              name="about"
+              error={formError.about}
               accepter={getInput}
             />
           </Form.Group>

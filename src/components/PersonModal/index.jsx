@@ -46,8 +46,8 @@ const getInitial = (person) => ({
   email: person.email || "",
   telephone: person.telephone || "",
   dateRangePicker: [
-    Date.parse(person.start) || new Date(),
-    Date.parse(person.end) || new Date(),
+    new Date(person.start) || new Date(),
+    new Date(person.end) || new Date(),
   ],
   about: person.about || "",
   category: person.category || "",

@@ -72,7 +72,7 @@ const EventView = ({
             <List divided selection className={style.activity}>
               {event.people &&
                 _.map(event.people, (val) => (
-                  <List.Item className={style.content}>
+                  <List.Item className={style.content} key={val.activity_id}>
                     <div className={style.actionIcons}>
                       <Label
                         as="a"
