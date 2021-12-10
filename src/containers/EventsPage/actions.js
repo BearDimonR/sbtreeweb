@@ -56,13 +56,13 @@ export const applyFilter =
   async (dispatch, getRootState) => {
     const { event } = getRootState();
     await dispatch(setFilter(value));
-    await dispatch(loadEvents(event.sort, value));
+    return await dispatch(loadEvents(event.sort, value));
   };
 
 export const applyEventSort = (value) => async (dispatch, getRootState) => {
   const { event } = getRootState();
   await dispatch(setSort(value));
-  await dispatch(loadEvents(value, event.filters));
+  return await dispatch(loadEvents(value, event.filters));
 };
 
 export const loadEvents = () => async (dispatch, getRootState) => {

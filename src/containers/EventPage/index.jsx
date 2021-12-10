@@ -19,6 +19,7 @@ import EventModal from "../../components/EventModal";
 import ActivityModal from "../../components/ActivityModal";
 import _ from "lodash";
 import { setContentIsLoading } from "../LoginPage/actions";
+import {errorHandler} from "../../utils/shared";
 
 const EventPage = ({
   user,
@@ -45,18 +46,18 @@ const EventPage = ({
   const [editing, setEditing] = useState(false);
 
   const wrapInSetContentLoading = useCallback(
-    (func, after = () => {}) => {
+    (msg, func, after = () => {}) => {
       setContentIsLoading(true);
       func().then(() => {
         after();
         setContentIsLoading(false);
-      });
+      }).catch(errorHandler(msg, () => setContentIsLoading(false)));
     },
     [setContentIsLoading]
   );
 
   useEffect(() => {
-    wrapInSetContentLoading(() => loadData(id));
+    wrapInSetContentLoading('Event loading error', () => loadData(id));
   }, [loadData, id, wrapInSetContentLoading]);
 
   const handleModalClose = useCallback(() => {
@@ -68,6 +69,7 @@ const EventPage = ({
 
   const handleEdit = useCallback(() => {
     wrapInSetContentLoading(
+      'Event editing error',
       () => loadData(event.id),
       () => setEditing(true)
     );
@@ -75,6 +77,7 @@ const EventPage = ({
 
   const handleDelete = useCallback(() => {
     wrapInSetContentLoading(
+      'Event removal error',
       () => removeEvent(event.id),
       () => {
         const spl = path.split("/");
@@ -85,7 +88,9 @@ const EventPage = ({
 
   const handleActivityEdit = useCallback(
     (id) => {
-      wrapInSetContentLoading(() =>
+      wrapInSetContentLoading(
+        'Activity editing error',
+        () =>
         Promise.all([getActivity(id), getNames(), getFullNames()])
       );
     },
@@ -94,21 +99,21 @@ const EventPage = ({
 
   const handleActivityDelete = useCallback(
     (id) => {
-      wrapInSetContentLoading(() => removeActivity(id));
+      wrapInSetContentLoading('Activity delete error', () => removeActivity(id));
     },
     [wrapInSetContentLoading, removeActivity]
   );
 
   const handleSubmit = useCallback(
     (data) => {
-      wrapInSetContentLoading(() => editEvent(data));
+      wrapInSetContentLoading('Event submit editing error', () => editEvent(data));
     },
     [wrapInSetContentLoading, editEvent]
   );
 
   const handleActivitySubmit = useCallback(
     (data) => {
-      wrapInSetContentLoading(() => editActivity(data));
+      wrapInSetContentLoading('Activity submit editing error', () => editActivity(data));
     },
     [wrapInSetContentLoading, editActivity]
   );

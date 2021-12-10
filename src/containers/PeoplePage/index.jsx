@@ -9,6 +9,7 @@ import _ from "lodash";
 import PersonCard from "../../components/PersonCard";
 import { Pagination, Header } from "semantic-ui-react";
 import { setContentIsLoading } from "../LoginPage/actions";
+import { errorHandler } from "../../utils/shared";
 
 const PAGE_SIZE = 20;
 
@@ -27,7 +28,7 @@ const PeoplePage = ({
 
   useEffect(() => {
     setContentIsLoading(true);
-    loadData().then(() => setContentIsLoading(false));
+    loadData().then(() => setContentIsLoading(false)).catch(errorHandler("Error in people loading", () => setContentIsLoading(false)));
   }, [loadData, setContentIsLoading]);
 
   useEffect(() => {

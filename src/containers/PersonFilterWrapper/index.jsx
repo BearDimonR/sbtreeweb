@@ -8,6 +8,7 @@ import {
   loadFullNames,
 } from "../PeoplePage/actions";
 import { setContentIsLoading } from "../LoginPage/actions";
+import { errorHandler } from "../../utils/shared";
 
 const EventFilterWrapper = ({
   applyFilter: apply,
@@ -23,13 +24,13 @@ const EventFilterWrapper = ({
     setContentIsLoading(true);
     Promise.all([getStatuses(), getNames()]).then(() =>
       setContentIsLoading(false)
-    );
+    ).catch(errorHandler("Error in loading person filter", () => setContentIsLoading(false)));
   }, [setContentIsLoading, getStatuses, getNames]);
 
   const handleFilter = useCallback(
     (filters) => {
       setContentIsLoading(true);
-      apply(filters).then(() => setContentIsLoading(false));
+      apply(filters).then(() => setContentIsLoading(false)).catch(errorHandler("Error in applying person filter", () => setContentIsLoading(false)));
     },
     [setContentIsLoading, apply]
   );

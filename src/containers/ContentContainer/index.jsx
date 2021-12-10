@@ -14,6 +14,7 @@ import {
 import { NavLink, useLocation, useHistory } from "react-router-dom";
 import _ from "lodash";
 import { setContentIsLoading } from "../LoginPage/actions";
+import { errorHandler } from "../../utils/shared";
 
 const spinner = () => (
   <Dimmer active inverted>
@@ -63,7 +64,7 @@ const ContentContainer = ({
   const handleSearchChange = useCallback(
     (e) => {
       setContentIsLoading(true);
-      handleSearch(e.target.value).then(() => setContentIsLoading(false));
+      handleSearch(e.target.value).then(() => setContentIsLoading(false)).catch(errorHandler("Error in search handling", () => setContentIsLoading(false)));;
       setSearchVal(e.target.value);
     },
     [setContentIsLoading, handleSearch]
