@@ -114,7 +114,7 @@ const ProfileView = ({
                       onClick={() => onActivityDelete(val.activity_id)}
                     />
                   </div>
-                  <Image avatar src={val.avatar} />
+                  <Image avatar src={val.image} />
                   <List.Content>
                     <List.Header as="a" className={style.activityInfo}>
                       {val.name}

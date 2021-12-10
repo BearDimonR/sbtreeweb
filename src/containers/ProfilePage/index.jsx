@@ -20,6 +20,7 @@ import { setContentIsLoading } from "../LoginPage/actions";
 import { errorHandler } from "../../utils/shared";
 
 const PersonPage = ({
+  person,
   user,
   activity,
   fullNames,
@@ -35,7 +36,6 @@ const PersonPage = ({
   removeActivity,
   setContentIsLoading,
 }) => {
-  const { id } = useParams();
   const location = useLocation();
   const history = useHistory();
   const path = location.pathname;
@@ -55,8 +55,8 @@ const PersonPage = ({
   );
 
   useEffect(() => {
-    wrapInSetContentLoading("Error in loading person", () => loadPerson(id));
-  }, [wrapInSetContentLoading, loadPerson, id]);
+    wrapInSetContentLoading("Error in loading person", () => loadPerson(user.id));
+  }, [wrapInSetContentLoading, loadPerson, user]);
 
   const handleModalClose = useCallback(() => {
     setEditing(false);
@@ -68,16 +68,16 @@ const PersonPage = ({
   const handleEdit = useCallback(() => {
     wrapInSetContentLoading(
       "Error in editing person",
-      () => loadPerson(user.id),
+      () => loadPerson(person.id),
       () => setEditing(true)
     );
-  }, [wrapInSetContentLoading, setEditing, loadPerson, user]);
+  }, [wrapInSetContentLoading, setEditing, loadPerson, person]);
 
   const handleDelete = useCallback(() => {
-    removePerson(user.id);
+    removePerson(person.id);
     wrapInSetContentLoading(
       "Error in removing person",
-      () => removePerson(user.id),
+      () => removePerson(person.id),
       () => {
         const spl = path.split("/");
         history.push(_.slice(spl, 0, spl.length - 1).join("/"));
@@ -124,7 +124,7 @@ const PersonPage = ({
   return (
     <div className={style.profileContainer}>
       <ProfileView
-        user={user}
+        user={person}
         onEdit={handleEdit}
         onDelete={handleDelete}
         onActivityEdit={handleActivityEdit}
@@ -134,7 +134,7 @@ const PersonPage = ({
         open={editing}
         onClose={handleModalClose}
         user={user}
-        person={user}
+        person={person}
         onSubmit={handleSubmit}
       />
       <ActivityModal
@@ -151,6 +151,7 @@ const PersonPage = ({
 };
 const mapStateToProps = (rootState) => ({
   user: rootState.profile.user,
+  person: rootState.person.instance,
   activity: rootState.event.activity,
   fullNames: rootState.person.fullNames,
   eventNames: rootState.event.names,
