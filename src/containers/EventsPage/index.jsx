@@ -9,8 +9,7 @@ import _ from "lodash";
 import EventCard from "../../components/EventCard";
 import { Pagination } from "semantic-ui-react";
 import { setContentIsLoading } from "../LoginPage/actions";
-import {errorHandler} from "../../utils/shared";
-
+import { errorHandler } from "../../utils/shared";
 
 const PAGE_SIZE = 12;
 
@@ -29,7 +28,11 @@ const EventsPage = ({
 
   useEffect(() => {
     setContentIsLoading(true);
-    loadData().then(() => setContentIsLoading(false)).catch(errorHandler('Error events loading', () => setContentIsLoading(false)));
+    loadData()
+      .then(() => setContentIsLoading(false))
+      .catch(
+        errorHandler("Error events loading", () => setContentIsLoading(false))
+      );
   }, [loadData, setContentIsLoading]);
 
   useEffect(() => {

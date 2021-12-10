@@ -28,7 +28,13 @@ const PeoplePage = ({
 
   useEffect(() => {
     setContentIsLoading(true);
-    loadData().then(() => setContentIsLoading(false)).catch(errorHandler("Error in people loading", () => setContentIsLoading(false)));
+    loadData()
+      .then(() => setContentIsLoading(false))
+      .catch(
+        errorHandler("Error in people loading", () =>
+          setContentIsLoading(false)
+        )
+      );
   }, [loadData, setContentIsLoading]);
 
   useEffect(() => {

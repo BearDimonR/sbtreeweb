@@ -4,8 +4,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { applyFilter, loadCategories, loadNames } from "../EventsPage/actions";
 import { setContentIsLoading } from "../LoginPage/actions";
-import {errorHandler} from "../../utils/shared";
-
+import { errorHandler } from "../../utils/shared";
 
 const EventFilterWrapper = ({
   applyFilter: apply,
@@ -20,15 +19,25 @@ const EventFilterWrapper = ({
 }) => {
   useEffect(() => {
     setContentIsLoading(true);
-    Promise.all([getCategories(), getNames()]).then(() =>
-      setContentIsLoading(false)
-    ).catch(errorHandler("Error in loading event filter", () => setContentIsLoading(false)));
+    Promise.all([getCategories(), getNames()])
+      .then(() => setContentIsLoading(false))
+      .catch(
+        errorHandler("Error in loading event filter", () =>
+          setContentIsLoading(false)
+        )
+      );
   }, [setContentIsLoading, getCategories, getNames]);
 
   const handleFilter = useCallback(
     (filters) => {
       setContentIsLoading(true);
-      apply(filters).then(() => setContentIsLoading(false)).catch(errorHandler("Error in applying event filter", () => setContentIsLoading(false)));
+      apply(filters)
+        .then(() => setContentIsLoading(false))
+        .catch(
+          errorHandler("Error in applying event filter", () =>
+            setContentIsLoading(false)
+          )
+        );
     },
     [setContentIsLoading, apply]
   );

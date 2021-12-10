@@ -44,10 +44,12 @@ const PersonPage = ({
   const wrapInSetContentLoading = useCallback(
     (msg, func, after = () => {}) => {
       setContentIsLoading(true);
-      func().then(() => {
-        after();
-        setContentIsLoading(false);
-      }).catch(errorHandler(msg, () => setContentIsLoading(false)));
+      func()
+        .then(() => {
+          after();
+          setContentIsLoading(false);
+        })
+        .catch(errorHandler(msg, () => setContentIsLoading(false)));
     },
     [setContentIsLoading]
   );
@@ -94,21 +96,27 @@ const PersonPage = ({
 
   const handleActivityDelete = useCallback(
     (id) => {
-      wrapInSetContentLoading("Error in activity delete", () => removeActivity(id));
+      wrapInSetContentLoading("Error in activity delete", () =>
+        removeActivity(id)
+      );
     },
     [wrapInSetContentLoading, removeActivity]
   );
 
   const handleSubmit = useCallback(
     (data) => {
-      wrapInSetContentLoading("Error in submit person edit", () => editPerson(data));
+      wrapInSetContentLoading("Error in submit person edit", () =>
+        editPerson(data)
+      );
     },
     [wrapInSetContentLoading, editPerson]
   );
 
   const handleActivitySubmit = useCallback(
     (data) => {
-      wrapInSetContentLoading("Error in submit activity edit", () => editActivity(data));
+      wrapInSetContentLoading("Error in submit activity edit", () =>
+        editActivity(data)
+      );
     },
     [wrapInSetContentLoading, editActivity]
   );

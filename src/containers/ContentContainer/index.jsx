@@ -64,7 +64,13 @@ const ContentContainer = ({
   const handleSearchChange = useCallback(
     (e) => {
       setContentIsLoading(true);
-      handleSearch(e.target.value).then(() => setContentIsLoading(false)).catch(errorHandler("Error in search handling", () => setContentIsLoading(false)));;
+      handleSearch(e.target.value)
+        .then(() => setContentIsLoading(false))
+        .catch(
+          errorHandler("Error in search handling", () =>
+            setContentIsLoading(false)
+          )
+        );
       setSearchVal(e.target.value);
     },
     [setContentIsLoading, handleSearch]
