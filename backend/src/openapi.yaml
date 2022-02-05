@@ -1,0 +1,402 @@
+openapi: 3.0.1
+info:
+  title: SBTree API
+  description: This is SBTree api server.
+  contact:
+    email: sb.ukma@gmail.com
+  version: 1.0.0
+servers:
+  - url: //127.0.0.1/api
+tags:
+  - name: user
+    description: User API
+  - name: activity
+    description: Activity API
+  - name: activity_user
+    description: ActivityUser API
+  - name: auth
+    description: Auth API
+paths:
+  /user:
+    get:
+      tags:
+        - user
+      summary: Get list of all users
+      operationId: controllers.user_controller.get_all
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      tags:
+        - user
+      summary: Create new user
+      operationId: controllers.user_controller.create_user
+      security:
+        - adminAuth: [ ]
+      requestBody:
+          description: New User data
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: Success
+  /user/tree:
+    get:
+      tags:
+        - user
+      summary: Get list of all users for tree
+      operationId: controllers.user_controller.get_tree
+      responses:
+        200:
+          description: Success
+  /user/{uuid}/short:
+    parameters:
+      - in: path
+        name: uuid
+        required: true
+        schema:
+          $ref: '#components/schemas/uuid'
+        description: User uuid
+    get:
+      tags:
+        - user
+      summary: Get user short info
+      operationId: controllers.user_controller.get_user_short
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /user/{uuid}:
+    parameters:
+      - in: path
+        name: uuid
+        required: true
+        schema:
+          $ref: '#components/schemas/uuid'
+        description: User uuid
+    get:
+      tags:
+        - user
+      summary: Get user info
+      operationId: controllers.user_controller.get_user
+      security:
+        - personalAuth: [ ]
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    put:
+      tags:
+        - user
+      summary: Update user
+      operationId: controllers.user_controller.update_user
+      security:
+        - adminAuth: [ ]
+      responses:
+        200:
+          description: Success
+    delete:
+      tags:
+        - user
+      summary: Delete user
+      operationId: controllers.user_controller.delete_user
+      security:
+        - adminAuth: [ ]
+      responses:
+        200:
+          description: Success
+  /activity:
+    get:
+      tags:
+        - activity
+      summary: Get list of all activities
+      operationId: controllers.activity_controller.get_all
+      responses:
+        200:
+          description: Success
+    post:
+      tags:
+        - activity
+      summary: Create new activity
+      operationId: controllers.activity_controller.create_activity
+      security:
+        - adminAuth: [ ]
+      responses:
+        200:
+          description: Success
+  /activity/{uuid}:
+    parameters:
+      - in: path
+        name: uuid
+        required: true
+        schema:
+          $ref: '#components/schemas/uuid'
+        description: Activity uuid
+    get:
+      tags:
+        - activity
+      summary: Get user activity
+      operationId: controllers.activity_controller.get_activity
+      responses:
+        200:
+          description: Success
+    put:
+      tags:
+        - activity
+      summary: Update activity
+      operationId: controllers.activity_controller.update_activity
+      security:
+        - editorAuth: [ ]
+      responses:
+        200:
+          description: Success
+    delete:
+      tags:
+        - activity
+      summary: Delete activity
+      operationId: controllers.activity_controller.delete_activity
+      security:
+        - adminAuth: [ ]
+      responses:
+        200:
+          description: Success
+  /activity/user:
+    post:
+      tags:
+        - activity_user
+      summary: Create new activity user connection
+      operationId: controllers.activity_user_controller.create_connection
+      security:
+        - adminAuth: [ ]
+      responses:
+        200:
+          description: Success
+  /activity/{activityUUID}/user/{userUUID}:
+    parameters:
+      - in: path
+        name: activityUUID
+        required: true
+        schema:
+          $ref: '#components/schemas/uuid'
+        description: Activity uuid
+      - in: path
+        name: userUUID
+        required: true
+        schema:
+          type: string
+        description: User uuid
+    put:
+      tags:
+        - activity_user
+      summary: Update activity user connection
+      operationId: controllers.activity_user_controller.update_connection
+      security:
+        - editorAuth: [ ]
+      responses:
+        200:
+          description: Success
+    delete:
+      tags:
+        - activity_user
+      summary: Delete activity user connection
+      operationId: controllers.activity_user_controller.delete_connection
+      security:
+        - adminAuth: [ ]
+      responses:
+        200:
+          description: Success
+  /auth/user:
+    get:
+      tags:
+        - auth
+      summary: Logs user to system
+      operationId: controllers.auth_controller.get_current_user
+      security:
+        - personalAuth: [ ]
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth'
+  /auth/logout:
+    get:
+      tags:
+        - auth
+      summary: Logs user out the system
+      operationId: controllers.auth_controller.logout
+      responses:
+        200:
+          description: Success
+          content: { }
+      security:
+        - personalAuth: [ ]
+  /auth/login:
+    get:
+      tags:
+        - auth
+      summary: Logs user into the system
+      operationId: controllers.auth_controller.login
+      security: [ ]
+      responses:
+        302:
+          description: Redirect to login
+          content: { }
+  /auth/login/callback:
+    get:
+      tags:
+        - auth
+      summary: Return access token
+      security: [ ]
+      operationId: controllers.auth_controller.callback
+      responses:
+        200:
+          description: Successfully logged in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Login'
+components:
+  schemas:
+    BaseEntity:
+      type: object
+      properties:
+        uuid:
+          $ref: '#components/schemas/uuid'
+        createdAt:
+          description: 'format: dd.mm.yyyy hh:mm:ss'
+          type: string
+        updatedAt:
+          description: 'format: dd.mm.yyyy hh:mm:ss'
+          type: string
+    Login:
+      type: object
+      properties:
+        token:
+          type: string
+        user:
+          $ref: '#components/schemas/Auth'
+    Auth:
+      allOf:
+        - $ref: '#components/schemas/BaseEntity'
+        - type: object
+          properties:
+            userUUID:
+              $ref: '#components/schemas/uuid'
+            access:
+              type: integer
+            email:
+              type: string
+    User:
+      allOf:
+        - $ref: '#components/schemas/BaseEntity'
+        - type: object
+          properties:
+            name:
+              type: string
+            surname:
+              type: string
+            patronymic:
+              type: string
+            email:
+              type: string
+              format: email
+            telephone:
+              type: string
+              format: telephone
+            date_birth:
+              description: 'format: dd.mm.yyyy'
+              type: string
+            status:
+              type: string
+            faculty:
+              type: string
+            speciality:
+              type: string
+            date_in:
+              description: 'format: dd.mm.yyyy'
+              type: string
+            date_out:
+              description: 'format: dd.mm.yyyy'
+              type: string
+            about:
+              type: string
+            photo:
+              type: string
+            parentUUID:
+              $ref: '#components/schemas/uuid'
+    Activity:
+      allOf:
+        - $ref: '#components/schemas/BaseEntity'
+        - type: object
+          properties:
+            name:
+              type: string
+            date:
+              description: 'format: dd.mm.yyyy'
+              type: string
+            about:
+              type: string
+            description:
+              type: string
+            photo:
+              type: string
+    ActivityUser:
+      allOf:
+        - $ref: '#components/schemas/BaseEntity'
+        - type: object
+          properties:
+            userUUID:
+              $ref: '#components/schemas/uuid'
+            activityUUID:
+              type: string
+            position:
+              type: string
+            contribution:
+              type: string
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        status:
+          type: integer
+        details:
+          type: string
+    uuid:
+      type: string
+      pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+      minLength: 36
+      maxLength: 36
+  securitySchemes:
+    personalAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      x-bearerInfoFunc: controllers.auth_controller.auth_personal
+    editorAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      x-bearerInfoFunc: controllers.auth_controller.auth_editor
+    adminAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      x-bearerInfoFunc: controllers.auth_controller.auth_admin
