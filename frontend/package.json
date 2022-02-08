@@ -12,6 +12,7 @@
     "formik": "^2.2.6",
     "google-map-react": "^2.1.10",
     "history": "^4.10.1",
+    "http-proxy-middleware": "^2.0.3",
     "iso-639-1": "^2.1.9",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
