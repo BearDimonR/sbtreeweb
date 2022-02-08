@@ -45,6 +45,7 @@ def callback():
         redirect_url=request.base_url,
         code=code
     )
+
     token_response = requests.post(
         token_url,
         headers=headers,

@@ -1,8 +1,7 @@
 import time
 
 import requests
-from jose import jwt, JWTError
-from werkzeug.exceptions import Unauthorized
+from jose import jwt
 
 from config import GOOGLE_DISCOVERY_URL, JWT_ISSUER, JWT_LIFETIME_SECONDS, JWT_SECRET, JWT_ALGORITHM
 

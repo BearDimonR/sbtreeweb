@@ -131,7 +131,4 @@ dmypy.json
 .idea/
 
 google_creds.json
-
-config.py
-
 data/

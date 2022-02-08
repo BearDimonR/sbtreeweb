@@ -21,7 +21,7 @@ class ApiSheetHelper:
         self.range = chr(64 + len(self.title))
 
     def load_values(self, from_row, to_row):
-        #TODO request limit
+        # TODO request limit
         values = self.worksheet.get_values(f'A{from_row}:{self.range}{to_row}',
                                            value_render_option='UNFORMATTED_VALUE',
                                            date_time_render_option='FORMATTED_STRING'

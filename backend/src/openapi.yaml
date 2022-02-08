@@ -40,12 +40,12 @@ paths:
       security:
         - adminAuth: [ ]
       requestBody:
-          description: New User data
-          required: true
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
+        description: New User data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
       responses:
         200:
           description: Success
