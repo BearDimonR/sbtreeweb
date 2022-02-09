@@ -1,3 +1,10 @@
+# configure path
+import sys
+import os
+root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.extend([root, os.path.join(root, 'src')])
+
+
 import logging
 import os
 import sys
