@@ -22,6 +22,7 @@ import { eventsSortOptions, peopleSortOptions } from "../../utils/sortOptions";
 import AboutPage from "../AboutPage";
 import PersonPage from "../PersonPage";
 import { errorHandler } from "../../utils/shared";
+import CallbackPage from "../CallbackPage";
 
 const Routing = ({
   access,
@@ -39,8 +40,6 @@ const Routing = ({
     checkLogged().catch(errorHandler("Error in check auth info"));
   }, [checkLogged]);
 
-  console.log('\n  CREATE TABLE "TEST"."TYPES" \n   (\t"CHAR_KEY" CHAR(2), \n\t"CHAR_CHAR" CHAR(2 CHAR), \n\t"CHAR_BYTE" CHAR(2), \n\t"VARCHAR2_V" VARCHAR2(2), \n\t"VARCHAR2_CHAR" VARCHAR2(2 CHAR), \n\t"VARCHAR2_BYTE" VARCHAR2(2), \n\t"NCHAR_V" NCHAR(2), \n\t"NCHAR2_V" NVARCHAR2(2), \n\t"NUMBER_V" NUMBER, \n\t"NUMBER3" NUMBER(3,0), \n\t"NUMBER52" NUMBER(5,2), \n\t"FLOAT_V" FLOAT(126), \n\t"FLOAT5" FLOAT(5), \n\t"FLOAT_BINARY" BINARY_FLOAT, \n\t"DOUBLE_BINARY" BINARY_DOUBLE, \n\t"LONG_V" LONG, \n\t"DATE_V" DATE, \n\t"TIMESTAMP_V" TIMESTAMP (6), \n… MAXTRANS 255 \n NOCOMPRESS LOGGING\n  TABLESPACE "USERS" \n LOB ("CLOB_V") STORE AS SECUREFILE (\n  TABLESPACE "USERS" ENABLE STORAGE IN ROW 4000 CHUNK 8192\n  NOCACHE LOGGING  NOCOMPRESS  KEEP_DUPLICATES ) \n LOB ("NLOB_V") STORE AS SECUREFILE (\n  TABLESPACE "USERS" ENABLE STORAGE IN ROW 4000 CHUNK 8192\n  NOCACHE LOGGING  NOCOMPRESS  KEEP_DUPLICATES ) \n LOB ("BLOB_V") STORE AS SECUREFILE (\n  TABLESPACE "USERS" ENABLE STORAGE IN ROW 4000 CHUNK 8192\n  NOCACHE LOGGING  NOCOMPRESS  KEEP_DUPLICATES ) ;')
-
   const spinner = () => (
     <Dimmer active inverted>
       <Loader size="massive" inverted />
@@ -50,6 +49,7 @@ const Routing = ({
     <div className="fill">
       <main className="fill">
         <Switch>
+          <PublicRoute exact path="/login/callback" component={CallbackPage} />
           <PublicRoute exact path="/login" component={LoginPage} />
           <PrivateRoute exact path="/home" component={HomePage} />
           <PrivateRoute

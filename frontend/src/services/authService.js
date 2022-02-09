@@ -1,9 +1,13 @@
 import { getAccessCall, getPeopleCall } from "../utils/json";
+import callWebApi from '../helpers/webApiHelper';
 import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
 import { ROLES } from "../utils/rolesConstrants";
 
 export const login = async (request) => {
+  //TODO redirect to login
+  window.location.href = '/api/auth/login';
+  
   const access = await getAccessCall();
   const people = await getPeopleCall(0);
   const auth = _.find(access, request);
