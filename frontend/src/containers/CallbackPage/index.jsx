@@ -5,7 +5,6 @@ const CallbackPage = (props) => {
   useEffect(() => {
     fetch(`/api/auth/login/callback${props.location.search}`).then(async (response) => {
       const j = await response.json()
-      debugger;
       localStorage.setItem('result', 'hooray');
     })
   }, []);
