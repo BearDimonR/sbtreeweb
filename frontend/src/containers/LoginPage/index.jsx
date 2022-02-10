@@ -1,15 +1,10 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import style from "./index.module.scss";
-import { login } from "./actions";
+import { login } from "../../services/authService";
 
 const LandingPage = () => {
-  const dispatch = useDispatch();
 
-  const handleLoginClick = () =>{
-    debugger;
-    dispatch(login());
-  } 
+  const handleLoginClick = () => login();
 
   return (
     <div className={style.loginPageContainer}>

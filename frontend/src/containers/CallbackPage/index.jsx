@@ -1,16 +1,36 @@
 import { useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import callWebApi from "../../helpers/webApiHelper";
+import { errorHandler } from "../../utils/shared";
+import { setUser } from "../LoginPage/actions";
+import style from "./index.module.scss";
 
 const CallbackPage = (props) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    fetch(`/api/auth/login/callback${props.location.search}`).then(async (response) => {
-      const j = await response.json()
-      localStorage.setItem('result', 'hooray');
+    callWebApi({
+      endpoint: `/api/auth/login/callback${props.location.search}`
+    }).then(async (response) => {
+      const body = await response.json();
+
+      dispatch(setUser(body.user));
+      localStorage.setItem("token", body.token);
+    }).catch(error => {
+      if (error.status === 401) {
+        errorHandler('Unfortunately you don\'t have access to the service')({ message: '' });
+      } else {
+        errorHandler('Internal server error ocured')({ message: '' });
+      }
+      history.push('/login');
     })
-  }, []);
-  return  <Redirect
-            to={{ pathname: "/home", state: { from: props.location } }}
-          />
+  }, [dispatch, history, props.location.search]);
+
+  return (<div className={style.callbackPageContainer}>
+    <p className={style.title}>Pending for Google response...</p>
+  </div>);
 };
 
 export default CallbackPage;

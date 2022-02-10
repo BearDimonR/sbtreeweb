@@ -29,7 +29,7 @@ const reducer = (
       return {
         ...state,
         user: action.value,
-        access: action.value?.role || ROLES.VISITOR,
+        access: action.value?.access || ROLES.VISITOR,
       };
     default:
       return state;
