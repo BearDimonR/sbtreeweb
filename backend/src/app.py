@@ -1,21 +1,32 @@
 # configure path
+from helpers.db_helper import init_db
+from helpers import db
+from exceptions import init_exception_handlers
+from config import DATETIME_FORMAT, LOG_FOLDER, LOG_FORMAT, DATA_PACKAGE, RESOURCE_NAME, API_FILE
+from connexion import FlaskApp, App
+from importlib import resources
+import logging
+from logging.handlers import RotatingFileHandler
 import sys
 import os
+import datetime
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.extend([root, os.path.join(root, 'src')])
 
 
-import logging
-import os
-import sys
-from importlib import resources
-
-from connexion import FlaskApp, App
-
-from config import DATETIME_FORMAT, LOG_FILE_NAME, LOG_FORMAT, DATA_PACKAGE, RESOURCE_NAME, API_FILE
-from exceptions import init_exception_handlers
-from helpers import db
-from helpers.db_helper import init_db
+def init_logs():
+    logging_handler = RotatingFileHandler(
+        filename=os.path.join(LOG_FOLDER, f'{datetime.datetime.now()}.log'),
+        mode='a',
+        maxBytes=1024 * 1024 * 10,
+        backupCount=2,
+        encoding=None,
+        delay=0
+    )
+    logging.basicConfig(level=logging.INFO,
+                        datefmt=DATETIME_FORMAT,
+                        format=LOG_FORMAT,
+                        handlers=[logging_handler])
 
 
 def init_app():
@@ -27,20 +38,19 @@ def init_app():
 
     init_exception_handlers(flask_app)
 
-    # TODO logging level change to reduce size .log?
-    logging.basicConfig(filename=LOG_FILE_NAME,
-                        level=logging.INFO,
-                        datefmt=DATETIME_FORMAT,
-                        format=LOG_FORMAT)
+    init_logs()
 
     with resources.path(DATA_PACKAGE, RESOURCE_NAME) as sqlite_filepath:
         flask_app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{sqlite_filepath}"
         flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
     db.init_app(flask_app)
+
     with flask_app.app_context():
         db.drop_all()
         db.create_all()
         init_db()
+
     return flask_app
 
 

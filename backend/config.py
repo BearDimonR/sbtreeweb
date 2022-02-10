@@ -36,5 +36,5 @@ DATE_FORMAT = '%d.%m.%Y'
 
 MAX_IMPORT_SIZE = 10000
 
-LOG_FILE_NAME = '../app.log'
+LOG_FOLDER = '../logs'
 LOG_FORMAT = '%(asctime)s [%(levelname)s] {%(name)s %(threadName)s} : %(message)s'
