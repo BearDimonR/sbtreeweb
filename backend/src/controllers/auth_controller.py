@@ -27,7 +27,7 @@ def login():
     request_uri = app_client.prepare_request_uri(
         authorization_endpoint,
         #TODO change to env
-        redirect_uri='https://127.0.0.1:3000/login/callback',
+        redirect_uri='https://localhost:3000/login/callback',
         scope=['openid', 'email', 'profile'],
     )
     return redirect(request_uri)
@@ -43,7 +43,7 @@ def callback():
         token_endpoint,
         authorization_response=request.url,
         #TODO change to env
-        redirect_url='https://127.0.0.1:3000/login/callback',
+        redirect_url='https://localhost:3000/login/callback',
         code=code
     )
 

@@ -1,4 +1,9 @@
 # configure path
+import sys
+import os
+root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.extend([root, os.path.join(root, 'src')])
+
 from helpers.db_helper import init_db
 from helpers import db
 from exceptions import init_exception_handlers
@@ -7,11 +12,8 @@ from connexion import FlaskApp, App
 from importlib import resources
 import logging
 from logging.handlers import RotatingFileHandler
-import sys
-import os
 import datetime
-root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.extend([root, os.path.join(root, 'src')])
+
 
 
 def init_logs():
