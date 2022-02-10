@@ -6,3 +6,4 @@
 .env.production.local
 .env
 *.log
+backend/data/data.db
