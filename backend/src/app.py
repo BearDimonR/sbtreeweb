@@ -16,8 +16,6 @@ import datetime
 
 
 def init_logs():
-    if os.path.exists(LOG_FOLDER):
-        os.rmdir(LOG_FOLDER)
     os.makedirs(LOG_FOLDER, exist_ok=True)
     logging_handler = RotatingFileHandler(
         filename=os.path.join(LOG_FOLDER, f'{datetime.datetime.today().strftime("%Y-%m-%d-%H:%M")}.log'),
