@@ -7,7 +7,7 @@ import { Grid } from "semantic-ui-react";
 import { loadPeople } from "./actions";
 import _ from "lodash";
 import PersonCard from "../../components/PersonCard";
-import { Pagination, Header } from "semantic-ui-react";
+import { Pagination } from "semantic-ui-react";
 import { setContentIsLoading } from "../LoginPage/actions";
 import { errorHandler } from "../../utils/shared";
 

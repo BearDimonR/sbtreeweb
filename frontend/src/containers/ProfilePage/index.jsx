@@ -85,7 +85,7 @@ const PersonPage = ({
         history.push(_.slice(spl, 0, spl.length - 1).join("/"));
       }
     );
-  }, [wrapInSetContentLoading, removePerson, user, history, path]);
+  }, [wrapInSetContentLoading, removePerson, history, path, person.id]);
 
   const handleActivityEdit = useCallback(
     (id) => {

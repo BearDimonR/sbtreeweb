@@ -1,5 +1,4 @@
 import * as authService from "../../services/authService";
-import { errorHandler } from "../../utils/shared";
 import {
   SET_IS_LOADING,
   SET_USER,
@@ -12,10 +11,6 @@ const setIsLoading = (value) => async (dispatch) =>
     value,
   });
 
-const setToken = (token) => {
-  localStorage.setItem("token", token);
-};
-
 export const setUser = (value) => async (dispatch) => {
   dispatch({
     type: SET_USER,
@@ -23,7 +18,13 @@ export const setUser = (value) => async (dispatch) => {
   });
 }
 
-export const checkLoggedIn = () => async (dispatch) => {
+export const setContentIsLoading = (value) => async (dispatch) =>
+  dispatch({
+    type: SET_CONTENT_IS_LOADING,
+    value,
+  });
+
+export const loadCurrentUser = () => async (dispatch) => {
   authService.getCurrentUser()
     .then(user => dispatch(setUser(user)))
     .catch(() => console.log('No token -> Go to login'))
@@ -33,18 +34,6 @@ export const checkLoggedIn = () => async (dispatch) => {
 };
 
 export const logout = () => async (dispatch) => {
-  setToken("");
+  localStorage.setItem("token", "");
   await dispatch(setUser(null));
 };
-
-export const loadCurrentUser = () => async (dispatch) => {
-  const user = await authService.getCurrentUser()
-    .catch(() => console.log('No token -> Go to login'))
-  await dispatch(setUser(user));
-};
-
-export const setContentIsLoading = (value) => async (dispatch) =>
-  dispatch({
-    type: SET_CONTENT_IS_LOADING,
-    value,
-  });

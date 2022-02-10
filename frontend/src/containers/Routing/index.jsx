@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import NotFound from "../../scenes/NotFound";
 import PrivateRoute from "../PrivateRoute";
 import PublicRoute from "../PublicRoute";
-import PropTypes from "prop-types";
 import { Dimmer, Loader } from "semantic-ui-react";
 import LoginPage from "../LoginPage";
-import { checkLoggedIn } from "../LoginPage/actions";
+import { loadCurrentUser } from "../LoginPage/actions";
 import { applyEventSort, searchEvents } from "../EventsPage/actions";
 import { applyPersonSort, searchPeople } from "../PeoplePage/actions";
 import HomePage from "../HomePage";
@@ -24,20 +23,21 @@ import PersonPage from "../PersonPage";
 import CallbackPage from "../CallbackPage";
 
 const Routing = ({
-  access,
-  checkLoggedIn: checkLogged,
-  isLoading,
-  eventSort,
-  personSort,
+  loadCurrentUser,
   applyEventSort: setEventSort,
   applyPersonSort: setPersonSort,
   searchEvents,
   searchPeople,
   ...props
 }) => {
+
+  const { isLoading } = useSelector(state => state.profile);
+  const eventSort = useSelector(state => state.event.eventSort);
+  const personSort = useSelector(state => state.person.sort);
+
   useEffect(() => {
-      checkLogged()
-  }, [checkLogged]);
+    loadCurrentUser()
+  }, [loadCurrentUser]);
 
   const spinner = () => (
     <Dimmer active inverted>
@@ -93,23 +93,10 @@ const Routing = ({
   return isLoading ? spinner() : content();
 };
 
-Routing.propTypes = {
-  access: PropTypes.number.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  checkLoggedIn: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = ({ profile, event, person }) => ({
-  access: profile.access,
-  isLoading: profile.isLoading,
-  eventSort: event.sort,
-  personSort: person.sort,
-});
-
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      checkLoggedIn,
+      loadCurrentUser,
       applyEventSort,
       applyPersonSort,
       searchEvents,
@@ -118,4 +105,4 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Routing);
+export default connect(null, mapDispatchToProps)(Routing);
