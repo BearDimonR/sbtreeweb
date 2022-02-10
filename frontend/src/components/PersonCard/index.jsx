@@ -4,7 +4,7 @@ import { Card, Label, Image } from "semantic-ui-react";
 import moment from "moment";
 
 const PersonCard = ({ user, person, onClick }) => (
-  <Card onClick={() => onClick(person.id)} className={style.card}>
+  <Card onClick={() => {}} className={style.card}>
     <Image
       src={
         person.avatar ||

@@ -4,7 +4,7 @@ import moment from "moment";
 
 const EventCard = ({ user, event, onClick }) => {
   return (
-    <article className={style.card} onClick={(e) => onClick(event.id)}>
+    <article className={style.card} onClick={(e) => {}}>
       <header
         className={style.cardHeader}
         style={{ backgroundImage: `url(${event.image})` }}
