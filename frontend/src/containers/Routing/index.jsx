@@ -21,7 +21,6 @@ import PersonFilterWrapper from "../PersonFilterWrapper";
 import { eventsSortOptions, peopleSortOptions } from "../../utils/sortOptions";
 import AboutPage from "../AboutPage";
 import PersonPage from "../PersonPage";
-import { errorHandler } from "../../utils/shared";
 import CallbackPage from "../CallbackPage";
 
 const Routing = ({
@@ -37,7 +36,7 @@ const Routing = ({
   ...props
 }) => {
   useEffect(() => {
-    checkLogged().catch(errorHandler("Error in check auth info"));
+      checkLogged()
   }, [checkLogged]);
 
   const spinner = () => (

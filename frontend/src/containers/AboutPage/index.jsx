@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./index.module.scss";
-import { Image, Statistic, Header, Grid } from "semantic-ui-react";
+import { Image, Statistic, Header } from "semantic-ui-react";
 import Map from "../../components/Map";
 
 const AboutPage = () => {

@@ -1,88 +1,63 @@
-.formContainerColumn {
-  max-width: 700px;
-  height: 430px;
-}
-
-.formContainer {
+.loginPageContainer {
   width: 100%;
   height: 100%;
-  background: #f2f0eb;
-  border-radius: 25px;
-  position: absolute;
-}
-
-.image {
-  width: 100%;
-  height: 100%;
-  border-radius: 20px 0 0 20px;
-}
-
-.formGrid {
-  padding: 0 !important;
-}
-
-.formLogin {
-  width: 100%;
-  height: 100%;
-  background: white;
-  border-radius: 0 20px 20px 0;
-  position: absolute;
-}
-
-.formRegistration {
-  width: 100%;
-  height: 100%;
-  background: white;
-  border-radius: 0 20px 20px 0;
-  position: absolute;
-}
-
-.formTitle {
-  font-size: 24pt;
-  font-weight: 500;
-  color: #262523;
-  font-family: "Red Hat Text", sans-serif;
-  margin: 50px 0 35px 0 !important;
-}
-
-.formSwitcher {
-  font-size: 11pt;
-  color: #439fd9;
-  cursor: pointer;
-  margin-top: 5px;
-  font-family: "Red Hat Text", sans-serif;
-}
-.formSwitcher:hover {
-  font-size: 11pt;
-  color: #3d90d9;
-  cursor: pointer;
-  margin-top: 5px;
-  font-family: "Red Hat Text", sans-serif;
-}
-
-.formButton {
-  margin-top: 15px !important;
-  width: 170px;
-  border-style: solid !important;
-  border-radius: 10px !important;
-}
-
-.formField {
-  width: 250px;
-  height: 35px;
-  font-family: "Red Hat Text", sans-serif;
-}
-
-.form {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
-.formError {
-  color: #cf9897;
-  font-family: "Red Hat Text", sans-serif;
-  margin: 0 !important;
-  margin-bottom: 5px !important;
-  margin-top: -5px !important;
+.loginCard {
+  width: 350px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  border-radius: 25px;
+  position: absolute;
+  padding: 30px 0;
+}
+
+.title {
+  font-size: 45px;
+  font-weight: 600;
+  margin: 0;
+  color: #175095;
+}
+
+.sbTitleContainer {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.buttonContainer{
+  display: flex;
+  align-items: center;
+  background-color: #175095;
+  border-radius: 10px;
+  padding: 5px 10px;
+  align-self: center;
+  cursor: pointer;
+  transition: 0.5s;
+
+  &:hover{
+    background-color: #2261af;
+  }
+
+  img{
+    width: 30px;
+  }
+
+  p{
+    color: white;
+    margin: 0 0 0 10px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+}
+
+.image {
+  width: 350px;
+  margin: 50px 0;
 }

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import style from "./index.module.scss";
 import ProfileView from "../../components/ProfileView";
-import { useParams, useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import {
   loadPerson,
   loadFullNames,
