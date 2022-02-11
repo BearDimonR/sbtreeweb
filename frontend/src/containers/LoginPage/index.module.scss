@@ -18,23 +18,32 @@
   padding: 30px 0;
 }
 
+.titleContainer {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  font-family: "Red Hat Text", sans-serif;
+}
+
 .title {
-  font-size: 45px;
-  font-weight: 600;
+  font-size: 50px;
+  font-weight: 800;
   margin: 0;
   color: #175095;
 }
 
-.sbTitleContainer {
-  display: flex;
-  justify-content: center;
-  align-items: baseline;
+.subTitle {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0;
+  color: #175095;
 }
 
 .buttonContainer{
   display: flex;
   align-items: center;
-  background-color: #175095;
+  border: 2px solid #00b994 ;
+  background-color: #c0eade;
   border-radius: 10px;
   padding: 5px 10px;
   align-self: center;
@@ -42,7 +51,7 @@
   transition: 0.5s;
 
   &:hover{
-    background-color: #2261af;
+    background-color: #9ddfcc;
   }
 
   img{
@@ -50,7 +59,7 @@
   }
 
   p{
-    color: white;
+    color: #00b994;
     margin: 0 0 0 10px;
     font-size: 15px;
     font-weight: 600;
@@ -58,6 +67,7 @@
 }
 
 .image {
-  width: 350px;
-  margin: 50px 0;
+  width: 290px;
+  margin: 30px 0 50px 0;
+  align-self: flex-start;
 }

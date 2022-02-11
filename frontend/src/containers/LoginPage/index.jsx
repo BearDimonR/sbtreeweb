@@ -9,8 +9,11 @@ const LandingPage = () => {
   return (
     <div className={style.loginPageContainer}>
       <div className={style.loginCard}>
-        <p className={style.title}>Login</p>
-        <img className={style.image} src="/log.png" alt="" />
+        <div className={style.titleContainer}>
+          <p className={style.title}>SBTree</p>
+          <p className={style.subTitle}>web</p>
+        </div>
+        <img className={style.image} src="/login_image.png" alt="" />
         <div onClick={handleLoginClick} className={style.buttonContainer}>
           <img src="/google.png" alt="" />
           <p>Login with Google</p>
