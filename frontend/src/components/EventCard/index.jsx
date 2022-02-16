@@ -9,7 +9,9 @@ const EventCard = ({ user, event, onClick }) => {
         className={style.cardHeader}
         style={{ backgroundImage: `url(${event.image})` }}
       >
-        <h4 className={style.cardHeaderTitle}>{event.category}</h4>
+        <h4 className={style.cardHeaderTitle}>
+            <span>{event.category}</span>
+        </h4>
       </header>
       <div className={style.cardBody}>
         <p className={style.date}>
