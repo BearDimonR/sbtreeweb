@@ -1,68 +1,100 @@
 .container {
   width: 100%;
   height: 100%;
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  grid-gap: 20px;
 }
-.row {
+
+.blockLeft {
   width: 100%;
-  height: 100%;
+  height: 40%;
+  max-width: 550px;
+  max-height: 450px;
 }
-.image {
-  width: 100%;
-  height: 35%;
+
+.blockRight {
+  display: block;
 }
-.title {
-  width: fit-content;
-  margin: 20px auto;
-}
-.infoGrid {
-  margin-top: 20px;
-  height: 65%;
-}
-.infoColumn {
-  height: 95%;
-}
+
 .activity {
-  height: 100%;
+  height: 200px;
+  display: block;
   overflow-y: auto;
+  scroll-behavior: smooth;
 }
-.activity::-webkit-scrollbar,
-.infoGrid::-webkit-scrollbar {
+
+.activity::-webkit-scrollbar {
   display: none;
 }
+
 .infoTitle {
   display: flex;
   justify-content: space-between;
+
   & p {
     margin: 0;
   }
 }
+
 .content {
   width: 100%;
   position: relative;
 }
+
 .activityInfo {
   display: flex;
   justify-content: space-between;
+
   & p {
     margin: 0;
   }
 }
+
 .label {
   border: none !important;
   width: 10px;
   background: transparent !important;
 }
+
 .actionIcons {
   position: absolute;
   right: 5%;
 }
 
+
+@media (max-width: 1200px) {
+
+  .container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 6fr 6fr;
+    grid-gap: 20px;
+  }
+
+  .blockLeft {
+    width: 100%;
+    height: 30%;
+  }
+}
+
 @media (max-width: 750px) {
-  .image {
-    height: 25%;
+
+  .container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 12fr;
+    grid-gap: 20px;
+  }
+
+  .blockLeft {
+    width: 100%;
+    height: 70%;
   }
   .infoGrid {
-    height: 70%;
+    //height: 70%;
   }
   .infoColumn {
     margin-top: 10px;
