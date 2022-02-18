@@ -3,8 +3,17 @@ from flask import request
 from services import user_service
 
 
-def get_all():
-    return list(map(lambda x: x.to_short_dict(), user_service.get_all()))
+def get_all(sort=None, params=None, search=None, page=1):
+    if params:
+        return user_service.get_all_param(params)
+    formatted_search = None
+    if search:
+        formatted_search = search.split(' ')
+        formatted_search = [('surname', formatted_search[0])]
+        if len(formatted_search) > 1:
+            formatted_search.append(('name', formatted_search[1]))
+    (total, page) = user_service.get_all(sort=sort, search=formatted_search, page=page)
+    return {'total': total, 'page': list(map(lambda x: x.to_dict(), page))}
 
 
 # TODO implement tree

@@ -23,6 +23,35 @@ paths:
         - user
       summary: Get list of all users
       operationId: controllers.user_controller.get_all
+      parameters:
+        - in: query
+          name: params
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+          description: Retrieve all unique values of param
+        - in: query
+          name: sort
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+          description: Sort option
+        - in: query
+          name: search
+          schema:
+            type: string
+          required: false
+          description: Search option
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: false
+          description: Page number
       responses:
         200:
           description: Success
@@ -31,21 +60,21 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/User'
+                  $ref: "#/components/schemas/User"
     post:
       tags:
         - user
       summary: Create new user
       operationId: controllers.user_controller.create_user
       security:
-        - adminAuth: [ ]
+        - adminAuth: []
       requestBody:
         description: New User data
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
       responses:
         200:
           description: Success
@@ -64,7 +93,7 @@ paths:
         name: uuid
         required: true
         schema:
-          $ref: '#components/schemas/uuid'
+          $ref: "#components/schemas/uuid"
         description: User uuid
     get:
       tags:
@@ -77,14 +106,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
   /user/{uuid}:
     parameters:
       - in: path
         name: uuid
         required: true
         schema:
-          $ref: '#components/schemas/uuid'
+          $ref: "#components/schemas/uuid"
         description: User uuid
     get:
       tags:
@@ -92,21 +121,21 @@ paths:
       summary: Get user info
       operationId: controllers.user_controller.get_user
       security:
-        - personalAuth: [ ]
+        - personalAuth: []
       responses:
         200:
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
     put:
       tags:
         - user
       summary: Update user
       operationId: controllers.user_controller.update_user
       security:
-        - adminAuth: [ ]
+        - adminAuth: []
       responses:
         200:
           description: Success
@@ -116,7 +145,7 @@ paths:
       summary: Delete user
       operationId: controllers.user_controller.delete_user
       security:
-        - adminAuth: [ ]
+        - adminAuth: []
       responses:
         200:
           description: Success
@@ -126,6 +155,35 @@ paths:
         - activity
       summary: Get list of all activities
       operationId: controllers.activity_controller.get_all
+      parameters:
+        - in: query
+          name: params
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+          description: Retrieve all unique values of param
+        - in: query
+          name: sort
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+          description: Sort option
+        - in: query
+          name: search
+          schema:
+            type: string
+          required: false
+          description: Search option
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: false
+          description: Page number
       responses:
         200:
           description: Success
@@ -135,7 +193,7 @@ paths:
       summary: Create new activity
       operationId: controllers.activity_controller.create_activity
       security:
-        - adminAuth: [ ]
+        - adminAuth: []
       responses:
         200:
           description: Success
@@ -145,7 +203,7 @@ paths:
         name: uuid
         required: true
         schema:
-          $ref: '#components/schemas/uuid'
+          $ref: "#components/schemas/uuid"
         description: Activity uuid
     get:
       tags:
@@ -161,7 +219,7 @@ paths:
       summary: Update activity
       operationId: controllers.activity_controller.update_activity
       security:
-        - editorAuth: [ ]
+        - editorAuth: []
       responses:
         200:
           description: Success
@@ -171,7 +229,7 @@ paths:
       summary: Delete activity
       operationId: controllers.activity_controller.delete_activity
       security:
-        - adminAuth: [ ]
+        - adminAuth: []
       responses:
         200:
           description: Success
@@ -182,31 +240,33 @@ paths:
       summary: Create new activity user connection
       operationId: controllers.activity_user_controller.create_connection
       security:
-        - adminAuth: [ ]
+        - adminAuth: []
       responses:
         200:
           description: Success
-  /activity/{activityUUID}/user/{userUUID}:
+  /activity/user/{uuid}:
     parameters:
       - in: path
-        name: activityUUID
+        name: uuid
         required: true
         schema:
-          $ref: '#components/schemas/uuid'
-        description: Activity uuid
-      - in: path
-        name: userUUID
-        required: true
-        schema:
-          type: string
-        description: User uuid
+          $ref: "#components/schemas/uuid"
+        description: Relationship uuid
+    get:
+      tags:
+        - activity_user
+      summary: Get user activity
+      operationId: controllers.activity_user_controller.get_activity_user
+      responses:
+        200:
+          description: Success
     put:
       tags:
         - activity_user
       summary: Update activity user connection
       operationId: controllers.activity_user_controller.update_connection
       security:
-        - editorAuth: [ ]
+        - editorAuth: []
       responses:
         200:
           description: Success
@@ -216,7 +276,7 @@ paths:
       summary: Delete activity user connection
       operationId: controllers.activity_user_controller.delete_connection
       security:
-        - adminAuth: [ ]
+        - adminAuth: []
       responses:
         200:
           description: Success
@@ -224,17 +284,17 @@ paths:
     get:
       tags:
         - auth
-      summary: Logs user to system
+      summary: Get current user info
       operationId: controllers.auth_controller.get_current_user
       security:
-        - personalAuth: [ ]
+        - personalAuth: []
       responses:
         200:
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Auth'
+                $ref: "#/components/schemas/Auth"
   /auth/logout:
     get:
       tags:
@@ -244,26 +304,26 @@ paths:
       responses:
         200:
           description: Success
-          content: { }
+          content: {}
       security:
-        - personalAuth: [ ]
+        - personalAuth: []
   /auth/login:
     get:
       tags:
         - auth
       summary: Logs user into the system
       operationId: controllers.auth_controller.login
-      security: [ ]
+      security: []
       responses:
         302:
           description: Redirect to login
-          content: { }
+          content: {}
   /auth/login/callback:
     get:
       tags:
         - auth
       summary: Return access token
-      security: [ ]
+      security: []
       operationId: controllers.auth_controller.callback
       responses:
         200:
@@ -271,19 +331,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Login'
+                $ref: "#/components/schemas/Login"
 components:
   schemas:
     BaseEntity:
       type: object
       properties:
         uuid:
-          $ref: '#components/schemas/uuid'
+          $ref: "#components/schemas/uuid"
         createdAt:
-          description: 'format: dd.mm.yyyy hh:mm:ss'
+          description: "format: dd.mm.yyyy hh:mm:ss"
           type: string
         updatedAt:
-          description: 'format: dd.mm.yyyy hh:mm:ss'
+          description: "format: dd.mm.yyyy hh:mm:ss"
           type: string
     Login:
       type: object
@@ -291,28 +351,28 @@ components:
         token:
           type: string
         user:
-          $ref: '#components/schemas/Auth'
+          $ref: "#components/schemas/Auth"
     Auth:
       allOf:
-        - $ref: '#components/schemas/BaseEntity'
+        - $ref: "#components/schemas/BaseEntity"
         - type: object
           properties:
             userUUID:
-              $ref: '#components/schemas/uuid'
+              $ref: "#components/schemas/uuid"
             access:
               type: integer
             email:
               type: string
     User:
       allOf:
-        - $ref: '#components/schemas/BaseEntity'
+        - $ref: "#components/schemas/BaseEntity"
         - type: object
           properties:
             name:
               type: string
             surname:
               type: string
-            patronymic:
+            parental:
               type: string
             email:
               type: string
@@ -321,7 +381,7 @@ components:
               type: string
               format: telephone
             date_birth:
-              description: 'format: dd.mm.yyyy'
+              description: "format: dd.mm.yyyy"
               type: string
             status:
               type: string
@@ -330,26 +390,29 @@ components:
             speciality:
               type: string
             date_in:
-              description: 'format: dd.mm.yyyy'
+              description: "format: dd.mm.yyyy"
               type: string
             date_out:
-              description: 'format: dd.mm.yyyy'
+              description: "format: dd.mm.yyyy"
               type: string
             about:
               type: string
-            photo:
+            avatar:
               type: string
             parentUUID:
-              $ref: '#components/schemas/uuid'
+              $ref: "#components/schemas/uuid"
     Activity:
       allOf:
-        - $ref: '#components/schemas/BaseEntity'
+        - $ref: "#components/schemas/BaseEntity"
         - type: object
           properties:
             name:
               type: string
-            date:
-              description: 'format: dd.mm.yyyy'
+            date_start:
+              description: "format: dd.mm.yyyy"
+              type: string
+            date_end:
+              description: "format: dd.mm.yyyy"
               type: string
             about:
               type: string
@@ -359,11 +422,11 @@ components:
               type: string
     ActivityUser:
       allOf:
-        - $ref: '#components/schemas/BaseEntity'
+        - $ref: "#components/schemas/BaseEntity"
         - type: object
           properties:
             userUUID:
-              $ref: '#components/schemas/uuid'
+              $ref: "#components/schemas/uuid"
             activityUUID:
               type: string
             position:
@@ -381,7 +444,7 @@ components:
           type: string
     uuid:
       type: string
-      pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+      pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
       minLength: 36
       maxLength: 36
   securitySchemes:

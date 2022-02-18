@@ -1,7 +1,7 @@
 export const eventsSortOptions = [
   {
-    key: "start",
-    value: "start",
+    key: "date_start",
+    value: "date_start",
     text: "Date",
   },
   {
@@ -18,8 +18,8 @@ export const eventsSortOptions = [
 
 export const peopleSortOptions = [
   {
-    key: "start",
-    value: "start",
+    key: "date_in",
+    value: "date_in",
     text: "Date",
   },
   {

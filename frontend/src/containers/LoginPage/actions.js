@@ -16,7 +16,7 @@ export const setUser = (value) => async (dispatch) => {
     type: SET_USER,
     value,
   });
-}
+};
 
 export const setContentIsLoading = (value) => async (dispatch) =>
   dispatch({
@@ -25,9 +25,10 @@ export const setContentIsLoading = (value) => async (dispatch) =>
   });
 
 export const loadCurrentUser = () => async (dispatch) => {
-  authService.getCurrentUser()
-    .then(user => dispatch(setUser(user)))
-    .catch(() => console.log('No token -> Go to login'))
+  authService
+    .getCurrentUser()
+    .then((user) => dispatch(setUser(user)))
+    .catch(() => console.log("No token -> Go to login"))
     .finally(() => {
       dispatch(setIsLoading(false));
     });

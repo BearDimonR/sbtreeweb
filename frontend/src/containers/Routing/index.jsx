@@ -30,13 +30,12 @@ const Routing = ({
   searchPeople,
   ...props
 }) => {
-
-  const { isLoading } = useSelector(state => state.profile);
-  const eventSort = useSelector(state => state.event.eventSort);
-  const personSort = useSelector(state => state.person.sort);
+  const { isLoading } = useSelector((state) => state.profile);
+  const eventSort = useSelector((state) => state.event.eventSort);
+  const personSort = useSelector((state) => state.person.sort);
 
   useEffect(() => {
-    loadCurrentUser()
+    loadCurrentUser();
   }, [loadCurrentUser]);
 
   const spinner = () => (

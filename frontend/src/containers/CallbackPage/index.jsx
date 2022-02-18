@@ -12,25 +12,31 @@ const CallbackPage = (props) => {
 
   useEffect(() => {
     callWebApi({
-      endpoint: `/api/auth/login/callback${props.location.search}`
-    }).then(async (response) => {
-      const body = await response.json();
-
-      dispatch(setUser(body.user));
-      localStorage.setItem("token", body.token);
-    }).catch(error => {
-      if (error.status === 401) {
-        errorHandler('Unfortunately you don\'t have access to the service')({ message: '' });
-      } else {
-        errorHandler('Internal server error ocured')({ message: '' });
-      }
-      history.push('/login');
+      endpoint: `/api/auth/login/callback${props.location.search}`,
     })
+      .then(async (response) => {
+        const body = await response.json();
+
+        dispatch(setUser(body.user));
+        localStorage.setItem("token", body.token);
+      })
+      .catch((error) => {
+        if (error.status === 401) {
+          errorHandler("Unfortunately you don't have access to the service")({
+            message: "",
+          });
+        } else {
+          errorHandler("Internal server error ocured")({ message: "" });
+        }
+        history.push("/login");
+      });
   }, [dispatch, history, props.location.search]);
 
-  return (<div className={style.callbackPageContainer}>
-    <p className={style.title}>Pending for Google response...</p>
-  </div>);
+  return (
+    <div className={style.callbackPageContainer}>
+      <p className={style.title}>Pending for Google response...</p>
+    </div>
+  );
 };
 
 export default CallbackPage;

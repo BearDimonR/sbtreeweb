@@ -67,8 +67,11 @@ export const applyEventSort = (value) => async (dispatch, getRootState) => {
 
 export const loadEvents = () => async (dispatch, getRootState) => {
   const { event } = getRootState();
-  const events = await eventService.getEvents(event.sort, event.filters);
-  return dispatch(setEvents(events));
+  const { page, total } = await eventService.getEvents({
+    sort: event.sort,
+    filters: event.filters,
+  });
+  return dispatch(setEvents(page));
 };
 
 export const loadEvent = (id) => async (dispatch) => {
@@ -113,15 +116,10 @@ export const removeActivity = (id) => async (dispatch, getRootState) => {
 
 export const searchEvents = (name) => async (dispatch, getRootState) => {
   const { event } = getRootState();
-  const events = await eventService.getEvents(event.sort, event.filters);
-  if (name) {
-    return dispatch(
-      setEvents(
-        events.filter((e) =>
-          e.name.toLowerCase().includes(name.toLowerCase().trim())
-        )
-      )
-    );
-  }
-  return dispatch(setEvents(events));
+  const { page, total } = await eventService.getEvents({
+    sort: event.sort,
+    filters: event.filters,
+    search: name,
+  });
+  return dispatch(setEvents(page));
 };

@@ -3,7 +3,6 @@ import style from "./index.module.scss";
 import { login } from "../../services/authService";
 
 const LandingPage = () => {
-
   const handleLoginClick = () => login();
 
   return (
@@ -18,7 +17,6 @@ const LandingPage = () => {
           <img src="/google.png" alt="" />
           <p>Login with Google</p>
         </div>
-
       </div>
     </div>
   );

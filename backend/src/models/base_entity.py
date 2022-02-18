@@ -25,7 +25,7 @@ class BaseEntity(db.Model, SheetEntity):
 
     def to_dict(self):
         return {
-            'uuid': str(self.uuid),
+            'id': str(self.uuid),
             'createdAt': self.created_at.strftime(DATETIME_FORMAT),
             'updatedAt': self.updated_at.strftime(DATETIME_FORMAT)
         }

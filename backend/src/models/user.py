@@ -15,7 +15,7 @@ class User(BaseEntity):
 
     name = db.Column(db.String)
     surname = db.Column(db.String)
-    patronymic = db.Column(db.String)
+    parental = db.Column(db.String)
     email = db.Column(db.String)
     telephone = db.Column(db.String)
     date_birth = db.Column(db.Date)
@@ -25,7 +25,7 @@ class User(BaseEntity):
     date_in = db.Column(db.Date)
     date_out = db.Column(db.Date)
     about = db.Column(db.String)
-    photo = db.Column(db.String)
+    avatar = db.Column(db.String)
     parent_uuid = db.Column(GUID, db.ForeignKey('user.uuid'), nullable=True, default=GUID_DEFAULT_SQLITE)
 
     activities = relationship('Activity', secondary='activity_user', back_populates='users')
@@ -52,15 +52,15 @@ class User(BaseEntity):
             **super(User, self).to_dict(),
             'name': self.name,
             'surname': self.surname,
-            'patronymic': self.patronymic,
+            'parental': self.parental,
             'status': self.status,
             'faculty': self.faculty,
             'speciality': self.speciality,
             'date_in': self.date_in.strftime(DATE_FORMAT),
             'date_out': self.date_in.strftime(DATE_FORMAT),
             'about': self.about,
-            'photo': self.photo,
-            'parentUUID': str(self.parent_uuid),
+            'avatar': self.avatar,
+            'parent_id': str(self.parent_uuid),
         }
 
     def to_dict(self):

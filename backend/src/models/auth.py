@@ -22,5 +22,5 @@ class Auth(BaseEntity):
         return dataframe[(dataframe['user_uuid'].notna()) & (dataframe['email'].notna())]
 
     def to_dict(self):
-        return {**super(Auth, self).to_dict(), 'userUUID': str(self.user_uuid), 'access': self.access,
+        return {**super(Auth, self).to_dict(), 'userId': str(self.user_uuid), 'access': self.access,
                 'email': self.email}

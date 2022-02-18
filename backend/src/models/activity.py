@@ -13,7 +13,9 @@ class Activity(BaseEntity):
     sheet_helper = ApiSheetHelper(__tablename__)
 
     name = db.Column(db.String)
-    date = db.Column(db.Date)
+    date_start = db.Column(db.Date)
+    date_end = db.Column(db.Date)
+    category = db.Column(db.String)
     about = db.Column(db.String, nullable=True)
     description = db.Column(db.Text, nullable=True)
     photo = db.Column(db.String, nullable=True)
@@ -23,7 +25,9 @@ class Activity(BaseEntity):
     @classmethod
     def transform_data(cls, dataframe):
         dataframe = super(Activity, cls).transform_data(dataframe)
-        dataframe['date'] = dataframe['date'].apply(
+        dataframe['date_start'] = dataframe['date_start'].apply(
+            lambda date: datetime.strptime(date, DATE_FORMAT) if date is not None else None)
+        dataframe['date_end'] = dataframe['date_end'].apply(
             lambda date: datetime.strptime(date, DATE_FORMAT) if date is not None else None)
         return dataframe
 
@@ -36,7 +40,9 @@ class Activity(BaseEntity):
         return {
             **super(Activity, self).to_dict(),
             'name': self.name,
-            'date': self.date.strftime(DATE_FORMAT),
+            'category': self.category,
+            'date_start': self.date_start.strftime(DATE_FORMAT),
+            'date_end': self.date_end.strftime(DATE_FORMAT),
             'about': self.about,
             'description': self.description,
             'photo': self.photo

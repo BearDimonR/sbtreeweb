@@ -5,12 +5,14 @@ import { Grid, Image, List, Label } from "semantic-ui-react";
 import { Panel } from "rsuite";
 
 const EventView = ({
-  event,
+  event: obj,
   onEdit,
   onDelete,
   onActivityEdit,
   onActivityDelete,
 }) => {
+  const {activity: event={}, people=[]} = obj || {};
+
   const getHeader = () => (
     <div className={style.infoTitle}>
       <p>Інформація про подію</p>
@@ -35,7 +37,7 @@ const EventView = ({
 
   return (
     <div className={style.container}>
-      <Image className={style.image} src={event.image} centered></Image>
+      <Image className={style.image} src={event.photo} centered></Image>
       <Grid columns={2} stackable className={style.infoGrid}>
         <Grid.Column className={style.infoColumn}>
           <Panel header={getHeader()} shaded bordered>
@@ -70,7 +72,7 @@ const EventView = ({
         <Grid.Column className={style.infoColumn}>
           <Panel header="Учасники події" bordered prefix="custom-panel">
             <List divided selection className={style.activity}>
-              {event.people &&
+              {people &&
                 _.map(event.people, (val) => (
                   <List.Item className={style.content} key={val.activity_id}>
                     <div className={style.actionIcons}>

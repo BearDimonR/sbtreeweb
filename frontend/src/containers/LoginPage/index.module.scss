@@ -39,10 +39,10 @@
   color: #175095;
 }
 
-.buttonContainer{
+.buttonContainer {
   display: flex;
   align-items: center;
-  border: 2px solid #00b994 ;
+  border: 2px solid #00b994;
   background-color: #c0eade;
   border-radius: 10px;
   padding: 5px 10px;
@@ -50,15 +50,15 @@
   cursor: pointer;
   transition: 0.5s;
 
-  &:hover{
+  &:hover {
     background-color: #9ddfcc;
   }
 
-  img{
+  img {
     width: 30px;
   }
 
-  p{
+  p {
     color: #00b994;
     margin: 0 0 0 10px;
     font-size: 15px;

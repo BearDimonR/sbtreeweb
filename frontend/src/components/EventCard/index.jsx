@@ -7,7 +7,7 @@ const EventCard = ({ user, event, onClick }) => {
     <article className={style.card} onClick={(e) => onClick(event.id)}>
       <header
         className={style.cardHeader}
-        style={{ backgroundImage: `url(${event.image})` }}
+        style={{ backgroundImage: `url(${event.photo})` }}
       >
         <h4 className={style.cardHeaderTitle}>{event.category}</h4>
       </header>

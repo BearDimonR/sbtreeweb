@@ -1,5 +1,6 @@
 from models.activity import Activity
 from services.base_service import BaseService
+from sqlalchemy import column
 
 
 class ActivityService(BaseService):

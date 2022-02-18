@@ -3,8 +3,11 @@ from flask import request
 from services import activity_service
 
 
-def get_all():
-    return list(map(lambda x: x.to_dict(), activity_service.get_all()))
+def get_all(sort=None, params=None, search=None, page=1):
+    if params:
+        return activity_service.get_all_param(params)
+    (total, page) = activity_service.get_all(sort=sort, search=[('name', search)], page=page)
+    return {'total': total, 'page': list(map(lambda x: x.to_dict(), page))}
 
 
 def get_activity(uuid):

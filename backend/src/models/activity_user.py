@@ -22,8 +22,8 @@ class ActivityUser(BaseEntity):
     def to_dict(self):
         return {
             **super(ActivityUser, self).to_dict(),
-            'userUUID': str(self.user_uuid),
-            'activityUUID': str(self.activity_uuid),
+            'userId': str(self.user_uuid),
+            'activityId': str(self.activity_uuid),
             'position': self.position,
             'contribution': self.contribution
         }

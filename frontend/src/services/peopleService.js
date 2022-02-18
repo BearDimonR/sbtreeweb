@@ -1,56 +1,35 @@
 import _ from "lodash";
-import moment from "moment";
-import { getPeopleCall, getActivityCall, getEventsCall } from "../utils/json";
+import callWebApi from "../helpers/webApiHelper";
+import { getActivityCall, getEventsCall } from "../utils/json";
 
-const getOp = (key) => {
-  switch (key) {
-    case "start":
-      return ({ start, end }, b) => {
-        const val = b["start"];
-        moment(val).isBefore(end) && moment(val).isAfter(start);
-      };
-    case "fullName":
-      return (a, b) =>
-        _.findIndex(a, (el) => el === `${b.surname} ${b.name}`) !== -1;
-    case "status":
-      return (a, b) => _.findIndex(a, (el) => el === b.status) !== -1;
-    default:
-      return new Error("Unknown key");
-  }
+export const getPeople = async ({ sort, filters, search = null, page = 1 }) => {
+  const response = await callWebApi({
+    type: "GET",
+    endpoint: "/api/user",
+    query: {
+      page: page,
+      sort: [sort],
+      search,
+    },
+  });
+  return response.json();
 };
 
-const filter = (array, filters = {}) =>
-  array.filter((obj) =>
-    Object.keys(filters).every((key) => {
-      const value = filters[key];
-      const op = getOp(key);
-      if (_.isEmpty(value)) {
-        return true;
-      }
-      return op(value, obj);
-    })
-  );
+export const getPerson = async (id, events = true) => {
+  const response = await callWebApi({
+    type: "GET",
+    endpoint: `/api/user/${id}`,
+    query: {
+      events,
+    },
+  });
 
-export const getPeople = async (sort, filters) => {
-  const people = await getPeopleCall();
-
-  return _.sortBy(filter(people, filters), sort);
-};
-
-export const getPerson = async (id, ppl = true) => {
-  const people = await getPeopleCall();
-
-  const person = _.find(people, ["id", id]);
-  if (_.isEmpty(person)) {
-    return null;
-  }
-  if (ppl) {
-    return { ...person, events: await getPersonEvents(person.id) };
-  }
+  const person = (await response.json()) || null;
   return person;
 };
 
 export const getPersonEvents = async (id) => {
+  //TODO test it
   const eventPerson = await getActivityCall();
   const events = await getEventsCall(0);
 
@@ -75,34 +54,41 @@ export const getPersonEvents = async (id) => {
 };
 
 export const getPeopleFullNames = async () => {
-  const people = await getPeopleCall();
-
-  return _.sortBy(_.uniq(people.map((e) => `${e.surname} ${e.name}`)), (a) =>
-    a.toLowerCase()
-  );
+  const response = await callWebApi({
+    type: "GET",
+    endpoint: "/api/user",
+    query: {
+      params: ["surname", "name"],
+    },
+  });
+  const peopleNames = await response.json();
+  return _.map(peopleNames, (value) => `${value.surname} ${value.name}`);
 };
+
 export const getPeopleStatuses = async () => {
-  const people = await getPeopleCall();
-
-  return _.sortBy(_.uniq(people.map((e) => e.status)), (a) => a.toLowerCase());
-};
-
-export const getPersonByFullName = async (fullName) => {
-  const people = await getPeopleCall();
-
-  return _.find(people, (p) => `${p.surname} ${p.name}` === fullName);
+  const response = await callWebApi({
+    type: "GET",
+    endpoint: "/api/user",
+    query: {
+      params: ["status"],
+    },
+  });
+  const peopleStatuses = await response.json();
+  return _.map(peopleStatuses, "status");
 };
 
 export const deletePerson = async (id) => {
-  const people = await getPeopleCall();
-  const eventPerson = await getActivityCall();
-
-  _.remove(people, ["id", id]);
-  _.remove(eventPerson, ["person_id", id]);
+  await callWebApi({
+    type: "DELETE",
+    endpoint: `/api/user/${id}`,
+  });
 };
 
 export const putPerson = async (data) => {
-  let person = await getPerson(data.id, false);
-  person = _.merge(person, _.omitBy(data, _.isEmpty));
-  return person;
+  const response = await callWebApi({
+    type: "PUT",
+    endpoint: `/api/user/${data.id}`,
+    request: data,
+  });
+  return response.json();
 };
