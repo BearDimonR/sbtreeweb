@@ -2,6 +2,7 @@ import {
   SET_IS_LOADING,
   SET_USER,
   SET_CONTENT_IS_LOADING,
+  SET_SEARCH,
 } from "./actionTypes";
 import { ROLES } from "../../utils/rolesConstrants";
 
@@ -10,7 +11,8 @@ const reducer = (
     isLoading: true,
     access: ROLES.VISITOR,
     user: null,
-    contentIsLoading: false,
+    contentIsLoading: [],
+    search: "",
   },
   action
 ) => {
@@ -21,15 +23,26 @@ const reducer = (
         isLoading: action.value,
       };
     case SET_CONTENT_IS_LOADING:
+      const contentIsLoading = state.contentIsLoading;
+      if (action.value) {
+        contentIsLoading.push(true);
+      } else {
+        contentIsLoading.pop();
+      }
       return {
         ...state,
-        contentIsLoading: action.value,
+        contentIsLoading,
       };
     case SET_USER:
       return {
         ...state,
         user: action.value,
         access: action.value?.access || ROLES.VISITOR,
+      };
+    case SET_SEARCH:
+      return {
+        ...state,
+        search: action.value,
       };
     default:
       return state;

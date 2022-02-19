@@ -1,72 +1,23 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import PropTypes from "prop-types";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import style from "./index.module.scss";
-import ContentContainer from "../ContentContainer";
-import Navbar from "../../components/NavBar";
-import { logout } from "../LoginPage/actions";
-import Sidebar from "../../components/SideBar";
+import { Route, Redirect, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import PageContainer from "../PageContainer";
 
-const PrivateRoute = ({
-  component: Component,
-  access,
-  logout: signOut,
-  filterComponent,
-  ...rest
-}) => {
+const PrivateRoute = ({ component: Component, ...rest }) => {
+  const location = useLocation();
+  const access = useSelector((state) => state.profile.access);
   return (
     <Route
       {...rest}
-      render={(props) =>
+      render={() =>
         access ? (
-          <div className={style.page}>
-            <div className={style.headerContainer}>
-              <Navbar logout={signOut} />
-            </div>
-            <div className={style.mainContainer}>
-              {filterComponent ? (
-                <Sidebar
-                  sidebarContent={filterComponent}
-                  pusherComponent={ContentContainer}
-                  component={Component}
-                  {...rest}
-                />
-              ) : (
-                <ContentContainer
-                  component={Component}
-                  {...rest}
-                ></ContentContainer>
-              )}
-            </div>
-          </div>
+          <PageContainer component={Component} />
         ) : (
-          <Redirect
-            to={{ pathname: "/login", state: { from: props.location } }}
-          />
+          <Redirect to={{ pathname: "/login", state: { from: location } }} />
         )
       }
     />
   );
 };
 
-PrivateRoute.propTypes = {
-  access: PropTypes.number.isRequired,
-  component: PropTypes.any.isRequired,
-  location: PropTypes.any,
-};
-
-PrivateRoute.defaultProps = {
-  access: false,
-  location: undefined,
-};
-
-const mapStateToProps = (rootState) => ({
-  access: rootState.profile.access,
-});
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ logout }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute);
+export default PrivateRoute;

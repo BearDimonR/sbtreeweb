@@ -3,6 +3,7 @@ import {
   SET_IS_LOADING,
   SET_USER,
   SET_CONTENT_IS_LOADING,
+  SET_SEARCH,
 } from "./actionTypes";
 
 const setIsLoading = (value) => async (dispatch) =>
@@ -21,6 +22,12 @@ export const setUser = (value) => async (dispatch) => {
 export const setContentIsLoading = (value) => async (dispatch) =>
   dispatch({
     type: SET_CONTENT_IS_LOADING,
+    value,
+  });
+
+export const setSearch = (value) => async (dispatch) =>
+  dispatch({
+    type: SET_SEARCH,
     value,
   });
 

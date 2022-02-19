@@ -17,7 +17,7 @@ class BaseService:
             query = query.order_by(*sort)
         if page:
             pagination = query.paginate(page=page, max_per_page=12, error_out=False)
-            return pagination.total, pagination.items
+            return pagination.pages, pagination.items
         return query.all()
 
     def get_all_param(self, params):

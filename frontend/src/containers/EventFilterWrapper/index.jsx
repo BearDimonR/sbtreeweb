@@ -1,55 +1,26 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import EventFilter from "../../components/EventFilter";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { applyFilter, loadCategories, loadNames } from "../EventsPage/actions";
-import { setContentIsLoading } from "../LoginPage/actions";
-import { errorHandler } from "../../utils/shared";
+import { loadCategories, loadNames, applyFilter } from "../EventsPage/actions";
 
-const EventFilterWrapper = ({
-  applyFilter: apply,
-  loadCategories: getCategories,
-  loadNames: getNames,
-  setContentIsLoading,
-  filters,
-  names,
-  categories,
-  contentIsLoading,
-  ...props
-}) => {
+const EventFilterWrapper = (props) => {
+  const dispatch = useDispatch();
+
+  const { filters, categories, names } = useSelector((state) => state.event);
+
   useEffect(() => {
-    setContentIsLoading(true);
-    Promise.all([getCategories(), getNames()])
-      .then(() => setContentIsLoading(false))
-      .catch(
-        errorHandler("Error in loading event filter", () =>
-          setContentIsLoading(false)
-        )
-      );
-  }, [setContentIsLoading, getCategories, getNames]);
+    dispatch(loadCategories());
+    dispatch(loadNames());
+  }, [dispatch]);
 
-  const handleFilter = useCallback(
-    (filters) => {
-      setContentIsLoading(true);
-      apply(filters)
-        .then(() => setContentIsLoading(false))
-        .catch(
-          errorHandler("Error in applying event filter", () =>
-            setContentIsLoading(false)
-          )
-        );
-    },
-    [setContentIsLoading, apply]
-  );
-
-  const handleReset = useCallback(() => handleFilter(), [handleFilter]);
+  const handleFilter = (filters) => dispatch(applyFilter(filters));
+  const handleReset = () => dispatch(applyFilter());
 
   return (
     <EventFilter
       filters={filters}
       categories={categories}
       names={names}
-      contentIsLoading={contentIsLoading}
       apply={handleFilter}
       reset={handleReset}
       {...props}
@@ -57,15 +28,4 @@ const EventFilterWrapper = ({
   );
 };
 
-const mapStateToProps = (rootState) => ({
-  filters: rootState.event.filters,
-  categories: rootState.event.categories,
-  names: rootState.event.names,
-});
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    { applyFilter, loadCategories, loadNames, setContentIsLoading },
-    dispatch
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(EventFilterWrapper);
+export default EventFilterWrapper;

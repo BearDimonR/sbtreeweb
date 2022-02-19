@@ -1,4 +1,5 @@
 import * as eventService from "../../services/eventService";
+import { setContentIsLoading } from "../LoginPage/actions";
 import {
   SET_EVENTS,
   SET_INSTANCE,
@@ -7,7 +8,105 @@ import {
   SET_CATEGORIES,
   SET_NAMES,
   SET_ACTIVITY,
+  SET_PAGE,
+  SET_TOTAL_PAGES,
 } from "./actionTypes";
+import { handleError } from "../../utils/shared";
+
+const PAGE_SIZE = 12;
+
+export const applyFilter =
+  (value = []) =>
+  async (dispatch) => {
+    await dispatch(setFilter(value));
+    await dispatch(loadEvents());
+  };
+
+export const applyEventSort = (value) => async (dispatch) => {
+  await dispatch(setSort(value));
+  await dispatch(loadEvents());
+};
+
+export const loadEvents = () => async (dispatch, getRootState) => {
+  handleError(async () => {
+    dispatch(setContentIsLoading(true));
+    const { event, profile } = getRootState();
+    const { pages, items } = await eventService.getEvents({
+      sort: event.sort,
+      filters: event.filters,
+      page: event.page,
+      pageSize: PAGE_SIZE,
+      search: profile.search,
+    });
+    dispatch(setEvents(items));
+    dispatch(setTotalPages(pages));
+    dispatch(setContentIsLoading(false));
+  });
+};
+
+export const loadEvent = (id) => async (dispatch) => {
+  handleError(async () => {
+    dispatch(setContentIsLoading(true));
+    const event = await eventService.getEvent(id);
+    dispatch(setInstance(event));
+    dispatch(setContentIsLoading(false));
+  });
+};
+
+export const loadCategories = () => async (dispatch) => {
+  handleError(async () => {
+    dispatch(setContentIsLoading(true));
+    const categories = await eventService.getEventСategories();
+    dispatch(setCategories(categories));
+    dispatch(setContentIsLoading(false));
+  });
+};
+
+export const loadNames = () => async (dispatch) => {
+  handleError(async () => {
+    dispatch(setContentIsLoading(true));
+    const names = await eventService.getEventNames();
+    dispatch(setNames(names));
+    dispatch(setContentIsLoading(false));
+  });
+};
+
+export const loadActivity = (id) => async (dispatch) => {
+  handleError(async () => {
+    dispatch(setContentIsLoading(true));
+    const activity = await eventService.getActivity(id);
+    dispatch(setActivity(activity));
+    dispatch(setContentIsLoading(false));
+  });
+};
+
+export const editEvent = (data) => async (dispatch, getRootState) => {
+  handleError(async () => {
+    await eventService.putEvent(data);
+    dispatch(loadEvent(data.id));
+  });
+};
+
+export const editActivity = (data) => async (dispatch, getRootState) => {
+  handleError(async () => {
+    await eventService.putActivity(data);
+    dispatch(loadEvent(data.event_id));
+  });
+};
+
+export const removeEvent = (id) => async (dispatch, getRootState) => {
+  handleError(async () => {
+    await eventService.deleteEvent(id);
+    dispatch(loadEvents());
+  });
+};
+
+export const removeActivity = (id) => async (dispatch, getRootState) => {
+  handleError(async () => {
+    const activity = await eventService.deleteActivity(id);
+    dispatch(loadEvent(activity.event_id));
+  });
+};
 
 const setEvents = (value) => async (dispatch) =>
   dispatch({
@@ -51,75 +150,14 @@ export const setActivity = (value) => async (dispatch) =>
     value,
   });
 
-export const applyFilter =
-  (value = []) =>
-  async (dispatch, getRootState) => {
-    const { event } = getRootState();
-    await dispatch(setFilter(value));
-    return await dispatch(loadEvents(event.sort, value));
-  };
-
-export const applyEventSort = (value) => async (dispatch, getRootState) => {
-  const { event } = getRootState();
-  await dispatch(setSort(value));
-  return await dispatch(loadEvents(value, event.filters));
-};
-
-export const loadEvents = () => async (dispatch, getRootState) => {
-  const { event } = getRootState();
-  const { pages, items } = await eventService.getEvents({
-    sort: event.sort,
-    filters: event.filters,
+export const setTotalPages = (value) => async (dispatch) =>
+  dispatch({
+    type: SET_TOTAL_PAGES,
+    value,
   });
-  return dispatch(setEvents(items));
-};
 
-export const loadEvent = (id) => async (dispatch) => {
-  const event = await eventService.getEvent(id);
-  return dispatch(setInstance(event));
-};
-
-export const loadCategories = () => async (dispatch) => {
-  const categories = await eventService.getEventСategories();
-  return dispatch(setCategories(categories));
-};
-
-export const loadNames = () => async (dispatch) => {
-  const names = await eventService.getEventNames();
-  return dispatch(setNames(names));
-};
-
-export const loadActivity = (id) => async (dispatch) => {
-  const activity = await eventService.getActivity(id);
-  return dispatch(setActivity(activity));
-};
-
-export const editEvent = (data) => async (dispatch, getRootState) => {
-  await eventService.putEvent(data);
-  return dispatch(loadEvent(data.id));
-};
-
-export const editActivity = (data) => async (dispatch, getRootState) => {
-  await eventService.putActivity(data);
-  return dispatch(loadEvent(data.event_id));
-};
-
-export const removeEvent = (id) => async (dispatch, getRootState) => {
-  await eventService.deleteEvent(id);
-  return dispatch(loadEvents());
-};
-
-export const removeActivity = (id) => async (dispatch, getRootState) => {
-  const activity = await eventService.deleteActivity(id);
-  return dispatch(loadEvent(activity.event_id));
-};
-
-export const searchEvents = (name) => async (dispatch, getRootState) => {
-  const { event } = getRootState();
-  const { pages, items } = await eventService.getEvents({
-    sort: event.sort,
-    filters: event.filters,
-    search: name,
+export const setPage = (value) => async (dispatch) =>
+  dispatch({
+    type: SET_PAGE,
+    value,
   });
-  return dispatch(setEvents(items));
-};

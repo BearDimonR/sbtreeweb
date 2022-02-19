@@ -1,3 +1,4 @@
+import { EVENTS_SORT_OPTIONS } from "../../utils/shared";
 import {
   SET_EVENTS,
   SET_INSTANCE,
@@ -6,18 +7,21 @@ import {
   SET_NAMES,
   SET_CATEGORIES,
   SET_ACTIVITY,
+  SET_PAGE,
+  SET_TOTAL_PAGES,
 } from "./actionTypes";
-import { eventsSortOptions } from "../../utils/sortOptions";
 
 const reducer = (
   state = {
     list: [],
     instance: {},
     filters: [],
-    sort: eventsSortOptions[0].value,
+    sort: EVENTS_SORT_OPTIONS[0].value,
     categories: [],
     names: [],
     activity: null,
+    totalPages: 1,
+    page: 1,
   },
   action
 ) => {
@@ -56,6 +60,16 @@ const reducer = (
       return {
         ...state,
         activity: action.value,
+      };
+    case SET_TOTAL_PAGES:
+      return {
+        ...state,
+        totalPages: action.value,
+      };
+    case SET_PAGE:
+      return {
+        ...state,
+        page: action.value,
       };
     default:
       return state;

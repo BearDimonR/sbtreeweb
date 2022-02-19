@@ -11,7 +11,6 @@ const ProfileView = ({
   onActivityEdit,
   onActivityDelete,
 }) => {
-  
   const getHeader = () => (
     <div className={style.infoTitle}>
       <p>Профіль</p>

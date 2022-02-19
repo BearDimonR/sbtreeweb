@@ -1,3 +1,4 @@
+import { PEOPLE_SORT_OPTIONS } from "../../utils/shared";
 import {
   SET_PEOPLE,
   SET_INSTANCE,
@@ -5,17 +6,20 @@ import {
   SET_SORT,
   SET_FULL_NAMES,
   SET_STATUSES,
+  SET_PAGE,
+  SET_TOTAL_PAGES,
 } from "./actionTypes";
-import { peopleSortOptions } from "../../utils/sortOptions";
 
 const reducer = (
   state = {
     list: [],
     instance: {},
     filters: [],
-    sort: peopleSortOptions[0].value,
+    sort: PEOPLE_SORT_OPTIONS[0].value,
     statuses: [],
     fullNames: [],
+    totalPages: 1,
+    page: 1,
   },
   action
 ) => {
@@ -49,6 +53,16 @@ const reducer = (
       return {
         ...state,
         statuses: action.value,
+      };
+    case SET_TOTAL_PAGES:
+      return {
+        ...state,
+        totalPages: action.value,
+      };
+    case SET_PAGE:
+      return {
+        ...state,
+        page: action.value,
       };
     default:
       return state;

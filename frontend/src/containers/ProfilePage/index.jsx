@@ -1,6 +1,5 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import style from "./index.module.scss";
 import ProfileView from "../../components/ProfileView";
 import { useLocation, useHistory } from "react-router-dom";
@@ -16,112 +15,60 @@ import { loadActivity, loadNames, setActivity } from "../EventsPage/actions";
 import _ from "lodash";
 import ActivityModal from "../../components/ActivityModal";
 import PersonModal from "../../components/PersonModal";
-import { setContentIsLoading } from "../LoginPage/actions";
-import { errorHandler } from "../../utils/shared";
 
-const PersonPage = ({
-  person,
-  user,
-  activity,
-  fullNames,
-  eventNames,
-  loadPerson,
-  loadActivity,
-  setActivity,
-  loadNames,
-  loadFullNames,
-  editPerson,
-  editActivity,
-  removePerson,
-  removeActivity,
-  setContentIsLoading,
-}) => {
+const PersonPage = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
   const path = location.pathname;
+
+  const user = useSelector((state) => state.profile.user);
+  const person = useSelector((state) => state.person.instance);
+  const activity = useSelector((state) => state.event.activity);
+  const fullNames = useSelector((state) => state.person.fullNames);
+  const eventNames = useSelector((state) => state.event.names);
+
   const [editing, setEditing] = useState(false);
 
-  const wrapInSetContentLoading = useCallback(
-    (msg, func, after = () => {}) => {
-      setContentIsLoading(true);
-      func()
-        .then(() => {
-          after();
-          setContentIsLoading(false);
-        })
-        .catch(errorHandler(msg, () => setContentIsLoading(false)));
-    },
-    [setContentIsLoading]
-  );
-
   useEffect(() => {
-    wrapInSetContentLoading("Error in loading person", () =>
-      loadPerson(user.id)
-    );
-  }, [wrapInSetContentLoading, loadPerson, user]);
+    dispatch(loadPerson(user.personId));
+  }, [dispatch, user.personId]);
 
-  const handleModalClose = useCallback(() => {
+  const handleModalClose = () => {
     setEditing(false);
     if (activity) {
-      setActivity(null);
+      dispatch(setActivity(null));
     }
-  }, [setEditing, setActivity, activity]);
+  };
 
-  const handleEdit = useCallback(() => {
-    wrapInSetContentLoading(
-      "Error in editing person",
-      () => loadPerson(person.id),
-      () => setEditing(true)
-    );
-  }, [wrapInSetContentLoading, setEditing, loadPerson, person]);
+  const handleEdit = () => {
+    dispatch(loadPerson(person.id));
+    setEditing(true);
+  };
 
-  const handleDelete = useCallback(() => {
-    removePerson(person.id);
-    wrapInSetContentLoading(
-      "Error in removing person",
-      () => removePerson(person.id),
-      () => {
-        const spl = path.split("/");
-        history.push(_.slice(spl, 0, spl.length - 1).join("/"));
-      }
-    );
-  }, [wrapInSetContentLoading, removePerson, history, path, person.id]);
+  const handleDelete = () => {
+    dispatch(removePerson(person.id));
+    const spl = path.split("/");
+    history.push(_.slice(spl, 0, spl.length - 1).join("/"));
+  };
 
-  const handleActivityEdit = useCallback(
-    (id) => {
-      wrapInSetContentLoading("Error in editing activity", () =>
-        Promise.all([loadActivity(id), loadNames(), loadFullNames()])
-      );
-    },
-    [wrapInSetContentLoading, loadNames, loadFullNames, loadActivity]
-  );
+  const handleActivityEdit = (id) => {
+    dispatch(loadActivity(id));
+    dispatch(loadNames());
+    dispatch(loadFullNames());
+  };
 
-  const handleActivityDelete = useCallback(
-    (id) => {
-      wrapInSetContentLoading("Error in activity delete", () =>
-        removeActivity(id)
-      );
-    },
-    [wrapInSetContentLoading, removeActivity]
-  );
+  const handleActivityDelete = (id) => {
+    dispatch(removeActivity(id));
+  };
 
-  const handleSubmit = useCallback(
-    (data) => {
-      wrapInSetContentLoading("Error in submit person edit", () =>
-        editPerson(data)
-      );
-    },
-    [wrapInSetContentLoading, editPerson]
-  );
+  const handleSubmit = (data) => {
+    dispatch(editPerson(data));
+  };
 
-  const handleActivitySubmit = useCallback(
-    (data) => {
-      wrapInSetContentLoading("Error in submit activity edit", () =>
-        editActivity(data)
-      );
-    },
-    [wrapInSetContentLoading, editActivity]
-  );
+  const handleActivitySubmit = (data) => {
+    dispatch(editActivity(data));
+  };
 
   return (
     <div className={style.profileContainer}>
@@ -151,29 +98,5 @@ const PersonPage = ({
     </div>
   );
 };
-const mapStateToProps = (rootState) => ({
-  user: rootState.profile.user,
-  person: rootState.person.instance,
-  activity: rootState.event.activity,
-  fullNames: rootState.person.fullNames,
-  eventNames: rootState.event.names,
-});
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      loadPerson,
-      loadActivity,
-      setActivity,
-      loadNames,
-      loadFullNames,
-      editPerson,
-      editActivity,
-      removePerson,
-      removeActivity,
-      setContentIsLoading,
-    },
-    dispatch
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(PersonPage);
+export default PersonPage;

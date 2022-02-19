@@ -1,7 +1,6 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import style from "./index.module.scss";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Image,
   Breadcrumb,
@@ -13,8 +12,29 @@ import {
 } from "semantic-ui-react";
 import { NavLink, useLocation, useHistory } from "react-router-dom";
 import _ from "lodash";
-import { setContentIsLoading } from "../LoginPage/actions";
-import { errorHandler } from "../../utils/shared";
+import { setSort, applySearch } from "./actions";
+import {
+  PAGE_TYPE,
+  EVENTS_SORT_OPTIONS,
+  PEOPLE_SORT_OPTIONS,
+} from "../../utils/shared";
+
+const getPageOptions = (path) => {
+  switch (path) {
+    case PAGE_TYPE.events:
+      return {
+        sortSelector: (state) => state.event.sort,
+        sortOptions: EVENTS_SORT_OPTIONS,
+      };
+    case PAGE_TYPE.people:
+      return {
+        sortSelector: (state) => state.person.sort,
+        sortOptions: PEOPLE_SORT_OPTIONS,
+      };
+    default:
+      return { sortSelector: (state) => state.person.sort };
+  }
+};
 
 const spinner = () => (
   <Dimmer active inverted>
@@ -22,23 +42,26 @@ const spinner = () => (
   </Dimmer>
 );
 
-const ContentContainer = ({
-  component: Component,
-  user,
-  sortOptions,
-  sort,
-  setSort,
-  setSidebarVisible,
-  contentIsLoading,
-  handleSearch,
-  setContentIsLoading,
-  ...props
-}) => {
+const ContentContainer = ({ component: Component, setSidebarVisible }) => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const [searchVal, setSearchVal] = useState("");
-  let path = location.pathname;
-  const profilePage = location.pathname === "/profile";
+  const path = location.pathname;
+  const profilePage = path === "/profile";
+  const { sortSelector, sortOptions } = getPageOptions(path);
+  const user = useSelector((state) => state.profile.user);
+  const isLoading = !_.isEmpty(
+    useSelector((state) => state.profile.contentIsLoading)
+  );
+  const search = useSelector((state) => state.profile.search);
+  const sort = useSelector(sortSelector);
+  const handleSortChange = (e, data) => {
+    dispatch(setSort(path, data.value));
+  };
+  const handleSidebarVisible = () => setSidebarVisible(true);
+  const handleSearchChange = (e) => {
+    dispatch(applySearch(path, e.target.value));
+  };
 
   const getBreadCrumb = () => {
     const sections = path.split("/").map((item) => ({
@@ -53,29 +76,6 @@ const ContentContainer = ({
     return sections;
   };
 
-  const handleSortChange = useCallback(
-    (e, data) => setSort(data.value),
-    [setSort]
-  );
-  const handleSidebarVisible = useCallback(
-    () => setSidebarVisible(true),
-    [setSidebarVisible]
-  );
-  const handleSearchChange = useCallback(
-    (e) => {
-      setContentIsLoading(true);
-      handleSearch(e.target.value)
-        .then(() => setContentIsLoading(false))
-        .catch(
-          errorHandler("Error in search handling", () =>
-            setContentIsLoading(false)
-          )
-        );
-      setSearchVal(e.target.value);
-    },
-    [setContentIsLoading, handleSearch]
-  );
-
   return (
     <div className={style.contentContainer}>
       <div className={style.header}>
@@ -87,17 +87,17 @@ const ContentContainer = ({
               sections={getBreadCrumb()}
             />
           </div>
-          <div className={style.rightContainer}>
-            {setSidebarVisible && (
-              <Dropdown
-                text="Filter"
-                className={style.filterWrapper}
-                multiple
-                icon="filter"
-                onClick={handleSidebarVisible}
-              />
-            )}
-            {sortOptions && (
+          {sortOptions && (
+            <div className={style.rightContainer}>
+              {setSidebarVisible && (
+                <Dropdown
+                  text="Filter"
+                  className={style.filterWrapper}
+                  multiple
+                  icon="filter"
+                  onClick={handleSidebarVisible}
+                />
+              )}
               <div className={style.sortWrapper}>
                 <p>Sort</p>
                 <Dropdown
@@ -108,8 +108,6 @@ const ContentContainer = ({
                   onChange={handleSortChange}
                 />
               </div>
-            )}
-            {handleSearch && (
               <Search
                 className={style.search}
                 input={() => (
@@ -120,34 +118,26 @@ const ContentContainer = ({
                   />
                 )}
                 onChange={handleSearchChange}
-                value={searchVal}
+                value={search}
               />
-            )}
-            {!profilePage && (
-              <NavLink to="/profile" className={style.avatarContainer}>
-                <p className={style.userName}>{user.username}</p>
-                <Image
-                  circular
-                  className={style.avatar}
-                  src="https://cdn-icons-png.flaticon.com/512/660/660611.png"
-                />
-              </NavLink>
-            )}
-          </div>
+              {!profilePage && (
+                <NavLink to="/profile" className={style.avatarContainer}>
+                  <p className={style.userName}>{user.username}</p>
+                  <Image
+                    circular
+                    className={style.avatar}
+                    src="https://cdn-icons-png.flaticon.com/512/660/660611.png"
+                  />
+                </NavLink>
+              )}
+            </div>
+          )}
         </div>
       </div>
-      {contentIsLoading && spinner()}
-      <Component {...props} />
+      {isLoading && spinner()}
+      <Component />
     </div>
   );
 };
 
-const mapStateToProps = (rootState) => ({
-  user: rootState.profile.user,
-  contentIsLoading: rootState.profile.contentIsLoading,
-});
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ setContentIsLoading }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContentContainer);
+export default ContentContainer;

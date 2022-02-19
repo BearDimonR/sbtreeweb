@@ -6,8 +6,8 @@ from services import event_service
 def get_all(sort=None, params=None, search=None, page=1):
     if params:
         return event_service.get_all_param(params)
-    (total, page) = event_service.get_all(sort=sort, search=[('name', search)], page=page)
-    return {'pages': total, 'items': list(map(lambda x: x.to_dict(), page))}
+    (pages, page) = event_service.get_all(sort=sort, search=[('name', search)], page=page)
+    return {'pages': pages, 'items': list(map(lambda x: x.to_dict(), page))}
 
 
 def get_event(id):

@@ -1,6 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import style from "./index.module.scss";
 import { Carousel, Header } from "rsuite";
 
@@ -21,9 +19,4 @@ const HomePage = () => {
   );
 };
 
-const mapStateToProps = (rootState) => ({
-  user: rootState.profile.user,
-});
-const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default HomePage;
