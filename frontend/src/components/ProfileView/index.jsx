@@ -5,13 +5,12 @@ import { Grid, Image, List, Label, Icon } from "semantic-ui-react";
 import { Panel } from "rsuite";
 
 const ProfileView = ({
-  user: obj,
+  user,
   onEdit,
   onDelete,
   onActivityEdit,
   onActivityDelete,
 }) => {
-  const {user={}, events=[]} = obj || {};
   
   const getHeader = () => (
     <div className={style.infoTitle}>
@@ -97,7 +96,7 @@ const ProfileView = ({
       <Grid.Row className={style.row}>
         <Panel header="Події" bordered prefix="custom-panel">
           <List divided selection className={style.activity}>
-            {events &&
+            {user.events &&
               _.map(user.events, (val) => (
                 <List.Item key={val.id} className={style.activityItem}>
                   <div className={style.actionIcons}>

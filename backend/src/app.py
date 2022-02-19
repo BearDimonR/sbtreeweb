@@ -1,6 +1,7 @@
 # configure path
-import sys
 import os
+import sys
+
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.extend([root, os.path.join(root, 'src')])
 

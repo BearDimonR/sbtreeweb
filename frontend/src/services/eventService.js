@@ -2,10 +2,10 @@ import _ from "lodash";
 import callWebApi from "../helpers/webApiHelper";
 
 export const getEvents = async ({ sort, filters, search = null, page = 1 }) => {
-  //TODO add filter and search
+  //TODO add filter
   const response = await callWebApi({
     type: "GET",
-    endpoint: "/api/activity",
+    endpoint: "/api/event",
     query: {
       page: page,
       sort: [sort],
@@ -19,7 +19,7 @@ export const getEvent = async (id, people = true) => {
   //TODO people remove
   const response = await callWebApi({
     type: "GET",
-    endpoint: `/api/activity/${id}`,
+    endpoint: `/api/event/${id}`,
     query: {
       people,
     },
@@ -31,7 +31,7 @@ export const getEvent = async (id, people = true) => {
 export const getEventNames = async () => {
   const response = await callWebApi({
     type: "GET",
-    endpoint: "/api/activity",
+    endpoint: "/api/event",
     query: {
       params: ["name"],
     },
@@ -43,7 +43,7 @@ export const getEventNames = async () => {
 export const getEventСategories = async () => {
   const response = await callWebApi({
     type: "GET",
-    endpoint: "/api/activity",
+    endpoint: "/api/event",
     query: {
       params: ["category"],
     },
@@ -55,27 +55,29 @@ export const getEventСategories = async () => {
 export const getActivity = async (id, additional = true) => {
   const response = await callWebApi({
     type: "GET",
-    endpoint: `/api/activity/user/${id}`,
+    endpoint: `/api/event/user/${id}`,
   });
   const resultPage = await response.json();
   return resultPage;
 };
 
+export const putEvent = async (data) => {
+  const response = await callWebApi({
+    type: "PUT",
+    endpoint: `/api/event/${data.id}`,
+    request: data,
+  });
+  return response.json();
+};
+
 export const deleteEvent = async (id) => {
   await callWebApi({
     type: "DELETE",
-    endpoint: `/api/activity/${id}`,
+    endpoint: `/api/event/${id}`,
   });
 };
 
-export const deleteActivity = async (id) => {
-  await callWebApi({
-    type: "DELETE",
-    endpoint: `/api/activity/user/${id}`,
-  });
-};
-
-export const putEvent = async (data) => {
+export const putActivity = async (data) => {
   const response = await callWebApi({
     type: "PUT",
     endpoint: `/api/activity/${data.id}`,
@@ -84,11 +86,9 @@ export const putEvent = async (data) => {
   return response.json();
 };
 
-export const putActivity = async (data) => {
-  const response = await callWebApi({
-    type: "PUT",
-    endpoint: `/api/activity/user/${data.id}`,
-    request: data,
+export const deleteActivity = async (id) => {
+  await callWebApi({
+    type: "DELETE",
+    endpoint: `/api/activity/${id}`,
   });
-  return response.json();
 };

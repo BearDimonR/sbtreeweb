@@ -8,21 +8,21 @@ info:
 servers:
   - url: //127.0.0.1/api
 tags:
-  - name: user
-    description: User API
+  - name: person
+    description: Person API
+  - name: event
+    description: Event API
   - name: activity
     description: Activity API
-  - name: activity_user
-    description: ActivityUser API
   - name: auth
     description: Auth API
 paths:
-  /user:
+  /person:
     get:
       tags:
-        - user
-      summary: Get list of all users
-      operationId: controllers.user_controller.get_all
+        - person
+      summary: Gets all users with specified params
+      operationId: controllers.person_controller.get_all
       parameters:
         - in: query
           name: params
@@ -31,7 +31,7 @@ paths:
             items:
               type: string
           required: false
-          description: Retrieve all unique values of param
+          description: Select unique values of params (SELECT DISTINCT params FROM Person)
         - in: query
           name: sort
           schema:
@@ -39,19 +39,19 @@ paths:
             items:
               type: string
           required: false
-          description: Sort option
+          description: Sort by column
         - in: query
           name: search
           schema:
             type: string
           required: false
-          description: Search option
+          description: Search value (full name)
         - in: query
           name: page
           schema:
             type: integer
           required: false
-          description: Page number
+          description: Page number (default 1)
       responses:
         200:
           description: Success
@@ -60,101 +60,111 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/User"
+                  $ref: "#/components/schemas/Person"
     post:
       tags:
-        - user
-      summary: Create new user
-      operationId: controllers.user_controller.create_user
+        - person
+      summary: Creates new person
+      operationId: controllers.person_controller.create_person
       security:
-        - adminAuth: []
+        - adminAuth: [ ]
       requestBody:
-        description: New User data
+        description: Person data
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
-      responses:
-        200:
-          description: Success
-  /user/tree:
-    get:
-      tags:
-        - user
-      summary: Get list of all users for tree
-      operationId: controllers.user_controller.get_tree
-      responses:
-        200:
-          description: Success
-  /user/{uuid}/short:
-    parameters:
-      - in: path
-        name: uuid
-        required: true
-        schema:
-          $ref: "#components/schemas/uuid"
-        description: User uuid
-    get:
-      tags:
-        - user
-      summary: Get user short info
-      operationId: controllers.user_controller.get_user_short
+              $ref: "#/components/schemas/Person"
       responses:
         200:
           description: Success
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
-  /user/{uuid}:
+                $ref: "#/components/schemas/Person"
+  /person/tree:
+    get:
+      tags:
+        - person
+      summary: Get tree data
+      operationId: controllers.person_controller.get_tree
+      responses:
+        200:
+          description: Success
+  /person/{id}/short:
     parameters:
       - in: path
-        name: uuid
+        name: id
         required: true
         schema:
           $ref: "#components/schemas/uuid"
-        description: User uuid
+        description: Person id
     get:
       tags:
-        - user
-      summary: Get user info
-      operationId: controllers.user_controller.get_user
+        - person
+      summary: Get person info without personal data
+      operationId: controllers.person_controller.get_person_short
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Person"
+  /person/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: "#components/schemas/uuid"
+        description: Person id
+    get:
+      tags:
+        - person
+      summary: Get person info
+      operationId: controllers.person_controller.get_person
       security:
-        - personalAuth: []
+        - personalAuth: [ ]
       responses:
         200:
           description: Success
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                $ref: "#/components/schemas/Person"
     put:
       tags:
-        - user
-      summary: Update user
-      operationId: controllers.user_controller.update_user
+        - person
+      summary: Update person
+      operationId: controllers.person_controller.update_person
       security:
-        - adminAuth: []
+        - adminAuth: [ ]
       responses:
         200:
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
     delete:
       tags:
-        - user
-      summary: Delete user
-      operationId: controllers.user_controller.delete_user
+        - person
+      summary: Delete person
+      operationId: controllers.person_controller.delete_person
       security:
-        - adminAuth: []
+        - adminAuth: [ ]
       responses:
         200:
           description: Success
-  /activity:
+  /event:
     get:
       tags:
-        - activity
-      summary: Get list of all activities
-      operationId: controllers.activity_controller.get_all
+        - event
+      summary: Gets all events with specified params
+      operationId: controllers.event_controller.get_all
       parameters:
         - in: query
           name: params
@@ -163,7 +173,7 @@ paths:
             items:
               type: string
           required: false
-          description: Retrieve all unique values of param
+          description: Select unique values of params (SELECT DISTINCT params FROM Event)
         - in: query
           name: sort
           schema:
@@ -171,112 +181,142 @@ paths:
             items:
               type: string
           required: false
-          description: Sort option
+          description: Sort by column
         - in: query
           name: search
           schema:
             type: string
           required: false
-          description: Search option
+          description: Search value (name)
         - in: query
           name: page
           schema:
             type: integer
           required: false
-          description: Page number
+          description: Page number (default 1)
       responses:
         200:
           description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Event"
+    post:
+      tags:
+        - event
+      summary: Creates new event
+      operationId: controllers.event_controller.create_event
+      security:
+        - adminAuth: [ ]
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
+  /event/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: "#components/schemas/uuid"
+        description: Event id
+    get:
+      tags:
+        - event
+      summary: Get event
+      operationId: controllers.event_controller.get_event
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
+    put:
+      tags:
+        - event
+      summary: Update event
+      operationId: controllers.event_controller.update_event
+      security:
+        - editorAuth: [ ]
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
+    delete:
+      tags:
+        - activity
+      summary: Delete event
+      operationId: controllers.event_controller.delete_event
+      security:
+        - adminAuth: [ ]
+      responses:
+        200:
+          description: Success
+  /activity:
     post:
       tags:
         - activity
       summary: Create new activity
-      operationId: controllers.activity_controller.create_activity
+      operationId: controllers.activity_controller.create_connection
       security:
-        - adminAuth: []
+        - adminAuth: [ ]
       responses:
         200:
           description: Success
-  /activity/{uuid}:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Activity"
+  /activity/{id}:
     parameters:
       - in: path
-        name: uuid
+        name: id
         required: true
         schema:
           $ref: "#components/schemas/uuid"
-        description: Activity uuid
+        description: Relationship id
     get:
       tags:
         - activity
-      summary: Get user activity
+      summary: Get activity
       operationId: controllers.activity_controller.get_activity
       responses:
         200:
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Activity"
     put:
       tags:
         - activity
       summary: Update activity
-      operationId: controllers.activity_controller.update_activity
+      operationId: controllers.activity_controller.update_connection
       security:
-        - editorAuth: []
+        - editorAuth: [ ]
       responses:
         200:
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Activity"
     delete:
       tags:
         - activity
       summary: Delete activity
-      operationId: controllers.activity_controller.delete_activity
+      operationId: controllers.activity_controller.delete_connection
       security:
-        - adminAuth: []
-      responses:
-        200:
-          description: Success
-  /activity/user:
-    post:
-      tags:
-        - activity_user
-      summary: Create new activity user connection
-      operationId: controllers.activity_user_controller.create_connection
-      security:
-        - adminAuth: []
-      responses:
-        200:
-          description: Success
-  /activity/user/{uuid}:
-    parameters:
-      - in: path
-        name: uuid
-        required: true
-        schema:
-          $ref: "#components/schemas/uuid"
-        description: Relationship uuid
-    get:
-      tags:
-        - activity_user
-      summary: Get user activity
-      operationId: controllers.activity_user_controller.get_activity_user
-      responses:
-        200:
-          description: Success
-    put:
-      tags:
-        - activity_user
-      summary: Update activity user connection
-      operationId: controllers.activity_user_controller.update_connection
-      security:
-        - editorAuth: []
-      responses:
-        200:
-          description: Success
-    delete:
-      tags:
-        - activity_user
-      summary: Delete activity user connection
-      operationId: controllers.activity_user_controller.delete_connection
-      security:
-        - adminAuth: []
+        - adminAuth: [ ]
       responses:
         200:
           description: Success
@@ -287,7 +327,7 @@ paths:
       summary: Get current user info
       operationId: controllers.auth_controller.get_current_user
       security:
-        - personalAuth: []
+        - personalAuth: [ ]
       responses:
         200:
           description: Success
@@ -304,26 +344,26 @@ paths:
       responses:
         200:
           description: Success
-          content: {}
+          content: { }
       security:
-        - personalAuth: []
+        - personalAuth: [ ]
   /auth/login:
     get:
       tags:
         - auth
       summary: Logs user into the system
       operationId: controllers.auth_controller.login
-      security: []
+      security: [ ]
       responses:
         302:
           description: Redirect to login
-          content: {}
+          content: { }
   /auth/login/callback:
     get:
       tags:
         - auth
       summary: Return access token
-      security: []
+      security: [ ]
       operationId: controllers.auth_controller.callback
       responses:
         200:
@@ -337,7 +377,7 @@ components:
     BaseEntity:
       type: object
       properties:
-        uuid:
+        id:
           $ref: "#components/schemas/uuid"
         createdAt:
           description: "format: dd.mm.yyyy hh:mm:ss"
@@ -350,20 +390,20 @@ components:
       properties:
         token:
           type: string
-        user:
+        auth:
           $ref: "#components/schemas/Auth"
     Auth:
       allOf:
         - $ref: "#components/schemas/BaseEntity"
         - type: object
           properties:
-            userUUID:
+            personId:
               $ref: "#components/schemas/uuid"
             access:
               type: integer
             email:
               type: string
-    User:
+    Person:
       allOf:
         - $ref: "#components/schemas/BaseEntity"
         - type: object
@@ -374,45 +414,51 @@ components:
               type: string
             parental:
               type: string
-            email:
-              type: string
-              format: email
-            telephone:
-              type: string
-              format: telephone
-            date_birth:
-              description: "format: dd.mm.yyyy"
-              type: string
             status:
               type: string
             faculty:
               type: string
             speciality:
               type: string
-            date_in:
+            dateIn:
               description: "format: dd.mm.yyyy"
               type: string
-            date_out:
+            dateOut:
               description: "format: dd.mm.yyyy"
               type: string
             about:
               type: string
             avatar:
               type: string
-            parentUUID:
+            parentId:
               $ref: "#components/schemas/uuid"
-    Activity:
+            events:
+              type: array
+              items:
+                $ref: "#components/schemas/Event"
+            email:
+              type: string
+              format: email
+            telephone:
+              type: string
+              format: telephone
+            dateBirth:
+              description: "format: dd.mm.yyyy"
+              type: string
+    Event:
       allOf:
         - $ref: "#components/schemas/BaseEntity"
         - type: object
           properties:
             name:
               type: string
-            date_start:
+            dateStart:
               description: "format: dd.mm.yyyy"
               type: string
-            date_end:
+            dateEnd:
               description: "format: dd.mm.yyyy"
+              type: string
+            category:
               type: string
             about:
               type: string
@@ -420,15 +466,19 @@ components:
               type: string
             photo:
               type: string
-    ActivityUser:
+            people:
+              type: array
+              items:
+                $ref: "#components/schemas/Person"
+    Activity:
       allOf:
         - $ref: "#components/schemas/BaseEntity"
         - type: object
           properties:
-            userUUID:
+            personId:
               $ref: "#components/schemas/uuid"
-            activityUUID:
-              type: string
+            eventId:
+              $ref: "#components/schemas/uuid"
             position:
               type: string
             contribution:

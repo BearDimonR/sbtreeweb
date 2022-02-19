@@ -1,28 +1,28 @@
 import logging
 
 from models.activity import Activity
-from models.activity_user import ActivityUser
 from models.auth import Auth
-from models.user import User
+from models.event import Event
+from models.person import Person
 
 
 def init_db():
     try:
-        logging.info('User data is importing...')
+        logging.info('Person data is importing...')
 
-        User.import_from_sheet()
+        Person.import_from_sheet()
 
-        logging.info('User data imported successfully!')
+        logging.info('Person data imported successfully!')
+        logging.info('Activity data is importing...')
+
+        Event.import_from_sheet()
+
+        logging.info('Activity data imported successfully!')
         logging.info('Activity data is importing...')
 
         Activity.import_from_sheet()
 
         logging.info('Activity data imported successfully!')
-        logging.info('ActivityUser data is importing...')
-
-        ActivityUser.import_from_sheet()
-
-        logging.info('ActivityUser data imported successfully!')
         logging.info('Auth data is importing...')
 
         Auth.import_from_sheet()

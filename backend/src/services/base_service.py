@@ -21,10 +21,11 @@ class BaseService:
         return query.all()
 
     def get_all_param(self, params):
-        return list(map(lambda x: {param: x[i] for i, param in enumerate(params)}, self.get_all(sort=params, params=params)))
+        return list(
+            map(lambda x: {param: x[i] for i, param in enumerate(params)}, self.get_all(sort=params, params=params)))
 
-    def get_by_uuid(self, uuid):
-        return self.model.query.get(uuid)
+    def get_by_id(self, _id):
+        return self.model.query.get(_id)
 
     def create(self, entity):
         return self.model.create(**entity)

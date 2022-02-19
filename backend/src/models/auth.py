@@ -1,4 +1,4 @@
-from fastapi_utils.guid_type import GUID
+from sqlalchemy_utils import UUIDType
 from sqlalchemy.orm import relationship
 
 from helpers import db, ApiSheetHelper
@@ -10,17 +10,17 @@ class Auth(BaseEntity):
 
     sheet_helper = ApiSheetHelper(__tablename__)
 
-    user_uuid = db.Column(GUID, db.ForeignKey('user.uuid'))
+    person_id = db.Column(UUIDType, db.ForeignKey('person.id'))
     access = db.Column(db.Integer, default=0)
     email = db.Column(db.String)
 
-    user = relationship('User', back_populates='auths')
+    person = relationship('Person', back_populates='auths')
 
     @classmethod
     def filter_data(cls, dataframe):
         dataframe = super(Auth, cls).filter_data(dataframe)
-        return dataframe[(dataframe['user_uuid'].notna()) & (dataframe['email'].notna())]
+        return dataframe[(dataframe['person_id'].notna()) & (dataframe['email'].notna())]
 
     def to_dict(self):
-        return {**super(Auth, self).to_dict(), 'userId': str(self.user_uuid), 'access': self.access,
+        return {**super(Auth, self).to_dict(), 'personId': str(self.person_id), 'access': self.access,
                 'email': self.email}

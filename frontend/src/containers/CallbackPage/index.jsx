@@ -17,7 +17,7 @@ const CallbackPage = (props) => {
       .then(async (response) => {
         const body = await response.json();
 
-        dispatch(setUser(body.user));
+        dispatch(setUser(body.auth));
         localStorage.setItem("token", body.token);
       })
       .catch((error) => {

@@ -60,11 +60,11 @@ export const applyPersonSort = (value) => async (dispatch, getRootState) => {
 
 export const loadPeople = () => async (dispatch, getRootState) => {
   const { person } = getRootState();
-  const { page, total } = await peopleService.getPeople({
+  const { pages, items } = await peopleService.getPeople({
     sort: person.sort,
     filters: person.filters,
   });
-  return await dispatch(setPeople(page));
+  return await dispatch(setPeople(items));
 };
 
 export const loadPerson = (id) => async (dispatch) => {
@@ -104,10 +104,10 @@ export const removeActivity = (id) => async (dispatch, getRootState) => {
 
 export const searchPeople = (fullName) => async (dispatch, getRootState) => {
   const { person } = getRootState();
-  const { page, total } = await peopleService.getPeople({
+  const { pages, items } = await peopleService.getPeople({
     sort: person.sort,
     filters: person.filters,
     search: fullName,
   });
-  return dispatch(setPeople(page));
+  return dispatch(setPeople(items));
 };

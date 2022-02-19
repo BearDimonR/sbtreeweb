@@ -26,10 +26,6 @@ PERSONAL = 1
 ALL = 0
 
 DRIVE_FILE_NAME = 'sbtree_database'
-DATABASE_USER_SHEET = 'user'
-DATABASE_ACTIVITY_SHEET = 'activity'
-DATABASE_ACTIVITY_USER_SHEET = 'activity_user'
-DATABASE_AUTH_SHEET = 'auth'
 
 DATETIME_FORMAT = '%d.%m.%Y %H:%M:%S'
 DATE_FORMAT = '%d.%m.%Y'

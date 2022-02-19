@@ -26,7 +26,7 @@ def login():
 
     request_uri = app_client.prepare_request_uri(
         authorization_endpoint,
-        #TODO change to env
+        # TODO change to env
         redirect_uri='https://localhost:3000/login/callback',
         scope=['openid', 'email', 'profile'],
     )
@@ -42,7 +42,7 @@ def callback():
     token_url, headers, body = app_client.prepare_token_request(
         token_endpoint,
         authorization_response=request.url,
-        #TODO change to env
+        # TODO change to env
         redirect_url='https://localhost:3000/login/callback',
         code=code
     )
@@ -65,14 +65,14 @@ def callback():
     else:
         return 'User email not available or not verified by Google.', 400
 
-    user = auth_service.get_by_email(users_email)
+    auth = auth_service.get_by_email(users_email)
 
-    if user is None:
+    if auth is None:
         raise Unauthorized('You don`t have access, please ask administrator to get it.')
 
-    token = generate_token(user.uuid)
+    token = generate_token(auth.id)
 
-    return {'token': token, 'user': user.to_dict()}
+    return {'token': token, 'auth': auth.to_dict()}
 
 
 def auth_personal(token):
@@ -90,7 +90,7 @@ def auth_admin(token):
 def validate_token(token, required_access):
     try:
         decode = decode_token(token)
-        auth = auth_service.get_by_uuid(decode['sub'])
+        auth = auth_service.get_by_id(decode['sub'])
         if auth is None:
             raise Unauthorized('You don`t have access, please ask administrator to get it.')
         if check_access(auth.access, required_access):

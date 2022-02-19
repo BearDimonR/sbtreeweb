@@ -1,6 +1,6 @@
+import uuid
 from datetime import datetime
-
-from fastapi_utils.guid_type import GUID, GUID_DEFAULT_SQLITE
+from sqlalchemy_utils import UUIDType
 
 from config import DATETIME_FORMAT
 from helpers import db
@@ -17,7 +17,7 @@ def commit(obj):
 class BaseEntity(db.Model, SheetEntity):
     __abstract__ = True
 
-    uuid = db.Column(GUID, primary_key=True, default=GUID_DEFAULT_SQLITE)
+    id = db.Column(UUIDType, primary_key=True, default=uuid.uuid4())
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime,
                            default=db.func.current_timestamp(),
@@ -25,9 +25,9 @@ class BaseEntity(db.Model, SheetEntity):
 
     def to_dict(self):
         return {
-            'id': str(self.uuid),
-            'createdAt': self.created_at.strftime(DATETIME_FORMAT),
-            'updatedAt': self.updated_at.strftime(DATETIME_FORMAT)
+            'id': str(self.id),
+            'created_at': self.created_at.strftime(DATETIME_FORMAT),
+            'updated_at': self.updated_at.strftime(DATETIME_FORMAT)
         }
 
     @classmethod
@@ -44,7 +44,7 @@ class BaseEntity(db.Model, SheetEntity):
 
     @classmethod
     def delete(cls, row_id):
-        obj = db.session.query(cls).filter(cls.uuid == row_id).delete()
+        obj = db.session.query(cls).filter(cls.id == row_id).delete()
         db.session.commit()
         return obj
 
@@ -70,4 +70,4 @@ class BaseEntity(db.Model, SheetEntity):
 
     @classmethod
     def filter_data(cls, dataframe):
-        return dataframe[dataframe['uuid'].notna()]
+        return dataframe[dataframe['id'].notna()]
