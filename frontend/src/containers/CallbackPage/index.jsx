@@ -34,7 +34,7 @@ const CallbackPage = (props) => {
 
   return (
     <div className={style.callbackPageContainer}>
-      <p className={style.title}>Pending for Google response...</p>
+      <p className={style.title}>Pending Google response...</p>
     </div>
   );
 };

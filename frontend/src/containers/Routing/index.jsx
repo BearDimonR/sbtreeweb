@@ -42,7 +42,7 @@ const Routing = () => {
           <PrivateRoute exact path="/people" component={PeoplePage} />
           <PrivateRoute exact path="/people/:id" component={PersonPage} />
           <PrivateRoute exact path="/profile" component={ProfilePage} />
-          <PrivateRoute exact path="/home/about" component={AboutPage} />
+          <PrivateRoute exact path="/about" component={AboutPage} />
           <PrivateRoute
             exact
             path=""

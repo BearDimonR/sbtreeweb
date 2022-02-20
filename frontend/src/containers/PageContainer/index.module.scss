@@ -5,13 +5,17 @@
   flex-direction: column;
   padding: 0 !important;
 }
-.headerContainer {
-  height: 7%;
-}
+
 .gridReset {
   padding: 0 !important;
   height: 93%;
 }
 .mainContainer {
   height: 93%;
+}
+
+@media (max-width: 900px) {
+  .headerContainer {
+    height: 50px;
+  }
 }

@@ -38,9 +38,7 @@ const PageContainer = ({ component: Component }) => {
 
   return (
     <div className={style.page}>
-      <div className={style.headerContainer}>
-        <Navbar logout={handleSignOut} />
-      </div>
+      <Navbar logout={handleSignOut} />
       <div className={style.mainContainer}>
         {filterWrapper ? (
           <Sidebar

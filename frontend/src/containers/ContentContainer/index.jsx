@@ -3,14 +3,13 @@ import style from "./index.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Image,
-  Breadcrumb,
   Dropdown,
   Dimmer,
   Loader,
   Search,
   Input,
 } from "semantic-ui-react";
-import { NavLink, useLocation, useHistory } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import _ from "lodash";
 import { setSort, applySearch } from "./actions";
 import {
@@ -42,10 +41,13 @@ const spinner = () => (
   </Dimmer>
 );
 
+const headerRequired = (path) => {
+  return [PAGE_TYPE.events, PAGE_TYPE.people].includes(path);
+}
+
 const ContentContainer = ({ component: Component, setSidebarVisible }) => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const history = useHistory();
   const path = location.pathname;
   const profilePage = path === "/profile";
   const { sortSelector, sortOptions } = getPageOptions(path);
@@ -63,77 +65,59 @@ const ContentContainer = ({ component: Component, setSidebarVisible }) => {
     dispatch(applySearch(path, e.target.value));
   };
 
-  const getBreadCrumb = () => {
-    const sections = path.split("/").map((item) => ({
-      key: item,
-      content: item.length === 36 ? "Info" : _.capitalize(item),
-      link: true,
-      className: item,
-      onClick: () => history.push(path.split(item)[0] + item),
-    }));
-    delete sections[sections.length - 1].link;
-    delete sections[sections.length - 1].onClick;
-    return sections;
-  };
-
   return (
     <div className={style.contentContainer}>
-      <div className={style.header}>
-        <div className={style.titleContainer}>
-          <div className={style.leftContainer}>
-            <Breadcrumb
-              className={`${style.breadcrumb} ${style.title}`}
-              divider="/"
-              sections={getBreadCrumb()}
-            />
-          </div>
-          {sortOptions && (
-            <div className={style.rightContainer}>
-              {setSidebarVisible && (
-                <Dropdown
-                  text="Filter"
-                  className={style.filterWrapper}
-                  multiple
-                  icon="filter"
-                  onClick={handleSidebarVisible}
-                />
-              )}
-              <div className={style.sortWrapper}>
-                <p>Sort</p>
-                <Dropdown
-                  inline
-                  header="Sort by"
-                  value={sort}
-                  options={sortOptions}
-                  onChange={handleSortChange}
-                />
-              </div>
-              <Search
-                className={style.search}
-                input={() => (
-                  <Input
-                    icon="search"
-                    iconPosition="left"
-                    className={style.searchInput}
+      {headerRequired(path) && (
+        <div className={style.header}>
+          <div className={style.titleContainer}>
+            {sortOptions && (
+              <div className={style.rightContainer}>
+                {setSidebarVisible && (
+                  <Dropdown
+                    text="Filter"
+                    className={style.filterWrapper}
+                    multiple
+                    icon="filter"
+                    onClick={handleSidebarVisible}
                   />
                 )}
-                onChange={handleSearchChange}
-                value={search}
-              />
-              {!profilePage && (
-                <NavLink to="/profile" className={style.avatarContainer}>
-                  <p className={style.userName}>{user.username}</p>
-                  <Image
-                    circular
-                    className={style.avatar}
-                    src="https://cdn-icons-png.flaticon.com/512/660/660611.png"
+                <div className={style.sortWrapper}>
+                  <p>Sort</p>
+                  <Dropdown
+                    inline
+                    header="Sort by"
+                    value={sort}
+                    options={sortOptions}
+                    onChange={handleSortChange}
                   />
-                </NavLink>
-              )}
-            </div>
-          )}
+                </div>
+                <Search
+                  className={style.search}
+                  input={() => (
+                    <Input
+                      icon="search"
+                      iconPosition="left"
+                      className={style.searchInput}
+                    />
+                  )}
+                  onChange={handleSearchChange}
+                  value={search}
+                />
+                {!profilePage && (
+                  <NavLink to="/profile" className={style.avatarContainer}>
+                    <p className={style.userName}>{user.username}</p>
+                    <Image
+                      circular
+                      className={style.avatar}
+                      src="https://cdn-icons-png.flaticon.com/512/660/660611.png"
+                    />
+                  </NavLink>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
       {isLoading && spinner()}
       <Component />
     </div>

@@ -1,0 +1,58 @@
+.logoContainer {
+  display: flex;
+  height: 100%;
+  width: 160px;
+  justify-content: center;
+  margin-right: 30px;
+  transition: all 0.3s;
+}
+
+.logo {
+  font-size: 26pt;
+  color: #175095;
+  font-weight: bold;
+  font-family: "Red Hat Text", sans-serif;
+  margin-bottom: 0;
+  align-self: center;
+}
+
+.logoSmall {
+  font-size: 26pt;
+  color: #175095;
+  font-weight: bold;
+  font-family: "Red Hat Text", sans-serif;
+  margin: 0;
+  display: none;
+}
+
+.subLogo {
+  font-size: 12pt;
+  color: #175095;
+  font-weight: bold;
+  margin-left: 2px;
+  margin-top: 15px;
+  align-self: center;
+}
+
+@media (max-width: 900px) {
+  .logoContainer {
+    justify-content: flex-start;
+    align-items: baseline;
+    margin-right: 5px;
+    width: 80px;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .subLogo {
+    margin: 0;
+    align-self: baseline;
+  }
+
+  .logoSmall {
+    margin: 0;
+    display: block;
+  }
+}

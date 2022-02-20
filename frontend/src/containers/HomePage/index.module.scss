@@ -1,21 +1,14 @@
 .homeContainer {
-  margin-top: 50px;
   height: calc((100% - 150px));
   width: 100%;
-}
-
-.title {
-  text-align: center;
-  color: #175095;
+  display: flex;
+  justify-content: center;
 }
 
 .carousel {
-  left: 0;
-  top: 25%;
-  position: absolute !important;
-  margin: auto;
   max-width: 1100px !important;
   height: 60% !important;
+  border-radius: 30px;
 }
 
 @media (min-width: 1100px) {

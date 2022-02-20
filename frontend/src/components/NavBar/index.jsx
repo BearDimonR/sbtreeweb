@@ -6,8 +6,10 @@ import {
   BiHomeAlt,
   BiGroup,
   BiLogOutCircle,
+  BiSitemap,
+  BiInfoCircle
 } from "react-icons/bi";
-import { Dropdown } from "semantic-ui-react";
+import Logo from "../Logo";
 
 const Navbar = ({ logout }) => {
   const signOut = () => {
@@ -15,89 +17,58 @@ const Navbar = ({ logout }) => {
   };
   return (
     <div className={style.navbarContainer}>
-      <div className={style.menuLeftContainer}>
-        <div className={style.logoContainer}>
-          <p className={style.logo}>SBTree</p>
-          <p className={style.logoSmall}>SB</p>
-          <p className={style.subLogo}>web</p>
-        </div>
-        <NavLink
-          exact
-          activeClassName={style.menuItemActive}
-          to="/home"
-          className={style.menuItem}
-        >
-          <BiHomeAlt className={style.menuItemIcon} />
-          <p className={style.menuItemText}>Home</p>
-          <Dropdown
-            item
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
-            <Dropdown.Menu>
-              <Dropdown.Item>
-                <NavLink
-                  exact
-                  to="/home"
-                  activeClassName={style.subMenuActiveItem}
-                  className={style.subMenuItem}
-                >
-                  Home
-                </NavLink>
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <NavLink
-                  exact
-                  to="/home/tree"
-                  activeClassName={style.subMenuActiveItem}
-                  className={style.subMenuItem}
-                >
-                  Tree
-                </NavLink>
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <NavLink
-                  exact
-                  to="/home/about"
-                  activeClassName={style.subMenuActiveItem}
-                  className={style.subMenuItem}
-                >
-                  About
-                </NavLink>
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </NavLink>
-
-        <div className={style.divider} />
-        <NavLink
-          exact
-          activeClassName={style.menuItemActive}
-          to="/events"
-          className={style.menuItem}
-        >
-          <BiCollection className={style.menuItemIcon} />
-          <p className={style.menuItemText}>Events</p>
-        </NavLink>
-        <div className={style.divider} />
-        <NavLink
-          exact
-          activeClassName={style.menuItemActive}
-          to="/people"
-          className={style.menuItem}
-        >
-          <BiGroup className={style.menuItemIcon} />
-          <p className={style.menuItemText}>People</p>
-        </NavLink>
-      </div>
-      <div
-        style={{ marginBottom: "30px" }}
-        onClick={signOut}
+      <Logo />
+      <NavLink
+        exact
+        activeClassName={style.menuItemActive}
         className={style.menuItem}
+        to="/home"
+      >
+        <BiHomeAlt className={style.menuItemIcon} />
+        <p>Home</p>
+      </NavLink>
+      <NavLink
+        exact
+        activeClassName={style.menuItemActive}
+        className={style.menuItem}
+        to="/tree"
+      >
+        <BiSitemap className={style.menuItemIcon} />
+        <p>Tree</p>
+      </NavLink>
+      <NavLink
+        exact
+        activeClassName={style.menuItemActive}
+        className={style.menuItem}
+        to="/events"
+      >
+        <BiCollection className={style.menuItemIcon} />
+        <p>Events</p>
+      </NavLink>
+      <NavLink
+        exact
+        activeClassName={style.menuItemActive}
+        className={style.menuItem}
+        to="/people"
+      >
+        <BiGroup className={style.menuItemIcon} />
+        <p>People</p>
+      </NavLink>
+      <NavLink
+        exact
+        activeClassName={style.menuItemActive}
+        className={style.menuItem}
+        to="/about"
+      >
+        <BiInfoCircle className={style.menuItemIcon} />
+        <p>About</p>
+      </NavLink>
+      <div
+        className={style.menuItem}
+        onClick={signOut}
       >
         <BiLogOutCircle className={style.menuItemIcon} />
-        <p className={style.menuItemText}>Log out</p>
+        <p>Log out</p>
       </div>
     </div>
   );
