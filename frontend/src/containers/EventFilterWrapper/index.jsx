@@ -13,8 +13,14 @@ const EventFilterWrapper = (props) => {
     dispatch(loadNames());
   }, [dispatch]);
 
-  const handleFilter = (filters) => dispatch(applyFilter(filters));
-  const handleReset = () => dispatch(applyFilter());
+  const handleFilter = (filters) => {
+    dispatch(applyFilter(filters));
+    props.setSidebarVisible(false);
+  };
+  const handleReset = () => {
+    dispatch(applyFilter());
+    props.setSidebarVisible(false);
+  };
 
   return (
     <EventFilter

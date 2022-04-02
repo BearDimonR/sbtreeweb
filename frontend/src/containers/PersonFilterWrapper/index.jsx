@@ -6,7 +6,7 @@ import {
   loadStatuses,
   loadFullNames,
 } from "../PeoplePage/actions";
-const EventFilterWrapper = (...props) => {
+const EventFilterWrapper = (props) => {
   const dispatch = useDispatch();
   const { filters, statuses, fullNames } = useSelector((state) => state.person);
 
@@ -15,8 +15,14 @@ const EventFilterWrapper = (...props) => {
     dispatch(loadFullNames());
   }, [dispatch]);
 
-  const handleFilter = (filters) => dispatch(applyFilter(filters));
-  const handleReset = () => dispatch(applyFilter());
+  const handleFilter = (filters) => {
+    dispatch(applyFilter(filters));
+    props.setSidebarVisible(false);
+  };
+  const handleReset = () => {
+    dispatch(applyFilter());
+    props.setSidebarVisible(false);
+  };
 
   return (
     <PersonFilter

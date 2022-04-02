@@ -60,7 +60,13 @@ const EventsPage = () => {
       </Grid>
       {events.length ? (
         <div className={style.paginator} ref={paginator}>
-          <Pagination count={totalPages} page={page} onChange={handlePageChange} showFirstButton showLastButton />
+          <Pagination
+            count={totalPages}
+            page={page}
+            onChange={handlePageChange}
+            showFirstButton
+            showLastButton
+          />
         </div>
       ) : (
         ""

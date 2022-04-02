@@ -17,7 +17,7 @@ const EventCard = ({ event, onClick }) => {
     " - " +
     (event.end ? moment(event.end).format("ll") : "Present");
   return (
-    <Card sx={{ maxWidth: 500, height: 425}}>
+    <Card sx={{ maxWidth: 500, height: 425 }}>
       <CardActionArea onClick={() => onClick(event.id)}>
         <CardMedia
           component="img"
@@ -28,8 +28,8 @@ const EventCard = ({ event, onClick }) => {
         <CardHeader
           title={
             <Typography gutterBottom variant="h6" component="div">
-                {event.name}
-              </Typography>
+              {event.name}
+            </Typography>
           }
           subheader={
             <Stack direction="row" justifyContent="space-between">
@@ -43,7 +43,11 @@ const EventCard = ({ event, onClick }) => {
           }
         />
         <CardContent>
-          <Typography variant="body2" color="text.secondary" className={style.about}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            className={style.about}
+          >
             {event.about}
           </Typography>
         </CardContent>

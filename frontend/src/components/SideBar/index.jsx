@@ -10,21 +10,25 @@ const CustomSidebar = ({
 }) => {
   const [visible, setVisible] = useState(false);
 
+  const handleHide = (e) => {
+    if (e && e.target.classList[0] === "pusher") {
+      setVisible(false);
+    }
+  };
+
   return (
     <Sidebar.Pushable as={Segment}>
       <Sidebar
         as={Menu}
         animation="overlay"
         icon="labeled"
-        onHide={(e) =>
-          e.target.classList[0] === "pusher" ? setVisible(false) : ""
-        }
+        onHide={handleHide}
         vertical
         visible={visible}
-        direction="left"
+        direction="right"
         className={style.sidebar}
       >
-        <Content />
+        <Content setSidebarVisible={setVisible} />
       </Sidebar>
 
       <Sidebar.Pusher dimmed={visible} className={style.pusher}>
