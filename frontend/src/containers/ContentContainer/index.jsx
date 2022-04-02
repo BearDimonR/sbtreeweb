@@ -43,7 +43,7 @@ const spinner = () => (
 
 const headerRequired = (path) => {
   return [PAGE_TYPE.events, PAGE_TYPE.people].includes(path);
-}
+};
 
 const ContentContainer = ({ component: Component, setSidebarVisible }) => {
   const dispatch = useDispatch();

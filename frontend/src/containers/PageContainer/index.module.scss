@@ -8,14 +8,13 @@
 
 .gridReset {
   padding: 0 !important;
-  height: 93%;
-}
+  height: calc(100% - 75px);}
 .mainContainer {
-  height: 93%;
+  height: calc(100% - 75px);
 }
 
 @media (max-width: 900px) {
   .headerContainer {
-    height: 50px;
+    height: 75px;
   }
 }
