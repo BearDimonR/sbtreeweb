@@ -7,7 +7,7 @@ import {
   BiGroup,
   BiLogOutCircle,
   BiSitemap,
-  BiInfoCircle
+  BiInfoCircle,
 } from "react-icons/bi";
 import Logo from "../Logo";
 
@@ -63,10 +63,7 @@ const Navbar = ({ logout }) => {
         <BiInfoCircle className={style.menuItemIcon} />
         <p>About</p>
       </NavLink>
-      <div
-        className={style.menuItem}
-        onClick={signOut}
-      >
+      <div className={style.menuItem} onClick={signOut}>
         <BiLogOutCircle className={style.menuItemIcon} />
         <p>Log out</p>
       </div>

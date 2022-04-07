@@ -115,9 +115,12 @@
 
 .search {
   width: 20% !important;
+  max-width: 200px;
+  min-width: 100px;
   margin: auto 10px;
   height: 100%;
 }
+
 .searchInput {
   width: 100%;
 }
@@ -126,5 +129,25 @@
   .contentContainer {
     margin: 0 15px 15px 15px;
     width: calc((100% - 30px));
+  }
+}
+
+@media (max-width: 500px) {
+  .contentContainer {
+    margin: 0;
+    padding: 10px 0 10px 0;
+    width: 100%;
+    height: calc(100% - 5px);
+  }
+
+  .avatarContainer {
+    min-width: 30px;
+  }
+
+  .rightContainer {
+    width: 97%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
   }
 }

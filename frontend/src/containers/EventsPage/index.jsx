@@ -2,11 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useLocation } from "react-router-dom";
 import style from "./index.module.scss";
-import { Grid } from "semantic-ui-react";
 import { loadEvents, setPage } from "./actions";
 import _ from "lodash";
 import EventCard from "../../components/EventCard";
-import { Pagination } from "semantic-ui-react";
+import { Grid, Pagination } from "@mui/material";
 
 const EventsPage = () => {
   const dispatch = useDispatch();
@@ -22,24 +21,33 @@ const EventsPage = () => {
     dispatch(loadEvents());
   }, [dispatch]);
 
-  const handlePageChange = (page, data) => {
-    dispatch(setPage(data.activePage));
+  const handlePageChange = (e, value) => {
+    dispatch(setPage(value));
     dispatch(loadEvents());
   };
 
   return (
     <div className={style.pageWrapper}>
-      <Grid className={style.eventsContainer} textAlign="center">
+      <Grid
+        container
+        center
+        spacing={{ xs: 1, md: 2 }}
+        columns={{ xs: 4, sm: 8, md: 12, lg: 12 }}
+        justifyContent="center"
+        minHeight="calc(100% - 80px)"
+      >
         {_.map(events, (event) => (
-          <Grid.Column
+          <Grid
+            item
             key={event.id}
-            mobile={16}
-            tablet={8}
-            computer={5}
             className={style.column}
+            xs={8}
+            sm={4}
+            md={4}
+            lg={3}
           >
             <EventCard user={user} event={event} onClick={setEventId} />
-          </Grid.Column>
+          </Grid>
         ))}
         {eventId && (
           <Redirect
@@ -52,13 +60,7 @@ const EventsPage = () => {
       </Grid>
       {events.length ? (
         <div className={style.paginator} ref={paginator}>
-          <Pagination
-            activePage={page}
-            pointing
-            secondary
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
+          <Pagination count={totalPages} page={page} onChange={handlePageChange} showFirstButton showLastButton />
         </div>
       ) : (
         ""
