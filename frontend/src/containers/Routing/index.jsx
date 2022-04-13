@@ -15,6 +15,8 @@ import EventPage from "../EventPage";
 import AboutPage from "../AboutPage";
 import PersonPage from "../PersonPage";
 import CallbackPage from "../CallbackPage";
+import TreePage from "../TreePage";
+import CustomNode from "../CustomNode/CustomNode";
 
 const Routing = () => {
   const dispatch = useDispatch();
@@ -32,7 +34,7 @@ const Routing = () => {
   );
   const content = () => (
     <div className="fill">
-      <main className="fill">
+      <div className="fill">
         <Switch>
           <PublicRoute exact path="/login/callback" component={CallbackPage} />
           <PublicRoute exact path="/login" component={LoginPage} />
@@ -43,6 +45,7 @@ const Routing = () => {
           <PrivateRoute exact path="/people/:id" component={PersonPage} />
           <PrivateRoute exact path="/profile" component={ProfilePage} />
           <PrivateRoute exact path="/about" component={AboutPage} />
+          <PrivateRoute exact path="/tree" component={TreePage} />
           <PrivateRoute
             exact
             path=""
@@ -52,7 +55,7 @@ const Routing = () => {
           />
           <Route path="*" exact component={NotFound} />
         </Switch>
-      </main>
+      </div>
     </div>
   );
 
