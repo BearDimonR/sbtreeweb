@@ -10,7 +10,6 @@ import { Grid, Pagination } from "@mui/material";
 const EventsPage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const user = useSelector((state) => state.profile.user);
   const events = useSelector((state) => state.event.list);
   const totalPages = useSelector((state) => state.event.totalPages);
   const page = useSelector((state) => state.event.page);
@@ -46,7 +45,7 @@ const EventsPage = () => {
             md={4}
             lg={3}
           >
-            <EventCard user={user} event={event} onClick={setEventId} />
+            <EventCard event={event} onClick={setEventId} />
           </Grid>
         ))}
         {eventId && (

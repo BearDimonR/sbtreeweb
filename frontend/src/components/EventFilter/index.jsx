@@ -66,7 +66,9 @@ const EventFilter = ({ filters, names, categories, apply, reset }) => {
             label="Start date"
             value={currentFilters.start || null}
             onChange={(value) => handleChange(value, "start")}
-            renderInput={(params) => <TextField  {...params} variant="outlined" />}
+            renderInput={(params) => (
+              <TextField {...params} variant="outlined" />
+            )}
           />
         </LocalizationProvider>
       </div>
@@ -76,7 +78,9 @@ const EventFilter = ({ filters, names, categories, apply, reset }) => {
             label="End date"
             value={currentFilters.end || null}
             onChange={(value) => handleChange(value, "end")}
-            renderInput={(params) => <TextField  {...params} variant="outlined" />}
+            renderInput={(params) => (
+              <TextField {...params} variant="outlined" />
+            )}
           />
         </LocalizationProvider>
       </div>

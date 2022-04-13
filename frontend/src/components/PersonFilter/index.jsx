@@ -42,13 +42,13 @@ function getStyles(name, personName, theme) {
 const EventFilter = ({ filters, fullNames, statuses, apply, reset }) => {
   const [currentFilters, setCurrentFilters] = useState(filters);
 
-   const theme = useTheme();
+  const theme = useTheme();
 
-   const handleChange = (value, type) => {
+  const handleChange = (value, type) => {
     setCurrentFilters({ ...currentFilters, [type]: value });
   };
 
-   const handleReset = () => {
+  const handleReset = () => {
     setCurrentFilters([]);
     reset();
   };
@@ -56,7 +56,7 @@ const EventFilter = ({ filters, fullNames, statuses, apply, reset }) => {
   const handleApply = () => {
     apply(currentFilters);
   };
-  
+
   return (
     <Form className={style.form} onSubmit={handleApply}>
       <Header>Filters</Header>
@@ -66,7 +66,9 @@ const EventFilter = ({ filters, fullNames, statuses, apply, reset }) => {
             label="Start date"
             value={currentFilters.start || null}
             onChange={(value) => handleChange(value, "start")}
-            renderInput={(params) => <TextField  {...params} variant="outlined" />}
+            renderInput={(params) => (
+              <TextField {...params} variant="outlined" />
+            )}
           />
         </LocalizationProvider>
       </div>
@@ -76,7 +78,9 @@ const EventFilter = ({ filters, fullNames, statuses, apply, reset }) => {
             label="End date"
             value={currentFilters.end || null}
             onChange={(value) => handleChange(value, "end")}
-            renderInput={(params) => <TextField  {...params} variant="outlined" />}
+            renderInput={(params) => (
+              <TextField {...params} variant="outlined" />
+            )}
           />
         </LocalizationProvider>
       </div>
