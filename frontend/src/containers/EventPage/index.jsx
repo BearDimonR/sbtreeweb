@@ -124,6 +124,10 @@ const EventPage = ({
     [wrapInSetContentLoading, editActivity]
   );
 
+  const handleActivityClicked = (id) => {
+    history.push(`/people/${id}`);
+  }
+
   return (
     <div className={style.profileContainer}>
       <EventView
@@ -132,6 +136,7 @@ const EventPage = ({
         onDelete={handleDelete}
         onActivityEdit={handleActivityEdit}
         onActivityDelete={handleActivityDelete}
+        onActivityClicked={handleActivityClicked}
       />
       <EventModal
         open={editing}

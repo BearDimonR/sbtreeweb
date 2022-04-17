@@ -23,4 +23,4 @@ class Auth(BaseEntity):
 
     def to_dict(self):
         return {**super(Auth, self).to_dict(), 'personId': str(self.person_id), 'access': self.access,
-                'email': self.email}
+                'email': self.email, 'avatar': self.person.avatar}

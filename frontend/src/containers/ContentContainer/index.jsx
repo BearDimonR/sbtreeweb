@@ -105,11 +105,13 @@ const ContentContainer = ({ component: Component, setSidebarVisible }) => {
                 />
                 {!profilePage && (
                   <NavLink to="/profile" className={style.avatarContainer}>
-                    <p className={style.userName}>{user.username}</p>
                     <Image
                       circular
                       className={style.avatar}
-                      src="https://cdn-icons-png.flaticon.com/512/660/660611.png"
+                      src={
+                        user.avatar ||
+                        "https://cdn-icons-png.flaticon.com/512/660/660611.png"
+                      }
                     />
                   </NavLink>
                 )}

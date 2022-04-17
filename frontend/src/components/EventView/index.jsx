@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "./index.module.scss";
 import _ from "lodash";
 import { Grid, Image, List, Label } from "semantic-ui-react";
 import { Panel } from "rsuite";
+import Ratio from 'react-ratio';
+
+
 
 const EventView = ({
   event,
@@ -10,7 +13,15 @@ const EventView = ({
   onDelete,
   onActivityEdit,
   onActivityDelete,
+  onActivityClicked,
 }) => {
+  const ref = useRef();
+  const [maxHeight, setMaxHeight] = useState();
+
+  useEffect(() => {
+    setMaxHeight(ref.current?.offsetHeight);
+  }, [ref.current?.offsetHeight]);
+
   const getHeader = () => (
     <div className={style.infoTitle}>
       <p>Інформація про подію</p>
@@ -35,11 +46,21 @@ const EventView = ({
 
   return (
     <div className={style.container}>
-      <Image className={style.image} src={event.photo} centered></Image>
+      <div className={style.ratio}>
+      <Ratio ratio={ 16 / 9 } className={style.ratio}>
+        <img src={event.photo} alt={event.name} className={style.photo}/>
+      </Ratio>
+      </div>
       <Grid columns={2} stackable className={style.infoGrid}>
         <Grid.Column className={style.infoColumn}>
-          <Panel header={getHeader()} shaded bordered>
+          <Panel header={getHeader()} shaded bordered ref={ref}>
             <List divided selection>
+               <List.Item>
+                <Label color="green" horizontal>
+                  Назва
+                </Label>
+                {event.name}
+              </List.Item>
               <List.Item>
                 <Label color="blue" horizontal>
                   Категорія
@@ -47,16 +68,10 @@ const EventView = ({
                 {event.category}
               </List.Item>
               <List.Item>
-                <Label color="green" horizontal>
-                  Назва
-                </Label>
-                {event.name}
-              </List.Item>
-              <List.Item>
                 <Label color="purple" horizontal>
                   Дата проведення
                 </Label>
-                {event.start} - {event.end}
+                {event.dateStart} - {event.dateEnd}
               </List.Item>
               <List.Item>
                 <Label color="orange" horizontal>
@@ -68,25 +83,25 @@ const EventView = ({
           </Panel>
         </Grid.Column>
         <Grid.Column className={style.infoColumn}>
-          <Panel header="Учасники події" bordered prefix="custom-panel">
-            <List divided selection className={style.activity}>
+          <Panel header="Учасники події" bordered prefix="event-custom-panel">
+            <List divided selection className={style.activity} style={{maxHeight: (maxHeight || 80) - 80}}>
               {event.people &&
                 _.map(event.people, (val) => (
-                  <List.Item className={style.content} key={val.activity_id}>
+                  <List.Item className={style.content} key={val.id} onClick={() => onActivityClicked(val.id)}>
                     <div className={style.actionIcons}>
                       <Label
                         as="a"
                         icon="edit"
                         basic
                         className={style.label}
-                        onClick={() => onActivityEdit(val.activity_id)}
+                        onClick={() => onActivityEdit(val.id)}
                       />
                       <Label
                         as="a"
                         icon="delete"
                         basic
                         className={style.label}
-                        onClick={() => onActivityDelete(val.activity_id)}
+                        onClick={() => onActivityDelete(val.id)}
                       />
                     </div>
                     <Image avatar src={val.avatar} />

@@ -1,14 +1,17 @@
 .container {
   width: 100%;
   height: 100%;
+  overflow-y: auto;
 }
+.container::-webkit-scrollbar,
+.activity::-webkit-scrollbar,
+.infoGrid::-webkit-scrollbar {
+  display: none;
+}
+
 .row {
   width: 100%;
   height: 100%;
-}
-.image {
-  width: 100%;
-  height: 35%;
 }
 .title {
   width: fit-content;
@@ -16,7 +19,7 @@
 }
 .infoGrid {
   margin-top: 20px;
-  height: 65%;
+  height: fit-content;
 }
 .infoColumn {
   height: 95%;
@@ -24,10 +27,6 @@
 .activity {
   height: 100%;
   overflow-y: auto;
-}
-.activity::-webkit-scrollbar,
-.infoGrid::-webkit-scrollbar {
-  display: none;
 }
 .infoTitle {
   display: flex;
@@ -57,15 +56,24 @@
   right: 5%;
 }
 
+.ratio {
+  max-width: calc(60vh / 9 * 16);
+  margin: auto;
+}
+
+.photo {
+  height: 100%;
+  width: 100%;
+  border-radius: 15px;
+}
+
 @media (max-width: 750px) {
-  .image {
-    height: 25%;
-  }
-  .infoGrid {
-    height: 70%;
-  }
   .infoColumn {
     margin-top: 10px;
     height: 50%;
+  }
+
+  .photo {
+    border-radius: 5px;
   }
 }

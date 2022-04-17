@@ -70,7 +70,17 @@
 /* you need to toggle `node.renderLabel` to see this class in action */
 .person-node-label {
   fill: black;
-  text-shadow: rgb(255, 255, 255) 0px -2px 0px, rgb(255, 255, 255) 0px 2px 0px, rgb(255, 255, 255) 2px 0px 0px,
-    rgb(255, 255, 255) -2px 0px 0px;
+  text-shadow: rgb(255, 255, 255) 0px -2px 0px, rgb(255, 255, 255) 0px 2px 0px,
+    rgb(255, 255, 255) 2px 0px 0px, rgb(255, 255, 255) -2px 0px 0px;
   transform: rotate(-25deg) translateX(40px) translateY(15px);
+}
+
+.person-node.student {
+  background-color: #97ea9d;
+  box-shadow: 25px 15px #3ab343;
+}
+
+#tree-graph-wrapper {
+  width: 100%;
+  height: 100%;
 }

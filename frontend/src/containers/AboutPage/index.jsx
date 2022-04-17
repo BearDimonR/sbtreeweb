@@ -1,7 +1,6 @@
 import React from "react";
 import style from "./index.module.scss";
 import { Image, Statistic, Header } from "semantic-ui-react";
-import Map from "../../components/Map";
 
 const AboutPage = () => {
   return (
@@ -35,16 +34,6 @@ const AboutPage = () => {
             <Statistic.Label>Пошанованих</Statistic.Label>
           </Statistic>
         </Statistic.Group>
-      </div>
-      <div className={style.map}>
-        <Map
-          className={style.map}
-          location={{
-            lat: 50.4661491545229,
-            lng: 30.522968294767207,
-            address: "NaUKMA Building 4",
-          }}
-        />
       </div>
     </div>
   );

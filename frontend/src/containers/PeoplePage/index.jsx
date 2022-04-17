@@ -20,8 +20,8 @@ const PeoplePage = () => {
     dispatch(loadPeople());
   }, [dispatch]);
 
-  const handlePageChange = (page, data) => {
-    dispatch(setPage(data.activePage));
+  const handlePageChange = (e, value) => {
+    dispatch(setPage(value));
     dispatch(loadPeople());
   };
 

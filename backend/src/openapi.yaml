@@ -403,6 +403,8 @@ components:
               type: integer
             email:
               type: string
+            avatar:
+              type: string
     Person:
       allOf:
         - $ref: "#components/schemas/BaseEntity"

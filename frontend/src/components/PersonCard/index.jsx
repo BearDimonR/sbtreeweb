@@ -45,13 +45,13 @@ const PersonCard = ({ person, onClick }) => {
             </Stack>
           }
         />
-        <CardContent>
+        <CardContent className={style.cardContent}>
           <Typography
             variant="body2"
             color="text.secondary"
             className={style.about}
           >
-            {person.about} {person.about} {person.about} {person.about}
+            {person.about}
           </Typography>
         </CardContent>
       </CardActionArea>

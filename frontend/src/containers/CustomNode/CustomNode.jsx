@@ -1,35 +1,33 @@
+import classNames from "classnames";
 import React from "react";
+import { useHistory } from "react-router-dom";
+import { PERSON_STATUS_TYPES } from "../../helpers/constants";
 
 import "./res/styles/custom-node.css";
 
-const ICON_PATH = "./data/custom-node/res/images/";
-const ICON_TYPES = {
-  MAN: ICON_PATH + "man.svg",
-  WOMAN: ICON_PATH + "girl.svg",
-  CAR: ICON_PATH + "car.svg",
-  BIKE: ICON_PATH + "bike.svg",
-};
-
-/**
- * Component that renders a person's name and gender, along with icons
- * representing if they have a driver license for bike and / or car.
- * @param {Object} props component props to render.
- */
 function CustomNode({ person }) {
-  const isMale = true;
+  const history = useHistory();
+  const fullName = `${person.name} ${person.surname}`;
+
+  const handleClick = (e) => {
+    history.push(`/people/${person.id}`);
+  };
 
   return (
-    <div className={`flex-container person-node ${isMale ? "male" : "female"}`}>
-      <div className="name">{person.name} {person.surname}</div>
-
+    <div
+      className={classNames({
+        "flex-container": true,
+        "person-node": true,
+        male: person.status === PERSON_STATUS_TYPES.member,
+        female: person.status === PERSON_STATUS_TYPES.graduated,
+        student: person.status === PERSON_STATUS_TYPES.student,
+      })}
+      onClick={handleClick}
+    >
+      <div className="name">{fullName}</div>
       <div className="flex-container fill-space flex-container-row">
         <div className="fill-space">
-          <img className="icon" src={person.avatar}  />
-        </div>
-
-        <div className="icon-bar">
-          {person.hasBike && <div className="icon" style={{ backgroundImage: `url('${ICON_TYPES.BIKE}')` }} />}
-          {person.hasCar && <div className="icon" style={{ backgroundImage: `url('${ICON_TYPES.CAR}')` }} />}
+          <img className="icon" src={person.avatar} alt={fullName} />
         </div>
       </div>
     </div>

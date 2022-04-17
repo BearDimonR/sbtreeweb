@@ -1,19 +1,19 @@
-.profileContainer {
-  margin-top: 30px;
-  width: 100%;
-  height: calc(100% - 30px);
+.grid {
+  height: fit-content;
+  max-height: 100%;
+  padding: auto !important;
+  overflow-y: auto;
 }
 
-.grid {
-  height: 100%;
-  padding: auto !important;
+.grid::-webkit-scrollbar, .activity::-webkit-scrollbar {
+  display: none;
 }
 
 .avatarColumn {
   height: 100% !important;
   padding: 0 !important;
   display: flex;
-  width: 250px !important;
+  min-width: 25vw !important;
 }
 .infoTitle {
   display: flex;
@@ -29,32 +29,38 @@
   background: transparent !important;
 }
 
-.avatar {
+.ratio {
   margin: 5% auto;
   width: 90%;
+}
+
+.avatar {
   box-shadow: 0 0 30px #aeb4c7;
+  width: 100%;
+  height: 100%;
 }
 
 .column {
   width: calc(100% - 40%) !important;
   max-width: 760px !important;
-  height: 100%;
 }
 
-.panel {
+div[prefix="people-custom-panel"] {
   width: 100%;
+  max-width: 80%;
   height: 100%;
 }
 
 .row {
   width: 100%;
-  height: 100%;
+  height: fit-content !important;
 }
 
 .activity {
   height: 100%;
   overflow-y: auto;
   text-align: left;
+  max-height: 70vh;
 }
 
 .activityItem {
@@ -80,8 +86,16 @@
   right: 5%;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 700px) {
   .column {
     width: 100% !important;
+  }
+
+  div[prefix="people-custom-panel"] {
+    max-width: 100%;
+  }
+
+  .avatarColumn {
+    min-width: 60% !important
   }
 }

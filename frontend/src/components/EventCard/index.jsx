@@ -42,7 +42,7 @@ const EventCard = ({ event, onClick }) => {
             </Stack>
           }
         />
-        <CardContent>
+        <CardContent class={style.cardContent}>
           <Typography
             variant="body2"
             color="text.secondary"

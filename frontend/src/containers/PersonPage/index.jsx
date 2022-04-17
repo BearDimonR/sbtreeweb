@@ -70,6 +70,10 @@ const PersonPage = () => {
     dispatch(editActivity(data));
   };
 
+  const handleActivityClicked = (id) => {
+    history.push(`/events/${id}`);
+  }
+
   return (
     <div className={style.profileContainer}>
       <ProfileView
@@ -78,6 +82,7 @@ const PersonPage = () => {
         onDelete={handleDelete}
         onActivityEdit={handleActivityEdit}
         onActivityDelete={handleActivityDelete}
+        onActivityClicked={handleActivityClicked}
       />
       <PersonModal
         open={editing}
