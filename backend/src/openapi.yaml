@@ -82,6 +82,28 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Person"
+  /person/filter:
+    post:
+      tags:
+        - person
+      summary: Get all filtered people
+      operationId: controllers.person_controller.get_all_filtered
+      requestBody:
+        description: Request data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FilterRequest"
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Person"
   /person/tree:
     get:
       tags:
@@ -208,8 +230,6 @@ paths:
         - event
       summary: Creates new event
       operationId: controllers.event_controller.create_event
-      security:
-        - adminAuth: [ ]
       responses:
         200:
           description: Success
@@ -217,6 +237,28 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Event"
+  /event/filter:
+    post:
+      tags:
+        - event
+      summary: Get filtered list of events
+      operationId: controllers.event_controller.get_all_filtered
+      requestBody:
+        description: Request data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FilterRequest"
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Event"
   /event/{id}:
     parameters:
       - in: path
@@ -485,6 +527,21 @@ components:
               type: string
             contribution:
               type: string
+    FilterRequest:
+      type: object
+      properties:
+        page:
+          type: number
+        sort:
+          type: array
+          items:
+            type: string
+        filters:
+          type: object
+        search:
+          type: string
+        pageSize:
+          type: number
     Error:
       type: object
       properties:

@@ -42,7 +42,7 @@ def callback():
     token_url, headers, body = app_client.prepare_token_request(
         token_endpoint,
         authorization_response=request.url,
-        # TODO change to env
+        # TODO change to env frontend ip/port address
         redirect_url='https://localhost:3000/login/callback',
         code=code
     )

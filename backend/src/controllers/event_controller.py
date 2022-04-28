@@ -10,6 +10,12 @@ def get_all(sort=None, params=None, search=None, page=1):
     return {'pages': pages, 'items': list(map(lambda x: x.to_dict(), page))}
 
 
+def get_all_filtered():
+    body = request.json
+    (pages, page) = event_service.get_all(sort=body['sort'], search=[('name', body['search'])], page=body['page'], filters=body['filters'])
+    return {'pages': pages, 'items': list(map(lambda x: x.to_dict(), page))}
+
+
 def get_event(id):
     event = event_service.get_by_id(id)
     return event.to_full_dict()

@@ -1,4 +1,5 @@
 from sqlalchemy_utils import UUIDType
+from sqlalchemy.orm import relationship
 
 from helpers import db, ApiSheetHelper
 from models.base_entity import BaseEntity
@@ -14,6 +15,9 @@ class Activity(BaseEntity):
     position = db.Column(db.String, nullable=False)
     contribution = db.Column(db.Text)
 
+    event = relationship("Event", back_populates="activities")
+    person = relationship("Person", back_populates="activities")
+
     @classmethod
     def filter_data(cls, dataframe):
         dataframe = super(Activity, cls).filter_data(dataframe)
@@ -26,4 +30,16 @@ class Activity(BaseEntity):
             'eventId': str(self.event_id),
             'position': self.position,
             'contribution': self.contribution
+        }
+
+    def to_dict_with_event(self):
+        return {
+            **self.to_dict(),
+            'event': self.event.to_dict()
+        }
+
+    def to_dict_with_person(self):
+        return {
+            **self.to_dict(),
+            'person': self.person.to_short_dict()
         }

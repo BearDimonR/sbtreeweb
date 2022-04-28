@@ -13,6 +13,8 @@ class Person(BaseEntity):
     __tablename__ = 'person'
 
     sheet_helper = ApiSheetHelper(__tablename__)
+    start = 'date_in'
+    end = 'date_out'
 
     name = db.Column(db.String)
     surname = db.Column(db.String)
@@ -29,7 +31,7 @@ class Person(BaseEntity):
     avatar = db.Column(db.String)
     parent_id = db.Column(UUIDType, db.ForeignKey('person.id'), nullable=True, default=uuid.uuid4())
 
-    events = relationship('Event', secondary='activity', back_populates='people')
+    activities = relationship('Activity', back_populates='person')
     auths = relationship('Auth', back_populates='person', uselist=True)
 
     @classmethod
@@ -74,6 +76,6 @@ class Person(BaseEntity):
 
     def to_full_dict(self):
         return {
-            **self.to_short_dict(),
-            'events': list(map(lambda x: x.to_dict(), self.events))
+            **self.to_dict(),
+            'events': list(map(lambda x: x.to_dict_with_event(), self.activities))
         }

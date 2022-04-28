@@ -11,6 +11,8 @@ class Event(BaseEntity):
     __tablename__ = 'event'
 
     sheet_helper = ApiSheetHelper(__tablename__)
+    start = 'date_start'
+    end = 'date_end'
 
     name = db.Column(db.String)
     date_start = db.Column(db.Date)
@@ -20,7 +22,7 @@ class Event(BaseEntity):
     description = db.Column(db.Text, nullable=True)
     photo = db.Column(db.String, nullable=True)
 
-    people = relationship('Person', secondary='activity', back_populates='events')
+    activities = relationship('Activity', back_populates='event')
 
     @classmethod
     def transform_data(cls, dataframe):
@@ -51,5 +53,5 @@ class Event(BaseEntity):
     def to_full_dict(self):
         return {
             **self.to_dict(),
-            'people': list(map(lambda x: x.to_dict(), self.people))
+            'people': list(map(lambda x: x.to_dict_with_person(), self.activities))
         }

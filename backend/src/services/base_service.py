@@ -2,15 +2,27 @@ from sqlalchemy import column
 
 from models.base_entity import BaseEntity
 
+DATE_PREFIX = 'date'
+
 
 class BaseService:
     def __init__(self, model: BaseEntity):
         self.model = model
 
-    def get_all(self, sort=None, params=None, search=None, page=None):
+    def get_all(self, sort=None, params=None, search=None, page=None, filters=None):
         query = self.model.query
         if params:
             query = query.with_entities(*[column(param) for param in params]).select_from(self.model).distinct()
+        if filters:
+            filter_obj = []
+            for col in filters:
+                if self.model.start is col:
+                    filter_obj.append(column(col) >= filters[col])
+                elif self.model.end is col:
+                    filter_obj.append(column(col) <= filters[col])
+                else:
+                    filter_obj.append(column(col).in_(filters[col]))
+            query = query.filter(*filter_obj)
         if search:
             query = query.filter(*[column(s[0]).startswith(s[1]) for s in search])
         if sort:
