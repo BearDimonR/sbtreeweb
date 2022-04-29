@@ -1,15 +1,22 @@
 import _ from "lodash";
 import callWebApi from "../helpers/webApiHelper";
 
-export const getPeople = async ({ sort, filters, search = null, page = 1 }) => {
-  //TODO use filters
+export const getPeople = async ({
+  sort,
+  filters,
+  search = null,
+  page = 1,
+  pageSize,
+}) => {
   const response = await callWebApi({
-    type: "GET",
-    endpoint: "/api/person",
-    query: {
+    type: "POST",
+    endpoint: "/api/person/filter",
+    request: {
       page: page,
       sort: [sort],
       search,
+      filters,
+      pageSize,
     },
   });
   return response.json();

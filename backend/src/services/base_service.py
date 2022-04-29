@@ -1,8 +1,8 @@
-from sqlalchemy import column
+from datetime import datetime
+from sqlalchemy import column, func
 
+from config import DATE_FORMAT, DATE_COMPARISON_FORMAT
 from models.base_entity import BaseEntity
-
-DATE_PREFIX = 'date'
 
 
 class BaseService:
@@ -16,10 +16,12 @@ class BaseService:
         if filters:
             filter_obj = []
             for col in filters:
-                if self.model.start is col:
-                    filter_obj.append(column(col) >= filters[col])
-                elif self.model.end is col:
-                    filter_obj.append(column(col) <= filters[col])
+                if self.model.start == col:
+                    date = datetime.strptime(filters[col], DATE_FORMAT).strftime(DATE_COMPARISON_FORMAT)
+                    filter_obj.append(column(col) >= date)
+                elif self.model.end == col:
+                    date = datetime.strptime(filters[col], DATE_FORMAT).strftime(DATE_COMPARISON_FORMAT)
+                    filter_obj.append(func.DATE(column(col)) <= date)
                 else:
                     filter_obj.append(column(col).in_(filters[col]))
             query = query.filter(*filter_obj)

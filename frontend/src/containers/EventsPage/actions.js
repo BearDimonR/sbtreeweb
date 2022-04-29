@@ -16,7 +16,7 @@ import { handleError } from "../../utils/shared";
 const PAGE_SIZE = 12;
 
 export const applyFilter =
-  (value = []) =>
+  (value = {}) =>
   async (dispatch) => {
     await dispatch(setFilter(value));
     await dispatch(loadEvents());

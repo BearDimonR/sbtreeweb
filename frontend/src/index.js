@@ -7,6 +7,7 @@ import "./styles/reset.scss";
 import "./styles/common.scss";
 import "rsuite/dist/rsuite.min.css";
 import "semantic-ui-css/semantic.min.css";
+import "moment/locale/uk";
 require("dotenv").config();
 
 const target = document.getElementById("root");

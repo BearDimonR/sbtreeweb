@@ -1,20 +1,24 @@
+import _ from "lodash";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import EventFilter from "../../components/EventFilter";
-import { loadCategories, loadNames, applyFilter } from "../EventsPage/actions";
+import { loadCategories, applyFilter } from "../EventsPage/actions";
 
 const EventFilterWrapper = (props) => {
   const dispatch = useDispatch();
 
-  const { filters, categories, names } = useSelector((state) => state.event);
+  const { filters, categories } = useSelector((state) => state.event);
 
   useEffect(() => {
     dispatch(loadCategories());
-    dispatch(loadNames());
   }, [dispatch]);
 
   const handleFilter = (filters) => {
-    dispatch(applyFilter(filters));
+    const filteredValue = _.pickBy(
+      filters,
+      (value) => value && !_.isEmpty(value)
+    );
+    dispatch(applyFilter(filteredValue));
     props.setSidebarVisible(false);
   };
   const handleReset = () => {
@@ -26,7 +30,6 @@ const EventFilterWrapper = (props) => {
     <EventFilter
       filters={filters}
       categories={categories}
-      names={names}
       apply={handleFilter}
       reset={handleReset}
       {...props}

@@ -72,7 +72,7 @@ const PersonPage = () => {
 
   const handleActivityClicked = (id) => {
     history.push(`/events/${id}`);
-  }
+  };
 
   return (
     <div className={style.profileContainer}>

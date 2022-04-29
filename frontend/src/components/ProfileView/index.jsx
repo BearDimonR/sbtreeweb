@@ -82,9 +82,11 @@ const ProfileView = ({
               </List.Item>
               <List.Item>
                 <Label color="purple" horizontal>
-                  Дата вступу
+                  Членство
                 </Label>
-                {user.start} - {user.end}
+                {user.dateIn}
+                {" - "}
+                {user.dateOut ?? "Present"}
               </List.Item>
               <List.Item>
                 <Label color="violet" horizontal>
@@ -92,14 +94,12 @@ const ProfileView = ({
                 </Label>
                 <Label as="a">
                   <Icon name="mail" />
-                  {user.email}
+                  {user.email || "****@***.***"}
                 </Label>
-                {user.telephone && (
-                  <Label as="a">
-                    <Icon name="phone" />
-                    {user.telephone}
-                  </Label>
-                )}
+                <Label as="a">
+                  <Icon name="phone" />
+                  {user.telephone || "+38 (***) *** ** **"}
+                </Label>
               </List.Item>
               <List.Item>
                 <Label color="orange" horizontal>
@@ -116,7 +116,11 @@ const ProfileView = ({
           <List divided selection className={style.activity}>
             {user.events &&
               _.map(user.events, (val) => (
-                <List.Item key={val.id} className={style.activityItem} onClick={() => onActivityClicked(val.id)}>
+                <List.Item
+                  key={val.id}
+                  className={style.activityItem}
+                  onClick={() => onActivityClicked(val.event?.id)}
+                >
                   <div className={style.actionIcons}>
                     <Label
                       as="a"
@@ -133,13 +137,13 @@ const ProfileView = ({
                       onClick={() => onActivityDelete(val.id)}
                     />
                   </div>
-                  <Image avatar src={val.image} />
+                  <Image avatar src={val.event?.photo} />
                   <List.Content>
                     <List.Header as="a" className={style.activityInfo}>
-                      {val.name}
+                      {val.event?.name}
                     </List.Header>
-                    <List.Content>{val.role}</List.Content>
-                    <List.Description>{val.about}</List.Description>
+                    <List.Content>{val.position}</List.Content>
+                    <List.Description>{val.contribution}</List.Description>
                   </List.Content>
                 </List.Item>
               ))}

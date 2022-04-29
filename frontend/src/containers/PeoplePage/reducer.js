@@ -14,7 +14,7 @@ const reducer = (
   state = {
     list: [],
     instance: {},
-    filters: [],
+    filters: {},
     sort: PEOPLE_SORT_OPTIONS[0].value,
     statuses: [],
     fullNames: [],

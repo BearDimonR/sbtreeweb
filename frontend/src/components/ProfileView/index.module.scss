@@ -5,7 +5,8 @@
   overflow-y: auto;
 }
 
-.grid::-webkit-scrollbar, .activity::-webkit-scrollbar {
+.grid::-webkit-scrollbar,
+.activity::-webkit-scrollbar {
   display: none;
 }
 
@@ -96,6 +97,6 @@ div[prefix="people-custom-panel"] {
   }
 
   .avatarColumn {
-    min-width: 60% !important
+    min-width: 60% !important;
   }
 }

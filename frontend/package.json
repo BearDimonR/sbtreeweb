@@ -80,8 +80,5 @@
   },
   "overrides": {
     "react": "$react"
-  },
-  "engines": {
-    "npm": ">=8.3.0"
   }
 }

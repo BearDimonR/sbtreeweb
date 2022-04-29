@@ -16,7 +16,7 @@ import { handleError } from "../../utils/shared";
 const PAGE_SIZE = 20;
 
 export const applyFilter =
-  (value = []) =>
+  (value = {}) =>
   async (dispatch, getRootState) => {
     dispatch(setFilter(value));
     dispatch(loadPeople());

@@ -29,6 +29,7 @@ DRIVE_FILE_NAME = 'sbtree_database'
 
 DATETIME_FORMAT = '%d.%m.%Y %H:%M:%S'
 DATE_FORMAT = '%d.%m.%Y'
+DATE_COMPARISON_FORMAT = "%Y-%m-%d"
 
 MAX_IMPORT_SIZE = 10000
 

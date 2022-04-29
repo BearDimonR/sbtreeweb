@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import style from "./index.module.scss";
 import { Form, Header } from "semantic-ui-react";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import {
   Box,
@@ -18,9 +16,16 @@ import {
   TextField,
   Button,
 } from "@mui/material";
+import { dateToString, stringToDateObj } from "../../helpers/constants";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
+const FILTER_PROPERTIES = {
+  start: "date_in",
+  end: "date_out",
+  status: "status",
+};
+
 const MenuProps = {
   PaperProps: {
     style: {
@@ -39,8 +44,12 @@ function getStyles(name, personName, theme) {
   };
 }
 
-const EventFilter = ({ filters, fullNames, statuses, apply, reset }) => {
-  const [currentFilters, setCurrentFilters] = useState(filters);
+const EventFilter = ({ filters, statuses, apply, reset }) => {
+    const [currentFilters, setCurrentFilters] = useState({
+    ...filters,
+    [FILTER_PROPERTIES.start]: stringToDateObj(filters[FILTER_PROPERTIES.start]),
+    [FILTER_PROPERTIES.end]: stringToDateObj(filters[FILTER_PROPERTIES.end]),
+  });
 
   const theme = useTheme();
 
@@ -54,43 +63,49 @@ const EventFilter = ({ filters, fullNames, statuses, apply, reset }) => {
   };
 
   const handleApply = () => {
-    apply(currentFilters);
+    apply({
+      ...currentFilters,
+      [FILTER_PROPERTIES.start]: dateToString(
+        currentFilters[FILTER_PROPERTIES.start]
+      ),
+      [FILTER_PROPERTIES.end]: dateToString(
+        currentFilters[FILTER_PROPERTIES.end]
+      ),
+    });
   };
 
   return (
     <Form className={style.form} onSubmit={handleApply}>
       <Header>Filters</Header>
       <div className={style.section}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DatePicker
-            label="Start date"
-            value={currentFilters.start || null}
-            onChange={(value) => handleChange(value, "start")}
-            renderInput={(params) => (
-              <TextField {...params} variant="outlined" />
-            )}
-          />
-        </LocalizationProvider>
+        <DatePicker
+          label="Start date"
+          value={currentFilters[FILTER_PROPERTIES.start] || null}
+          onChange={(value) =>
+            handleChange(value, FILTER_PROPERTIES.start)
+          }
+          renderInput={(params) => <TextField {...params} variant="outlined" />}
+        />
       </div>
       <div className={style.section}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DatePicker
-            label="End date"
-            value={currentFilters.end || null}
-            onChange={(value) => handleChange(value, "end")}
-            renderInput={(params) => (
-              <TextField {...params} variant="outlined" />
-            )}
-          />
-        </LocalizationProvider>
+        <DatePicker
+          label="End date"
+          value={currentFilters[FILTER_PROPERTIES.end] || null}
+          onChange={(value) =>
+            handleChange(value, FILTER_PROPERTIES.end)
+          }
+          renderInput={(params) => <TextField {...params} variant="outlined" />}
+        />
       </div>
       <div className={style.section}>
         <FormControl sx={{ m: 1, width: "100%", height: "100%" }}>
           <InputLabel>Statuses</InputLabel>
           <Select
             multiple
-            value={currentFilters.statuses || []}
-            onChange={(e) => handleChange(e.target?.value, "statuses")}
+            value={currentFilters[FILTER_PROPERTIES.status] || []}
+            onChange={(e) =>
+              handleChange(e.target?.value, FILTER_PROPERTIES.status)
+            }
             input={<OutlinedInput label="Statuses" />}
             renderValue={(selected) => (
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
@@ -105,42 +120,18 @@ const EventFilter = ({ filters, fullNames, statuses, apply, reset }) => {
               <MenuItem
                 key={c}
                 value={c}
-                style={getStyles(c, currentFilters.statuses || [], theme)}
+                style={getStyles(
+                  c,
+                  currentFilters[FILTER_PROPERTIES.status] || [],
+                  theme
+                )}
               >
                 <Checkbox
-                  checked={(currentFilters.statuses || []).indexOf(c) > -1}
-                />
-                <ListItemText primary={c} />
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
-      <div className={style.section}>
-        <FormControl sx={{ m: 1, width: "100%", height: "100%" }}>
-          <InputLabel>Full names</InputLabel>
-          <Select
-            multiple
-            value={currentFilters.fullNames || []}
-            onChange={(e) => handleChange(e.target?.value, "fullNames")}
-            input={<OutlinedInput label="Name" />}
-            renderValue={(selected) => (
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                {selected.map((value) => (
-                  <Chip key={value} label={value} />
-                ))}
-              </Box>
-            )}
-            MenuProps={MenuProps}
-          >
-            {fullNames.map((c) => (
-              <MenuItem
-                key={c}
-                value={c}
-                style={getStyles(c, currentFilters.fullNames || [], theme)}
-              >
-                <Checkbox
-                  checked={(currentFilters.fullNames || []).indexOf(c) > -1}
+                  checked={
+                    (currentFilters[FILTER_PROPERTIES.status] || []).indexOf(
+                      c
+                    ) > -1
+                  }
                 />
                 <ListItemText primary={c} />
               </MenuItem>

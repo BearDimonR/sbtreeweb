@@ -15,7 +15,7 @@ const reducer = (
   state = {
     list: [],
     instance: {},
-    filters: [],
+    filters: {},
     sort: EVENTS_SORT_OPTIONS[0].value,
     categories: [],
     names: [],

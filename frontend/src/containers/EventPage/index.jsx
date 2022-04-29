@@ -126,7 +126,7 @@ const EventPage = ({
 
   const handleActivityClicked = (id) => {
     history.push(`/people/${id}`);
-  }
+  };
 
   return (
     <div className={style.profileContainer}>

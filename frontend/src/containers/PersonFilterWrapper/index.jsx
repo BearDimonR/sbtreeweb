@@ -1,22 +1,22 @@
 import React, { useEffect } from "react";
+import _ from "lodash";
 import PersonFilter from "../../components/PersonFilter";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  applyFilter,
-  loadStatuses,
-  loadFullNames,
-} from "../PeoplePage/actions";
+import { applyFilter, loadStatuses } from "../PeoplePage/actions";
 const EventFilterWrapper = (props) => {
   const dispatch = useDispatch();
-  const { filters, statuses, fullNames } = useSelector((state) => state.person);
+  const { filters, statuses } = useSelector((state) => state.person);
 
   useEffect(() => {
     dispatch(loadStatuses());
-    dispatch(loadFullNames());
   }, [dispatch]);
 
   const handleFilter = (filters) => {
-    dispatch(applyFilter(filters));
+    const filteredValue = _.pickBy(
+      filters,
+      (value) => value && !_.isEmpty(value)
+    );
+    dispatch(applyFilter(filteredValue));
     props.setSidebarVisible(false);
   };
   const handleReset = () => {
@@ -28,7 +28,6 @@ const EventFilterWrapper = (props) => {
     <PersonFilter
       filters={filters}
       statuses={statuses}
-      fullNames={fullNames}
       apply={handleFilter}
       reset={handleReset}
       {...props}

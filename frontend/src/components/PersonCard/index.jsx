@@ -1,6 +1,5 @@
 import React from "react";
 import style from "./index.module.scss";
-import moment from "moment";
 import {
   Card,
   CardActionArea,
@@ -10,12 +9,13 @@ import {
   Stack,
   CardContent,
 } from "@mui/material";
+import { stringToDate } from "../../helpers/constants";
 
 const PersonCard = ({ person, onClick }) => {
   const date =
-    moment(person.start).format("ll") +
+    stringToDate(person.dateIn) +
     " - " +
-    (person.end ? moment(person.end).format("ll") : "Present");
+    (person.dateOut ? stringToDate(person.dateOut) : "Present");
   return (
     <Card sx={{ minWidth: 250, maxWidth: 450, height: 380 }}>
       <CardActionArea onClick={() => onClick(person.id)}>

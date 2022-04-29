@@ -29,7 +29,6 @@ const EventsPage = () => {
     <div className={style.pageWrapper}>
       <Grid
         container
-        center
         spacing={{ xs: 1, md: 2 }}
         columns={{ xs: 4, sm: 8, md: 12, lg: 12 }}
         justifyContent="center"
