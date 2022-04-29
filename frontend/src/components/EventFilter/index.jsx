@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import style from "./index.module.scss";
 import { Form, Header } from "semantic-ui-react";
 import DatePicker from "@mui/lab/DatePicker";
@@ -47,7 +47,9 @@ function getStyles(name, personName, theme) {
 const EventFilter = ({ filters, categories, apply, reset }) => {
   const [currentFilters, setCurrentFilters] = useState({
     ...filters,
-    [FILTER_PROPERTIES.start]: stringToDateObj(filters[FILTER_PROPERTIES.start]),
+    [FILTER_PROPERTIES.start]: stringToDateObj(
+      filters[FILTER_PROPERTIES.start]
+    ),
     [FILTER_PROPERTIES.end]: stringToDateObj(filters[FILTER_PROPERTIES.end]),
   });
 

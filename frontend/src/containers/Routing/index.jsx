@@ -16,7 +16,6 @@ import AboutPage from "../AboutPage";
 import PersonPage from "../PersonPage";
 import CallbackPage from "../CallbackPage";
 import TreePage from "../TreePage";
-import CustomNode from "../CustomNode/CustomNode";
 
 const Routing = () => {
   const dispatch = useDispatch();

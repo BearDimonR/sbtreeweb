@@ -45,9 +45,11 @@ function getStyles(name, personName, theme) {
 }
 
 const EventFilter = ({ filters, statuses, apply, reset }) => {
-    const [currentFilters, setCurrentFilters] = useState({
+  const [currentFilters, setCurrentFilters] = useState({
     ...filters,
-    [FILTER_PROPERTIES.start]: stringToDateObj(filters[FILTER_PROPERTIES.start]),
+    [FILTER_PROPERTIES.start]: stringToDateObj(
+      filters[FILTER_PROPERTIES.start]
+    ),
     [FILTER_PROPERTIES.end]: stringToDateObj(filters[FILTER_PROPERTIES.end]),
   });
 
@@ -81,9 +83,7 @@ const EventFilter = ({ filters, statuses, apply, reset }) => {
         <DatePicker
           label="Start date"
           value={currentFilters[FILTER_PROPERTIES.start] || null}
-          onChange={(value) =>
-            handleChange(value, FILTER_PROPERTIES.start)
-          }
+          onChange={(value) => handleChange(value, FILTER_PROPERTIES.start)}
           renderInput={(params) => <TextField {...params} variant="outlined" />}
         />
       </div>
@@ -91,9 +91,7 @@ const EventFilter = ({ filters, statuses, apply, reset }) => {
         <DatePicker
           label="End date"
           value={currentFilters[FILTER_PROPERTIES.end] || null}
-          onChange={(value) =>
-            handleChange(value, FILTER_PROPERTIES.end)
-          }
+          onChange={(value) => handleChange(value, FILTER_PROPERTIES.end)}
           renderInput={(params) => <TextField {...params} variant="outlined" />}
         />
       </div>
