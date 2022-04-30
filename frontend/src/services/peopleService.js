@@ -40,23 +40,26 @@ export const getPeopleFullNames = async () => {
     type: "GET",
     endpoint: "/api/person",
     query: {
-      params: ["surname", "name"],
+      params: ["id", "surname", "name"],
     },
   });
-  const peopleNames = await response.json();
-  return _.map(peopleNames, (value) => `${value.surname} ${value.name}`);
+  const peopleInfo = await response.json();
+  return _.map(peopleInfo, (value) => ({
+    id: value.id,
+    fullName: `${value.surname} ${value.name}`,
+  }));
 };
 
-export const getPeopleStatuses = async () => {
+export const getPeopleSpecialties = async () => {
   const response = await callWebApi({
     type: "GET",
     endpoint: "/api/person",
     query: {
-      params: ["status"],
+      params: ["specialty"],
     },
   });
   const peopleStatuses = await response.json();
-  return _.map(peopleStatuses, "status");
+  return _.map(peopleStatuses, "specialty");
 };
 
 export const putPerson = async (data) => {

@@ -4,72 +4,94 @@ import {
   Form,
   ButtonToolbar,
   Button,
-  DateRangePicker,
   Uploader,
   Schema,
   Input,
+  DatePicker,
+  InputPicker,
 } from "rsuite";
 import _ from "lodash";
+import style from "./index.module.scss";
+import {
+  stringToDateObj,
+  dateToString,
+  DATE_FORMAT_FOR_FORMS,
+} from "../../helpers/constants";
 
-const { StringType, ArrayType } = Schema.Types;
+const { StringType, DateType, ObjectType } = Schema.Types;
 
 const reqField = "Це поле не може бути пустим";
 
 const model = Schema.Model({
   name: StringType().isRequired(reqField),
-  dateRangePicker: ArrayType().minLength(2, reqField),
+  dateStart: DateType().isRequired(reqField),
+  dateEnd: DateType(),
   about: StringType()
     .isRequired(reqField)
-    .minLength(30, "Мінімально 10 символів.")
-    .maxLength(1000, "Мінімально 1000 символів."),
+    .minLength(10, "Мінімально 10 символів.")
+    .maxLength(100, "Максимально 100 символів."),
+  description: StringType()
+    .isRequired(reqField)
+    .minLength(30, "Мінімально 30 символів.")
+    .maxLength(1000, "Максимально 1000 символів."),
   category: StringType().isRequired(reqField),
+  uploader: ObjectType(),
 });
 
 const getInitial = (event) => ({
   name: event.name || "",
-  dateRangePicker: [
-    new Date(event.start) || new Date(),
-    new Date(event.end) || new Date(),
-  ],
+  dateStart: stringToDateObj(event.dateStart)?.toDate(),
+  dateEnd: stringToDateObj(event.dateEnd)?.toDate(),
   about: event.about || "",
+  description: event.description || "",
   category: event.category || "",
 });
 
 const getUploader = () => (
-  <Uploader draggable>
+  <Uploader draggable action="">
     <div style={{ lineHeight: "50px" }}>
       Click or Drag files to this area to upload
     </div>
   </Uploader>
 );
+
 const getInput = (props) => (
   <Input as="textarea" {...props} style={{ height: "120px" }} />
 );
 
-const EventModal = ({ open, user, event = {}, onClose, onSubmit }) => {
+const getInputPicker = (props) => (
+  <InputPicker style={{ width: "100%" }} {...props} />
+);
+
+const EventModal = ({ open, categories, event = {}, onClose, onSubmit }) => {
   const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState(getInitial({}));
+  const [categoryData, setCategoryData] = React.useState([]);
 
   useEffect(() => {
     setFormValue(getInitial(event));
   }, [event]);
 
+  useEffect(() => {
+    setCategoryData(
+      _.map(categories, (category) => ({
+        label: category,
+        value: category,
+      }))
+    );
+  }, [categories]);
+
   const handleSubmit = () => {
     if (!formRef.current.check()) {
       return;
     }
-    onSubmit(
-      _.omit(
-        {
-          ...formValue,
-          start: formValue.dateRangePicker[0],
-          end: formValue.dateRangePicker[1],
-          id: event.id,
-        },
-        "dateRangePicker"
-      )
-    );
+    onSubmit({
+      ...formValue,
+      dateStart: dateToString(formValue.dateStart),
+      dateEnd: dateToString(formValue.dateEnd),
+      id: event.id,
+    });
     handleReset();
   };
 
@@ -79,12 +101,16 @@ const EventModal = ({ open, user, event = {}, onClose, onSubmit }) => {
     onClose();
   };
 
+  const onCreateCategory = (value, item) => {
+    setCategoryData([...categoryData, { label: value, value }]);
+  };
+
   return (
     <Modal open={open} onClose={onClose} size="xs">
       <Modal.Header>
         <Modal.Title>Подія</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body className={style.form}>
         <Form
           fluid
           model={model}
@@ -99,15 +125,34 @@ const EventModal = ({ open, user, event = {}, onClose, onSubmit }) => {
           </Form.Group>
           <Form.Group controlId="category">
             <Form.ControlLabel>Категорія</Form.ControlLabel>
-            <Form.Control name="category" error={formError.category} />
-          </Form.Group>
-          <Form.Group controlId="dateRangePicker">
-            <Form.ControlLabel>Дати проведення події</Form.ControlLabel>
             <Form.Control
-              name="dateRangePicker"
-              error={formError.dateRangePicker}
+              name="category"
+              error={formError.category}
+              creatable
+              data={categoryData}
+              accepter={getInputPicker}
+              onCreate={onCreateCategory}
+            />
+          </Form.Group>
+          <Form.Group controlId="dateStart">
+            <Form.ControlLabel>Дата початку події</Form.ControlLabel>
+            <Form.Control
+              name="dateStart"
+              format={DATE_FORMAT_FOR_FORMS}
+              error={formError.dateStart}
               accepter={({ ...props }) => (
-                <DateRangePicker style={{ width: "100%" }} {...props} />
+                <DatePicker style={{ width: "100%" }} {...props} />
+              )}
+            />
+          </Form.Group>
+          <Form.Group controlId="dateEnd">
+            <Form.ControlLabel>Дата завершення події</Form.ControlLabel>
+            <Form.Control
+              name="dateEnd"
+              format={DATE_FORMAT_FOR_FORMS}
+              error={formError.dateEnd}
+              accepter={({ ...props }) => (
+                <DatePicker style={{ width: "100%" }} {...props} />
               )}
             />
           </Form.Group>
@@ -116,10 +161,18 @@ const EventModal = ({ open, user, event = {}, onClose, onSubmit }) => {
             <Form.Control name="uploader" accepter={getUploader} />
           </Form.Group>
           <Form.Group controlId="about">
-            <Form.ControlLabel>Детальний опис події</Form.ControlLabel>
+            <Form.ControlLabel>Короткий опис події</Form.ControlLabel>
             <Form.Control
               name="about"
               error={formError.about}
+              accepter={getInput}
+            />
+          </Form.Group>
+          <Form.Group controlId="description">
+            <Form.ControlLabel>Детальний опис події</Form.ControlLabel>
+            <Form.Control
+              name="description"
+              error={formError.description}
               accepter={getInput}
             />
           </Form.Group>

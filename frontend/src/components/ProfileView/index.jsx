@@ -119,7 +119,7 @@ const ProfileView = ({
                 <List.Item
                   key={val.id}
                   className={style.activityItem}
-                  onClick={() => onActivityClicked(val.event?.id)}
+                  onClick={(e) => onActivityClicked(val.event?.id)}
                 >
                   <div className={style.actionIcons}>
                     <Label
@@ -127,20 +127,26 @@ const ProfileView = ({
                       icon="edit"
                       basic
                       className={style.label}
-                      onClick={() => onActivityEdit(val.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onActivityEdit(val.id);
+                      }}
                     />
                     <Label
                       as="a"
                       icon="delete"
                       basic
                       className={style.label}
-                      onClick={() => onActivityDelete(val.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onActivityDelete(val.id);
+                      }}
                     />
                   </div>
                   <Image avatar src={val.event?.photo} />
                   <List.Content>
                     <List.Header as="a" className={style.activityInfo}>
-                      {val.event?.name}
+                      {val.event?.name} {val.event?.dateStart}
                     </List.Header>
                     <List.Content>{val.position}</List.Content>
                     <List.Description>{val.contribution}</List.Description>

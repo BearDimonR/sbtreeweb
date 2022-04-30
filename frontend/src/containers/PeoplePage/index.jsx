@@ -29,7 +29,6 @@ const PeoplePage = () => {
     <div className={style.pageWrapper}>
       <Grid
         container
-        center
         spacing={{ xs: 2, md: 2 }}
         columns={{ xs: 12, sm: 8, md: 9, lg: 8 }}
         justifyContent="center"

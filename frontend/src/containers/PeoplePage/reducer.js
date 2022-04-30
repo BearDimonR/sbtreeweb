@@ -5,7 +5,7 @@ import {
   SET_FILTER,
   SET_SORT,
   SET_FULL_NAMES,
-  SET_STATUSES,
+  SET_SPECIALTIES,
   SET_PAGE,
   SET_TOTAL_PAGES,
 } from "./actionTypes";
@@ -16,8 +16,8 @@ const reducer = (
     instance: {},
     filters: {},
     sort: PEOPLE_SORT_OPTIONS[0].value,
-    statuses: [],
     fullNames: [],
+    specialties: [],
     totalPages: 1,
     page: 1,
   },
@@ -49,10 +49,10 @@ const reducer = (
         ...state,
         fullNames: action.value,
       };
-    case SET_STATUSES:
+    case SET_SPECIALTIES:
       return {
         ...state,
-        statuses: action.value,
+        specialties: action.value,
       };
     case SET_TOTAL_PAGES:
       return {

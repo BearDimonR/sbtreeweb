@@ -1,15 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import _ from "lodash";
 import PersonFilter from "../../components/PersonFilter";
 import { useDispatch, useSelector } from "react-redux";
-import { applyFilter, loadStatuses } from "../PeoplePage/actions";
+import { applyFilter } from "../PeoplePage/actions";
+import { STATUSES } from "../../helpers/constants";
 const EventFilterWrapper = (props) => {
   const dispatch = useDispatch();
-  const { filters, statuses } = useSelector((state) => state.person);
-
-  useEffect(() => {
-    dispatch(loadStatuses());
-  }, [dispatch]);
+  const { filters } = useSelector((state) => state.person);
 
   const handleFilter = (filters) => {
     const filteredValue = _.pickBy(
@@ -27,7 +24,7 @@ const EventFilterWrapper = (props) => {
   return (
     <PersonFilter
       filters={filters}
-      statuses={statuses}
+      statuses={STATUSES}
       apply={handleFilter}
       reset={handleReset}
       {...props}

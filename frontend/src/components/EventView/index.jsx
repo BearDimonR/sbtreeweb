@@ -29,14 +29,14 @@ const EventView = ({
           icon="edit"
           basic
           className={style.label}
-          onClick={() => onEdit(event.id)}
+          onClick={(e) => onEdit(event.id)}
         />
         <Label
           as="a"
           icon="delete"
           basic
           className={style.label}
-          onClick={() => onDelete(event.id)}
+          onClick={(e) => onDelete(event.id)}
         />
       </div>
     </div>
@@ -101,20 +101,26 @@ const EventView = ({
                         icon="edit"
                         basic
                         className={style.label}
-                        onClick={() => onActivityEdit(val.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onActivityEdit(val.id);
+                        }}
                       />
                       <Label
                         as="a"
                         icon="delete"
                         basic
                         className={style.label}
-                        onClick={() => onActivityDelete(val.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onActivityDelete(val.id);
+                        }}
                       />
                     </div>
                     <Image avatar src={val.person?.avatar} />
                     <List.Content>
                       <List.Header as="a" className={style.activityInfo}>
-                        {val.person?.name}
+                        {val.person?.surname} {val.person?.name}
                       </List.Header>
                       <List.Content>{val.position}</List.Content>
                       <List.Description>{val.contribution}</List.Description>

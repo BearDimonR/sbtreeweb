@@ -90,7 +90,7 @@ export const editEvent = (data) => async (dispatch, getRootState) => {
 export const editActivity = (data) => async (dispatch, getRootState) => {
   handleError(async () => {
     await eventService.putActivity(data);
-    dispatch(loadEvent(data.event_id));
+    dispatch(loadEvent(data.eventId));
   });
 };
 
@@ -102,9 +102,11 @@ export const removeEvent = (id) => async (dispatch, getRootState) => {
 };
 
 export const removeActivity = (id) => async (dispatch, getRootState) => {
+  const store = getRootState();
+  const eventId = store.event.instance.id;
   handleError(async () => {
-    const activity = await eventService.deleteActivity(id);
-    dispatch(loadEvent(activity.event_id));
+    await eventService.deleteActivity(id);
+    dispatch(loadEvent(eventId));
   });
 };
 

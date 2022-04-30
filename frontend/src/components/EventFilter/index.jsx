@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import style from "./index.module.scss";
-import { Form, Header } from "semantic-ui-react";
 import DatePicker from "@mui/lab/DatePicker";
 import {
   Box,
@@ -15,14 +14,15 @@ import {
   ListItemText,
   TextField,
   Button,
+  Typography,
 } from "@mui/material";
 import { dateToString, stringToDateObj } from "../../helpers/constants";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const FILTER_PROPERTIES = {
-  start: "date_start",
-  end: "date_end",
+  start: "dateStart",
+  end: "dateEnd",
   category: "category",
 };
 
@@ -77,11 +77,14 @@ const EventFilter = ({ filters, categories, apply, reset }) => {
   };
 
   return (
-    <Form className={style.form} onSubmit={handleApply}>
-      <Header>Filters</Header>
+    <form className={style.form}>
+      <Typography variant="h5" gutterBottom component="div">
+        Filters
+      </Typography>
       <div className={style.section}>
         <DatePicker
           label="Start date"
+          mask="__.__.____"
           value={currentFilters[FILTER_PROPERTIES.start] || null}
           onChange={(value) => handleChange(value, FILTER_PROPERTIES.start)}
           renderInput={(params) => <TextField {...params} variant="outlined" />}
@@ -90,13 +93,14 @@ const EventFilter = ({ filters, categories, apply, reset }) => {
       <div className={style.section}>
         <DatePicker
           label="End date"
+          mask="__.__.____"
           value={currentFilters[FILTER_PROPERTIES.end] || null}
           onChange={(value) => handleChange(value, FILTER_PROPERTIES.end)}
           renderInput={(params) => <TextField {...params} variant="outlined" />}
         />
       </div>
       <div className={style.section}>
-        <FormControl sx={{ m: 1, width: "100%", height: "100%" }}>
+        <FormControl sx={{ m: 1, width: "80%", height: "100%" }}>
           <InputLabel>Category</InputLabel>
           <Select
             multiple
@@ -138,12 +142,10 @@ const EventFilter = ({ filters, categories, apply, reset }) => {
         </FormControl>
       </div>
       <div className={style.buttons}>
-        <Button type="submit">Apply</Button>
-        <Button type="reset" onClick={handleReset}>
-          Reset
-        </Button>
+        <Button onClick={handleApply}>Apply</Button>
+        <Button onClick={handleReset}>Reset</Button>
       </div>
-    </Form>
+    </form>
   );
 };
 

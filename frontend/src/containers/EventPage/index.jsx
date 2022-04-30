@@ -1,128 +1,79 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import style from "./index.module.scss";
 import EventView from "../../components/EventView";
 import {
   loadEvent,
   loadActivity,
-  setActivity,
   loadNames,
   editEvent,
   editActivity,
   removeEvent,
   removeActivity,
+  setActivity,
+  loadCategories,
 } from "../EventsPage/actions";
 import { loadFullNames } from "../PeoplePage/actions";
 import { useParams, useLocation, useHistory } from "react-router-dom";
 import EventModal from "../../components/EventModal";
 import ActivityModal from "../../components/ActivityModal";
 import _ from "lodash";
-import { setContentIsLoading } from "../LoginPage/actions";
-import { errorHandler } from "../../utils/shared";
 
-const EventPage = ({
-  user,
-  event,
-  activity,
-  fullNames,
-  eventNames,
-  loadEvent: loadData,
-  loadNames: getNames,
-  loadFullNames: getFullNames,
-  loadActivity: getActivity,
-  setActivity: updateActivity,
-  editEvent,
-  editActivity,
-  removeEvent,
-  removeActivity,
-  setContentIsLoading,
-  ...props
-}) => {
+const EventPage = () => {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const location = useLocation();
   const history = useHistory();
   const path = location.pathname;
   const [editing, setEditing] = useState(false);
 
-  const wrapInSetContentLoading = useCallback(
-    (msg, func, after = () => {}) => {
-      setContentIsLoading(true);
-      func()
-        .then(() => {
-          after();
-          setContentIsLoading(false);
-        })
-        .catch(errorHandler(msg, () => setContentIsLoading(false)));
-    },
-    [setContentIsLoading]
-  );
+  const user = useSelector((state) => state.profile.user);
+  const event = useSelector((state) => state.event.instance);
+  const activity = useSelector((state) => state.event.activity);
+  const fullNames = useSelector((state) => state.person.fullNames);
+  const eventNames = useSelector((state) => state.event.names);
+  const categories = useSelector((state) => state.event.categories);
 
   useEffect(() => {
-    wrapInSetContentLoading("Event loading error", () => loadData(id));
-  }, [loadData, id, wrapInSetContentLoading]);
+    dispatch(loadEvent(id));
+  }, [dispatch, id]);
 
-  const handleModalClose = useCallback(() => {
+  const handleModalClose = () => {
     setEditing(false);
     if (activity) {
-      updateActivity(null);
+      dispatch(setActivity(null));
     }
-  }, [setEditing, updateActivity, activity]);
+  };
 
-  const handleEdit = useCallback(() => {
-    wrapInSetContentLoading(
-      "Event editing error",
-      () => loadData(event.id),
-      () => setEditing(true)
-    );
-  }, [setEditing, wrapInSetContentLoading, loadData, event]);
+  const handleEdit = () => {
+    dispatch(loadEvent(event.id));
+    dispatch(loadCategories());
+    setEditing(true);
+  };
 
-  const handleDelete = useCallback(() => {
-    wrapInSetContentLoading(
-      "Event removal error",
-      () => removeEvent(event.id),
-      () => {
-        const spl = path.split("/");
-        history.push(_.slice(spl, 0, spl.length - 1).join("/"));
-      }
-    );
-  }, [removeEvent, wrapInSetContentLoading, event, history, path]);
+  const handleDelete = () => {
+    dispatch(removeEvent(event.id));
+    const spl = path.split("/");
+    history.push(_.slice(spl, 0, spl.length - 1).join("/"));
+  };
 
-  const handleActivityEdit = useCallback(
-    (id) => {
-      wrapInSetContentLoading("Activity editing error", () =>
-        Promise.all([getActivity(id), getNames(), getFullNames()])
-      );
-    },
-    [wrapInSetContentLoading, getActivity, getNames, getFullNames]
-  );
+  const handleActivityEdit = (id) => {
+    dispatch(loadActivity(id));
+    dispatch(loadNames());
+    dispatch(loadFullNames());
+  };
 
-  const handleActivityDelete = useCallback(
-    (id) => {
-      wrapInSetContentLoading("Activity delete error", () =>
-        removeActivity(id)
-      );
-    },
-    [wrapInSetContentLoading, removeActivity]
-  );
+  const handleActivityDelete = (id) => {
+    dispatch(removeActivity(id));
+  };
 
-  const handleSubmit = useCallback(
-    (data) => {
-      wrapInSetContentLoading("Event submit editing error", () =>
-        editEvent(data)
-      );
-    },
-    [wrapInSetContentLoading, editEvent]
-  );
+  const handleSubmit = (data) => {
+    dispatch(editEvent(data));
+  };
 
-  const handleActivitySubmit = useCallback(
-    (data) => {
-      wrapInSetContentLoading("Activity submit editing error", () =>
-        editActivity(data)
-      );
-    },
-    [wrapInSetContentLoading, editActivity]
-  );
+  const handleActivitySubmit = (data) => {
+    dispatch(editActivity(data));
+  };
 
   const handleActivityClicked = (id) => {
     history.push(`/people/${id}`);
@@ -143,6 +94,7 @@ const EventPage = ({
         onClose={handleModalClose}
         user={user}
         event={event}
+        categories={categories}
         onSubmit={handleSubmit}
       />
       <ActivityModal
@@ -157,29 +109,5 @@ const EventPage = ({
     </div>
   );
 };
-const mapStateToProps = (rootState) => ({
-  user: rootState.profile.user,
-  event: rootState.event.instance,
-  activity: rootState.event.activity,
-  fullNames: rootState.person.fullNames,
-  eventNames: rootState.event.names,
-});
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      loadEvent,
-      loadActivity,
-      setActivity,
-      loadNames,
-      loadFullNames,
-      editEvent,
-      editActivity,
-      removeEvent,
-      removeActivity,
-      setContentIsLoading,
-    },
-    dispatch
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(EventPage);
+export default EventPage;

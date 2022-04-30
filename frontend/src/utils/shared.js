@@ -14,8 +14,13 @@ export const handleError = async (action, msg) => {
     await action();
   } catch (err) {
     toast(
-      `🤯 Oops! ${msg || "It looks like error occurred:"} ${err.message ?? err}`
+      `🤯 Oops! ${msg || "It looks like error occurred:"} ${
+        (err.message || err.title) ?? err
+      }`
     );
+    if (err.details) {
+      toast(err.details);
+    }
   }
 };
 
@@ -27,8 +32,8 @@ export const PAGE_TYPE = {
 
 export const EVENTS_SORT_OPTIONS = [
   {
-    key: "date_start",
-    value: "date_start",
+    key: "dateStart",
+    value: "dateEnd",
     text: "Date",
   },
   {
@@ -45,8 +50,8 @@ export const EVENTS_SORT_OPTIONS = [
 
 export const PEOPLE_SORT_OPTIONS = [
   {
-    key: "date_in",
-    value: "date_in",
+    key: "dateIn",
+    value: "dateOut",
     text: "Date",
   },
   {

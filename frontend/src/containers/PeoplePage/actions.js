@@ -7,7 +7,7 @@ import {
   SET_FILTER,
   SET_SORT,
   SET_FULL_NAMES,
-  SET_STATUSES,
+  SET_SPECIALTIES,
   SET_PAGE,
   SET_TOTAL_PAGES,
 } from "./actionTypes";
@@ -53,11 +53,11 @@ export const loadPerson = (id) => async (dispatch) => {
   });
 };
 
-export const loadStatuses = () => async (dispatch) => {
+export const loadSpecialties = () => async (dispatch) => {
   handleError(async () => {
     dispatch(setContentIsLoading(true));
-    const statuses = await peopleService.getPeopleStatuses();
-    dispatch(setStatuses(statuses));
+    const specialties = await peopleService.getPeopleSpecialties();
+    dispatch(setSpecialties(specialties));
     dispatch(setContentIsLoading(false));
   });
 };
@@ -84,7 +84,7 @@ export const editActivity = (data) => async (dispatch, getRootState) => {
   handleError(async () => {
     dispatch(setContentIsLoading(true));
     await eventService.putActivity(data);
-    dispatch(loadPerson(data.person_id));
+    dispatch(loadPerson(data.personId));
     dispatch(setContentIsLoading(false));
   });
 };
@@ -99,10 +99,12 @@ export const removePerson = (id) => async (dispatch, getRootState) => {
 };
 
 export const removeActivity = (id) => async (dispatch, getRootState) => {
+  const store = getRootState();
+  const personId = store.person.instance.id;
   handleError(async () => {
     dispatch(setContentIsLoading(true));
-    const activity = await eventService.deleteActivity(id);
-    dispatch(loadPerson(activity.person_id));
+    await eventService.deleteActivity(id);
+    dispatch(loadPerson(personId));
     dispatch(setContentIsLoading(false));
   });
 };
@@ -131,9 +133,9 @@ export const setFilter = (value) => async (dispatch) =>
     value,
   });
 
-export const setStatuses = (value) => async (dispatch) =>
+export const setSpecialties = (value) => async (dispatch) =>
   dispatch({
-    type: SET_STATUSES,
+    type: SET_SPECIALTIES,
     value,
   });
 

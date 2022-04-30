@@ -10,6 +10,7 @@ import {
   removePerson,
   editActivity,
   removeActivity,
+  loadSpecialties,
 } from "../PeoplePage/actions";
 import { loadActivity, loadNames, setActivity } from "../EventsPage/actions";
 import _ from "lodash";
@@ -27,6 +28,7 @@ const PersonPage = () => {
   const activity = useSelector((state) => state.event.activity);
   const fullNames = useSelector((state) => state.person.fullNames);
   const eventNames = useSelector((state) => state.event.names);
+  const specialties = useSelector((state) => state.person.specialties);
 
   const [editing, setEditing] = useState(false);
 
@@ -43,6 +45,8 @@ const PersonPage = () => {
 
   const handleEdit = () => {
     dispatch(loadPerson(person.id));
+    dispatch(loadSpecialties());
+    dispatch(loadFullNames());
     setEditing(true);
   };
 
@@ -84,6 +88,8 @@ const PersonPage = () => {
         onClose={handleModalClose}
         user={user}
         person={person}
+        fullNames={fullNames}
+        specialties={specialties}
         onSubmit={handleSubmit}
       />
       <ActivityModal

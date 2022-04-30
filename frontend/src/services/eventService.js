@@ -40,11 +40,10 @@ export const getEventNames = async () => {
     type: "GET",
     endpoint: "/api/event",
     query: {
-      params: ["name"],
+      params: ["id", "name"],
     },
   });
-  const eventNames = await response.json();
-  return _.map(eventNames, "name");
+  return await response.json();
 };
 
 export const getEventСategories = async () => {
@@ -62,7 +61,7 @@ export const getEventСategories = async () => {
 export const getActivity = async (id, additional = true) => {
   const response = await callWebApi({
     type: "GET",
-    endpoint: `/api/event/user/${id}`,
+    endpoint: `/api/activity/${id}`,
   });
   const resultPage = await response.json();
   return resultPage;

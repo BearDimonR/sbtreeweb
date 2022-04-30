@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import _ from "lodash";
+import style from "./index.module.scss";
 import {
   Modal,
   Form,
   ButtonToolbar,
   Button,
-  SelectPicker,
+  InputPicker,
   Schema,
   Input,
 } from "rsuite";
@@ -17,29 +18,27 @@ const reqField = "Це поле не може бути пустим";
 const model = Schema.Model({
   person: StringType().isRequired(reqField),
   event: StringType().isRequired(reqField),
-  about: StringType()
+  contribution: StringType()
     .isRequired(reqField)
     .minLength(10, "Мінімально 10 символів.")
     .maxLength(500, "Максимально 500 символів."),
-  role: StringType().isRequired(reqField),
+  position: StringType().isRequired(reqField),
 });
 
 const getInitial = (activity) => {
-  const person = activity?.person;
-  const event = activity?.event;
   return {
-    person: person ? `${person.surname} ${person.name}` : "",
-    event: event ? event.name : "",
-    role: activity?.role || "",
-    about: activity?.about || "",
+    person: activity?.personId || "",
+    event: activity?.eventId || "",
+    position: activity?.position || "",
+    contribution: activity?.contribution || "",
   };
 };
 
 const getInput = (props) => (
   <Input as="textarea" {...props} style={{ height: "120px" }} />
 );
-const getSelect = (props) => (
-  <SelectPicker {...props} style={{ width: "100%" }} />
+const getInputPicker = (props) => (
+  <InputPicker style={{ width: "100%" }} {...props} />
 );
 
 const ActivityModal = ({
@@ -62,11 +61,15 @@ const ActivityModal = ({
   }, [activity]);
 
   useEffect(() => {
-    setFullNamesData(_.map(fullNames, (v) => ({ label: v, value: v })));
+    setFullNamesData(
+      _.map(fullNames, (data) => ({ label: data.fullName, value: data.id }))
+    );
   }, [setFullNamesData, fullNames]);
 
   useEffect(() => {
-    setEventNamesData(_.map(eventNames, (v) => ({ label: v, value: v })));
+    setEventNamesData(
+      _.map(eventNames, (data) => ({ label: data.name, value: data.id }))
+    );
   }, [eventNames, setEventNamesData]);
 
   const handleSubmit = () => {
@@ -74,10 +77,10 @@ const ActivityModal = ({
       return;
     }
     onSubmit({
-      ...formValue,
+      ..._.omit(formValue, ["person", "event"]),
       id: activity.id,
-      event_id: activity.event_id,
-      person_id: activity.person_id,
+      eventId: activity.eventId,
+      personId: activity.personId,
     });
     handleReset();
   };
@@ -93,7 +96,7 @@ const ActivityModal = ({
       <Modal.Header>
         <Modal.Title>Активність в події</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body className={style.form}>
         <Form
           fluid
           model={model}
@@ -106,27 +109,29 @@ const ActivityModal = ({
             <Form.ControlLabel>Людина:</Form.ControlLabel>
             <Form.Control
               name="person"
-              accepter={getSelect}
+              error={formError.person}
               data={fullNamesData}
+              accepter={getInputPicker}
             />
           </Form.Group>
           <Form.Group controlId="event">
             <Form.ControlLabel>Подія:</Form.ControlLabel>
             <Form.Control
               name="event"
-              accepter={getSelect}
+              error={formError.event}
               data={eventNamesData}
+              accepter={getInputPicker}
             />
           </Form.Group>
-          <Form.Group controlId="role">
+          <Form.Group controlId="position">
             <Form.ControlLabel>Роль</Form.ControlLabel>
-            <Form.Control name="role" error={formError.role} />
+            <Form.Control name="position" error={formError.position} />
           </Form.Group>
-          <Form.Group controlId="about">
+          <Form.Group controlId="contribution">
             <Form.ControlLabel>Опис вкладу</Form.ControlLabel>
             <Form.Control
-              name="about"
-              error={formError.about}
+              name="contribution"
+              error={formError.contribution}
               accepter={getInput}
             />
           </Form.Group>
