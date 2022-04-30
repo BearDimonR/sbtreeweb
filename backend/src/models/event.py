@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from sqlalchemy.orm import relationship
 
 from config import DATE_FORMAT
@@ -24,13 +22,33 @@ class Event(BaseEntity):
 
     activities = relationship('Activity', back_populates='event')
 
+    types = {
+        **BaseEntity.types,
+        'date_start': 'date',
+        'date_end': 'date'
+    }
+
+    @classmethod
+    def get_key(cls, key):
+        if key == 'dateStart':
+            return 'date_start'
+        elif key == 'dateEnd':
+            return 'date_end'
+        else:
+            return key
+
+    @classmethod
+    def parse_request(cls, body):
+        parsed_obj = super(Event, cls).parse_request(body)
+        parsed_obj['date_start'] = cls.transform_date(parsed_obj['date_start'])
+        parsed_obj['date_end'] = cls.transform_date(parsed_obj['date_end'])
+        return parsed_obj
+
     @classmethod
     def transform_data(cls, dataframe):
         dataframe = super(Event, cls).transform_data(dataframe)
-        dataframe['date_start'] = dataframe['date_start'].apply(
-            lambda date: datetime.strptime(date, DATE_FORMAT) if date is not None else None)
-        dataframe['date_end'] = dataframe['date_end'].apply(
-            lambda date: datetime.strptime(date, DATE_FORMAT) if date is not None else None)
+        dataframe['date_start'] = dataframe['date_start'].apply(cls.transform_date)
+        dataframe['date_end'] = dataframe['date_end'].apply(cls.transform_date)
         return dataframe
 
     @classmethod
@@ -43,8 +61,8 @@ class Event(BaseEntity):
             **super(Event, self).to_dict(),
             'name': self.name,
             'category': self.category,
-            'dateStart': self.date_start.strftime(DATE_FORMAT),
-            'dateEnd': self.date_end.strftime(DATE_FORMAT),
+            'dateStart': self.transform_field('date', self.date_start),
+            'dateEnd': self.transform_field('date', self.date_end),
             'about': self.about,
             'description': self.description,
             'photo': self.photo

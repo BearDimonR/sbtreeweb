@@ -164,6 +164,13 @@ paths:
       operationId: controllers.person_controller.update_person
       security:
         - adminAuth: [ ]
+      requestBody:
+        description: Request data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Person"
       responses:
         200:
           description: Success
@@ -286,6 +293,13 @@ paths:
       operationId: controllers.event_controller.update_event
       security:
         - editorAuth: [ ]
+      requestBody:
+        description: Request data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Event"
       responses:
         200:
           description: Success
@@ -345,6 +359,13 @@ paths:
       operationId: controllers.activity_controller.update_connection
       security:
         - editorAuth: [ ]
+      requestBody:
+        description: Request data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Activity"
       responses:
         200:
           description: Success
@@ -462,7 +483,7 @@ components:
               type: string
             faculty:
               type: string
-            speciality:
+            specialty:
               type: string
             dateIn:
               description: "format: dd.mm.yyyy"

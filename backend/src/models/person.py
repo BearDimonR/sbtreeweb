@@ -1,5 +1,4 @@
 import uuid
-from datetime import datetime
 
 from sqlalchemy_utils import UUIDType
 from sqlalchemy.orm import relationship
@@ -24,25 +23,47 @@ class Person(BaseEntity):
     date_birth = db.Column(db.Date)
     status = db.Column(db.String)
     faculty = db.Column(db.String)
-    speciality = db.Column(db.String)
+    specialty = db.Column(db.String)
     date_in = db.Column(db.Date)
     date_out = db.Column(db.Date)
     about = db.Column(db.String)
     avatar = db.Column(db.String)
-    parent_id = db.Column(UUIDType, db.ForeignKey('person.id'), nullable=True, default=uuid.uuid4())
+    parent_id = db.Column(UUIDType(binary=False), db.ForeignKey('person.id'), nullable=True, default=uuid.uuid4())
 
     activities = relationship('Activity', back_populates='person')
     auths = relationship('Auth', back_populates='person', uselist=True)
 
+    types = {
+        **BaseEntity.types,
+        'date_in': 'date',
+        'date_out': 'date'
+    }
+
+    @classmethod
+    def get_key(cls, key):
+        if key == 'dateIn':
+            return 'date_in'
+        elif key == 'dateOut':
+            return 'date_out'
+        elif key == 'dateBirth':
+            return 'date_birth'
+        else:
+            return key
+
+    @classmethod
+    def parse_request(cls, body):
+        parsed_obj = super(Person, cls).parse_request(body)
+        parsed_obj['date_in'] = cls.transform_date(parsed_obj['date_in'])
+        parsed_obj['date_birth'] = cls.transform_date(parsed_obj['date_birth'])
+        parsed_obj['date_out'] = cls.transform_date(parsed_obj['date_out'])
+        return parsed_obj
+
     @classmethod
     def transform_data(cls, dataframe):
         dataframe = super(Person, cls).transform_data(dataframe)
-        dataframe['date_birth'] = dataframe['date_birth'].apply(
-            lambda date: datetime.strptime(date, DATE_FORMAT) if date is not None else None)
-        dataframe['date_in'] = dataframe['date_in'].apply(
-            lambda date: datetime.strptime(date, DATE_FORMAT) if date is not None else None)
-        dataframe['date_out'] = dataframe['date_out'].apply(
-            lambda date: datetime.strptime(date, DATE_FORMAT) if date is not None else None)
+        dataframe['date_birth'] = dataframe['date_birth'].apply(cls.transform_date)
+        dataframe['date_in'] = dataframe['date_in'].apply(cls.transform_date)
+        dataframe['date_out'] = dataframe['date_out'].apply(cls.transform_date)
         return dataframe
 
     @classmethod
@@ -58,12 +79,12 @@ class Person(BaseEntity):
             'parental': self.parental,
             'status': self.status,
             'faculty': self.faculty,
-            'speciality': self.speciality,
-            'dateIn': self.date_in.strftime(DATE_FORMAT),
-            'dateOut': self.date_in.strftime(DATE_FORMAT),
+            'specialty': self.specialty,
+            'dateIn': self.transform_field('date', self.date_in),
+            'dateOut': self.transform_field('date', self.date_out),
             'about': self.about,
             'avatar': self.avatar,
-            'parentId': str(self.parent_id),
+            'parentId': self.transform_field('id', self.parent_id),
         }
 
     def to_dict(self):
@@ -71,7 +92,7 @@ class Person(BaseEntity):
             **self.to_short_dict(),
             'email': self.email,
             'telephone': self.telephone,
-            'dateBirth': self.date_birth.strftime(DATE_FORMAT),
+            'dateBirth': self.transform_field('date', self.date_birth),
         }
 
     def to_full_dict(self):
