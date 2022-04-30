@@ -118,11 +118,8 @@ const PersonFilter = ({ filters, statuses, apply, reset }) => {
             )}
             MenuProps={MenuProps}
           >
-            {statuses.map(({label, value}) => (
-              <MenuItem
-                key={value}
-                value={value}
-              >
+            {statuses.map(({ label, value }) => (
+              <MenuItem key={value} value={value}>
                 <Checkbox
                   checked={
                     (currentFilters[FILTER_PROPERTIES.status] || []).indexOf(

@@ -17,7 +17,7 @@ import {
   DATE_FORMAT_FOR_FORMS,
   FACULTIES,
   STATUSES,
-  dateToString
+  dateToString,
 } from "../../helpers/constants";
 
 const { StringType, DateType, ObjectType } = Schema.Types;
@@ -45,11 +45,10 @@ const model = Schema.Model({
   faculty: StringType().isRequired(reqField),
   specialty: StringType().isRequired(reqField),
   parent: StringType().isRequired(reqField),
-  telephone: StringType()
-    .pattern(
-      /^[+][0-9]{2}?[\s]?[(]?[0-9]{3}[)]?[\s]?[0-9]{3}[-\s]?[0-9]{4}$/im,
-      "Не вірний формат: (+38(098) 123-1234)"
-    ),
+  telephone: StringType().pattern(
+    /^[+][0-9]{2}?[\s]?[(]?[0-9]{3}[)]?[\s]?[0-9]{3}[-\s]?[0-9]{4}$/im,
+    "Не вірний формат: (+38(098) 123-1234)"
+  ),
   uploader: ObjectType(),
 });
 
