@@ -28,7 +28,7 @@ class Person(BaseEntity):
     about = db.Column(db.String)
     avatar = db.Column(db.String)
     parent_id = db.Column(UUIDType(binary=False), db.ForeignKey(
-        'person.id'), nullable=True)
+        'person.id', ondelete='SET NULL'), nullable=True)
 
     activities = relationship('Activity', back_populates='person')
     auths = relationship('Auth', back_populates='person', uselist=True)

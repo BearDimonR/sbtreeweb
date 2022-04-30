@@ -10,7 +10,7 @@ class Auth(BaseEntity):
 
     sheet_helper = ApiSheetHelper(__tablename__)
 
-    person_id = db.Column(UUIDType(binary=False), db.ForeignKey('person.id'))
+    person_id = db.Column(UUIDType(binary=False), db.ForeignKey('person.id', ondelete='CASCADE'))
     access = db.Column(db.Integer, default=0)
     email = db.Column(db.String)
 

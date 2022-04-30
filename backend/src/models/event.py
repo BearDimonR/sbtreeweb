@@ -1,4 +1,4 @@
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
 from config import DATE_FORMAT
 from helpers import db, ApiSheetHelper

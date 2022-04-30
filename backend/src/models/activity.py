@@ -1,5 +1,5 @@
 from sqlalchemy_utils import UUIDType
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
 from helpers import db, ApiSheetHelper
 from models.base_entity import BaseEntity
@@ -10,8 +10,8 @@ class Activity(BaseEntity):
 
     sheet_helper = ApiSheetHelper(__tablename__)
 
-    person_id = db.Column(UUIDType(binary=False), db.ForeignKey('person.id'))
-    event_id = db.Column(UUIDType(binary=False), db.ForeignKey('event.id'))
+    person_id = db.Column(UUIDType(binary=False), db.ForeignKey('person.id', ondelete='CASCADE'))
+    event_id = db.Column(UUIDType(binary=False), db.ForeignKey('event.id', ondelete='CASCADE'))
     position = db.Column(db.String, nullable=False)
     contribution = db.Column(db.Text)
 
