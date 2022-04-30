@@ -69,7 +69,7 @@ const EventView = ({
                 <Label color="purple" horizontal>
                   Дата проведення
                 </Label>
-                {event.dateStart} - {event.dateEnd}
+                {event.dateStart} - {event.dateEnd ? event.dateEnd : "Present"}
               </List.Item>
               <List.Item>
                 <Label color="orange" horizontal>

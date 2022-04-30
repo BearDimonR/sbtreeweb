@@ -1,9 +1,8 @@
 import uuid
 
-from sqlalchemy_utils import UUIDType
 from sqlalchemy.orm import relationship
+from sqlalchemy_utils import UUIDType
 
-from config import DATE_FORMAT
 from helpers import db, ApiSheetHelper
 from models.base_entity import BaseEntity
 
@@ -28,11 +27,11 @@ class Person(BaseEntity):
     date_out = db.Column(db.Date)
     about = db.Column(db.String)
     avatar = db.Column(db.String)
-    parent_id = db.Column(UUIDType(binary=False), db.ForeignKey('person.id'), nullable=True, default=uuid.uuid4())
+    parent_id = db.Column(UUIDType(binary=False), db.ForeignKey(
+        'person.id'), nullable=True, default=uuid.uuid4())
 
     activities = relationship('Activity', back_populates='person')
     auths = relationship('Auth', back_populates='person', uselist=True)
-
     types = {
         **BaseEntity.types,
         'date_in': 'date',
@@ -47,6 +46,8 @@ class Person(BaseEntity):
             return 'date_out'
         elif key == 'dateBirth':
             return 'date_birth'
+        elif key == 'parentId':
+            return 'parent_id'
         else:
             return key
 

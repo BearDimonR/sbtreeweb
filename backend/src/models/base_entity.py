@@ -42,7 +42,8 @@ class BaseEntity(db.Model, SheetEntity):
             field_type = cls.types[key]
         except KeyError:
             field_type = key
-
+        if val is None:
+            return val
         if field_type == 'id':
             if isinstance(val, uuid.UUID):
                 return str(val)

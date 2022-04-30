@@ -491,6 +491,7 @@ components:
             dateOut:
               description: "format: dd.mm.yyyy"
               type: string
+              nullable: true
             about:
               type: string
             avatar:
@@ -523,6 +524,7 @@ components:
             dateEnd:
               description: "format: dd.mm.yyyy"
               type: string
+              nullable: true
             category:
               type: string
             about:

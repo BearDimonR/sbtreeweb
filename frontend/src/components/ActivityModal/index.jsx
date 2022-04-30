@@ -79,8 +79,8 @@ const ActivityModal = ({
     onSubmit({
       ..._.omit(formValue, ["person", "event"]),
       id: activity.id,
-      eventId: activity.eventId,
-      personId: activity.personId,
+      eventId: formValue.event,
+      personId: formValue.person,
     });
     handleReset();
   };
