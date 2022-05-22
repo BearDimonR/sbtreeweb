@@ -16,7 +16,7 @@ def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor.close()
 
 
-def init_db():
+def import_data():
     try:
         logging.info('Person data is importing...')
 

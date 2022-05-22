@@ -2,6 +2,7 @@ import json
 
 import requests
 from flask import request, redirect
+from urllib.parse import urlparse
 from jose import JWTError
 from werkzeug.exceptions import Unauthorized, Forbidden
 
@@ -23,11 +24,12 @@ def logout(user):
 def login():
     google_provider_cfg = auth_helper.get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg['authorization_endpoint']
+    parsed_url = urlparse(request.referrer)
 
     request_uri = app_client.prepare_request_uri(
         authorization_endpoint,
-        # TODO change to env
-        redirect_uri='https://localhost:3000/login/callback',
+        # ! important, this uri must be in google console allowed domains
+        redirect_uri=f'{parsed_url.geturl()}/callback',
         scope=['openid', 'email', 'profile'],
     )
     return redirect(request_uri)
@@ -35,6 +37,7 @@ def login():
 
 def callback():
     code = request.args.get('code')
+    parsed_url = urlparse(request.referrer)
 
     google_provider_cfg = auth_helper.get_google_provider_cfg()
     token_endpoint = google_provider_cfg['token_endpoint']
@@ -42,8 +45,8 @@ def callback():
     token_url, headers, body = app_client.prepare_token_request(
         token_endpoint,
         authorization_response=request.url,
-        # TODO change to env frontend ip/port address
-        redirect_url='https://localhost:3000/login/callback',
+        # ! important, this uri must be in google console allowed domains
+        redirect_url=parsed_url._replace(query='').geturl(),
         code=code
     )
 
