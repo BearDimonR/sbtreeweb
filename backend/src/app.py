@@ -8,7 +8,7 @@ sys.path.extend([root, os.path.join(root, 'src')])
 from helpers.db_helper import import_data
 from helpers import db
 from exceptions import init_exception_handlers
-from config import DATETIME_FORMAT, LOG_FOLDER, LOG_FORMAT, DATABASE_URI, DATA_PACKAGE, API_FILE
+from config import DATETIME_FORMAT, LOG_FOLDER, LOG_FORMAT, DATABASE_URI, DATA_FOLDER, API_FILE
 from connexion import FlaskApp, App
 import logging
 from logging.handlers import RotatingFileHandler
@@ -43,7 +43,7 @@ def init_app():
     init_logs()
 
     # create and initialize SQLite database
-    os.makedirs(DATA_PACKAGE, exist_ok=True)
+    os.makedirs(DATA_FOLDER, exist_ok=True)
 
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
     flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

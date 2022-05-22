@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # loading variables to environment from .env file
 load_dotenv()
@@ -22,10 +23,10 @@ GOOGLE_DISCOVERY_URL = 'https://accounts.google.com/.well-known/openid-configura
 GOOGLE_SHEET_SCOPE = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 
 # Google creds location
-GOOGLE_CREDS_FILE_PATH = '../google_creds.json'
+GOOGLE_CREDS_FILE_PATH = os.path.join(ROOT_DIR, 'google_creds.json')
 
 # Database URI
-DATA_FOLDER = '../data'
+DATA_FOLDER = os.path.join(ROOT_DIR, 'data')
 RESOURCE_NAME = 'data.db'
 DATABASE_URI = f"sqlite:///{os.path.join(DATA_FOLDER, RESOURCE_NAME)}"
 
