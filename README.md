@@ -14,13 +14,17 @@
 
 # How to start backend in the docker?
 
-1. create `.env` from `.env.example` - or ask someone to provide you it
+1. follow instructions in `proxy/certs/README.md` and create self-signed certificate
 
-2. ask someone to provide you `google_creds.json` file
+2. `cd backend`
 
-3. create `proxy/certs/sbtree.local.cert` and `proxy/certs/sbtree.local.key`
+3. create `.env` from `.env.example` - or ask someone to provide you it
 
-3.1. you can use https://github.com/FiloSottile/mkcert
+4. ask someone to provide you `google_creds.json` file 
+
+5. run `docker build -t sbtree-backend .`
+
+6. run `docker run --rm -p 3002:443 sbtree-backend`
 
 # How to start backend for the first time?
 
