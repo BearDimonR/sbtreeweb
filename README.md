@@ -12,6 +12,16 @@
 
 1. `npm start`
 
+# How to start backend in the docker?
+
+1. create `.env` from `.env.example` - or ask someone to provide you it
+
+2. ask someone to provide you `google_creds.json` file
+
+3. create `proxy/certs/sbtree.local.cert` and `proxy/certs/sbtree.local.key`
+
+3.1. you can use https://github.com/FiloSottile/mkcert
+
 # How to start backend for the first time?
 
 1. `cd backend`
@@ -24,13 +34,9 @@
 
 5. `pip install -r requirements.txt`
 
-6. create `/logs` folder in `backend` - will be fixed later
+6. create `.env` from `.env.example` - or ask someone to provide you it
 
-7. create `.env` from `.env.example` - or ask someone to provide you it
-
-8. create `data` just copying `data.example` file - will be fixed later
-
-9. ask someone to provide you `google_creds.json` file - will be fixed later
+8. ask someone to provide you `google_creds.json` file
 
 10. `python src/app.py`
 
