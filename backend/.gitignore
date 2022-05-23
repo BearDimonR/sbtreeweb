@@ -131,5 +131,7 @@ dmypy.json
 .idea/
 logs/
 data/
+*.crt
+*.key
 
 google_creds.json

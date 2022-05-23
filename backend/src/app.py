@@ -8,11 +8,17 @@ sys.path.extend([root, os.path.join(root, 'src')])
 from helpers.db_helper import import_data
 from helpers import db
 from exceptions import init_exception_handlers
-from config import DATETIME_FORMAT, LOG_FOLDER, LOG_FORMAT, DATABASE_URI, DATA_FOLDER, API_FILE
+from config import DATETIME_FORMAT, LOG_FOLDER, LOG_FORMAT, DATABASE_URI, DATA_FOLDER, API_FILE, FLASK_ENV, DEV_PORT, \
+    KEY, CRT
 from connexion import FlaskApp, App
 import logging
 from logging.handlers import RotatingFileHandler
 import datetime
+
+# Flask instance
+connexion_app: FlaskApp = App(__name__, specification_dir="./")
+connexion_app.add_api(API_FILE)
+app = connexion_app.app
 
 
 def init_logs():
@@ -32,37 +38,34 @@ def init_logs():
 
 
 def init_app():
-    connexion_app: FlaskApp = App(__name__, specification_dir="./")
-    connexion_app.add_api(API_FILE)
-
-    flask_app = connexion_app.app
-    flask_app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
+    app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
     # initialize additions
-    init_exception_handlers(flask_app)
+    init_exception_handlers(app)
     init_logs()
 
     # create and initialize SQLite database
     os.makedirs(DATA_FOLDER, exist_ok=True)
 
-    flask_app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
-    flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    db.init_app(flask_app)
+    db.init_app(app)
 
     # recreate database and import data from Google Sheets
-    with flask_app.app_context():
+    with app.app_context():
         db.drop_all()
         db.create_all()
         import_data()
 
-    return flask_app
-
 
 if __name__ == '__main__':
     try:
-        app = init_app()
-        app.run(ssl_context='adhoc', use_reloader=False, port=3002)
+        init_app()
+        if FLASK_ENV == 'production':
+            app.run(ssl_context=(CRT, KEY), host="0.0.0.0", port=443)
+        else:
+            app.run(ssl_context='adhoc', use_reloader=False, port=DEV_PORT)
     except Exception as error:
         logging.critical(error)
         sys.exit(error)

@@ -1,12 +1,12 @@
-FROM ubuntu:16.04
-
-RUN apt-get update -y && \
-    apt-get install -y python-pip python-dev
+FROM python:3.8
+RUN pip install --upgrade pip
 
 COPY ./requirements.txt /app/requirements.txt
 COPY ./google_creds.json /app/google_creds.json
 COPY ./.env /app/.env
+COPY ./proxy /app/proxy
 
+ENV FLASK_ENV=production
 
 WORKDIR /app
 
@@ -14,6 +14,6 @@ RUN pip install -r requirements.txt
 
 COPY . /app
 
-ENTRYPOINT [ "python" ]
+WORKDIR /app/src
 
-CMD [ "src/app.py" ]
+ENTRYPOINT ["python", "app.py"]

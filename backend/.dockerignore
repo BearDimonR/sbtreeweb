@@ -102,7 +102,6 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
 .venv
 env/
 venv/
@@ -131,4 +130,3 @@ dmypy.json
 .idea/
 /logs
 /data
-google_creds.json

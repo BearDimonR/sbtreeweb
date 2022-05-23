@@ -1,7 +1,5 @@
 from flask import request
 
-from config import PERSONAL
-from controllers.auth_controller import validate_token
 from services import person_service
 
 

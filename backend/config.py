@@ -6,6 +6,12 @@ ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 # loading variables to environment from .env file
 load_dotenv()
 
+# loading Flask envs
+# TODO make a reasonable configuration according to the env (production\dev)
+# TODO make flag for a dockerfile to set environment
+FLASK_ENV = os.environ.get("FLASK_ENV")
+DEV_PORT = 3002
+
 # loading Google API variables from environment
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
@@ -54,3 +60,8 @@ MAX_IMPORT_SIZE = 10000
 # Logs configs
 LOG_FOLDER = '../logs'
 LOG_FORMAT = '%(asctime)s [%(levelname)s] {%(name)s %(threadName)s} : %(message)s'
+
+# Certs path
+CERT_FOLDER = os.path.join(ROOT_DIR, 'proxy/certs')
+CRT = os.path.join(CERT_FOLDER, 'sbtree.local.crt')
+KEY = os.path.join(CERT_FOLDER, 'sbtree.local.key')
