@@ -30,4 +30,4 @@ venv
 *.pub
 .name_servers
 .infrastructure_output
-nginx.conf
+nginx_ec2.conf

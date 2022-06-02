@@ -5,7 +5,12 @@ provider "aws" {
 
 variable "hostname" {
   type = string
-  default = "sbtree.ml"
+  default = "sbtreeweb.ml"
+}
+
+variable "email" {
+  type = string
+  default = "sb.ukma@gmail.com"
 }
 
 variable "key_name" {
@@ -307,6 +312,16 @@ resource "aws_route53_record" "www_redirect_ec2" {
   type    = "A"
   ttl     = "300"
   records = [ aws_eip_association.eip_assoc.public_ip ]
+}
+
+output "domain_name" {
+  value = var.hostname
+  description = "The domain name for this infrastructure"
+}
+
+output "domain_email" {
+  value = var.email
+  description = "The domain email for this infrastructure"
 }
 
 output "name_servers" {
