@@ -1,0 +1,11 @@
+[Unit]
+Description=React service
+After=network.target
+[Service]
+User=ec2-user
+Group=ec2-user
+WorkingDirectory=/home/ec2-user/sbtree/frontend
+ExecStart=/home/ec2-user/.nvm/versions/node/v16.13.0/lib/node_modules/npm start
+Restart=always
+[Install]
+WantedBy=multi-user.target
