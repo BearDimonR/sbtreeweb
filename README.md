@@ -1,5 +1,25 @@
 ## SBTree repository
 
+# Deployment sector
+
+# Initialization of deployment
+
+The full initialization of infrastructure described [here]()
+
+Note!
+Before running `deploy.sh`, generate and add to github public ssh key
+Just run `ssh-keygen -y -f key_name.pem > key_name.pub`, where `key_name` - name of AWS key you use to connect to EC2 instance
+Then add this key to the deploy keys of the repo to make EC2 instance copy this repo
+
+
+
+
+
+
+
+
+# Development sector
+
 # How to start frontend for the first time?
 
 1. `npm i --legacy-peer-deps` - there is conflict with react v17 and graph lib, to be fixed

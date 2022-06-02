@@ -30,3 +30,4 @@ venv
 *.pub
 .name_servers
 .infrastructure_output
+nginx.conf

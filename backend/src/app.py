@@ -58,10 +58,10 @@ def init_app():
         db.create_all()
         import_data()
 
+init_app()
 
 if __name__ == '__main__':
     try:
-        init_app()
         if FLASK_ENV == 'production':
             app.run(ssl_context=(CRT, KEY), host="0.0.0.0", port=443)
         else:
