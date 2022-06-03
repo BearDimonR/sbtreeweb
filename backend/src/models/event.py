@@ -1,6 +1,5 @@
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship
 
-from config import DATE_FORMAT
 from helpers import db, ApiSheetHelper
 from models.base_entity import BaseEntity
 
@@ -12,13 +11,13 @@ class Event(BaseEntity):
     start = 'date_start'
     end = 'date_end'
 
-    name = db.Column(db.String)
+    name = db.Column(db.String(50))
     date_start = db.Column(db.Date)
     date_end = db.Column(db.Date)
-    category = db.Column(db.String)
-    about = db.Column(db.String, nullable=True)
+    category = db.Column(db.String(30))
+    about = db.Column(db.String(200), nullable=True)
     description = db.Column(db.Text, nullable=True)
-    photo = db.Column(db.String, nullable=True)
+    photo = db.Column(db.String(100), nullable=True)
 
     activities = relationship('Activity', back_populates='event')
 

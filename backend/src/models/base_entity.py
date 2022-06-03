@@ -1,10 +1,8 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy_utils import UUIDType
-
 from config import DATETIME_FORMAT, DATE_FORMAT
-from helpers import db
+from helpers import db, BinaryUUID
 from models.importable_entity import SheetEntity
 
 
@@ -18,7 +16,7 @@ def commit(obj):
 class BaseEntity(db.Model, SheetEntity):
     __abstract__ = True
 
-    id = db.Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4())
+    id = db.Column(BinaryUUID, primary_key=True, default=uuid.uuid4())
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime,
                            default=db.func.current_timestamp(),
@@ -98,6 +96,8 @@ class BaseEntity(db.Model, SheetEntity):
 
     @classmethod
     def transform_data(cls, dataframe):
+        dataframe['id'] = dataframe['id'].apply(
+            lambda _id: uuid.UUID(_id) if _id is not None else None)
         dataframe['updated_at'] = dataframe['updated_at'].apply(
             lambda date: datetime.strptime(date, DATETIME_FORMAT) if date is not None else None)
         dataframe['created_at'] = dataframe['created_at'].apply(

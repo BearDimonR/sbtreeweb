@@ -32,9 +32,13 @@ GOOGLE_SHEET_SCOPE = ['https://spreadsheets.google.com/feeds', 'https://www.goog
 GOOGLE_CREDS_FILE_PATH = os.path.join(ROOT_DIR, 'google_creds.json')
 
 # Database URI
-DATA_FOLDER = os.path.join(ROOT_DIR, 'data')
-RESOURCE_NAME = 'data.db'
-DATABASE_URI = f"sqlite:///{os.path.join(DATA_FOLDER, RESOURCE_NAME)}"
+user = os.environ['MYSQL_USER']
+password = os.environ['MYSQL_PASSWORD']
+host = os.environ['MYSQL_HOST']
+database = os.environ['MYSQL_DB']
+port = os.environ['MYSQL_PORT']
+
+DATABASE_URI = f'mysql+pymysql://{user}:{password}@{host}:{port}/{database}'
 
 
 # openapi file path

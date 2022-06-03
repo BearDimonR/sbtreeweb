@@ -5,16 +5,6 @@ from models.auth import Auth
 from models.event import Event
 from models.person import Person
 
-from sqlalchemy.engine import Engine
-from sqlalchemy import event
-
-# SQLite feature for working with foreign keys
-@event.listens_for(Engine, "connect")
-def set_sqlite_pragma(dbapi_connection, connection_record):
-    cursor = dbapi_connection.cursor()
-    cursor.execute("PRAGMA foreign_keys=ON")
-    cursor.close()
-
 
 def import_data():
     try:

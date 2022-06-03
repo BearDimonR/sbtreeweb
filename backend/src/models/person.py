@@ -1,9 +1,8 @@
 import uuid
 
 from sqlalchemy.orm import relationship
-from sqlalchemy_utils import UUIDType
 
-from helpers import db, ApiSheetHelper
+from helpers import db, ApiSheetHelper, BinaryUUID
 from models.base_entity import BaseEntity
 
 
@@ -14,20 +13,20 @@ class Person(BaseEntity):
     start = 'date_in'
     end = 'date_out'
 
-    name = db.Column(db.String)
-    surname = db.Column(db.String)
-    parental = db.Column(db.String)
-    email = db.Column(db.String)
-    telephone = db.Column(db.String)
+    name = db.Column(db.String(20))
+    surname = db.Column(db.String(20))
+    parental = db.Column(db.String(20))
+    email = db.Column(db.String(50))
+    telephone = db.Column(db.String(20))
     date_birth = db.Column(db.Date)
-    status = db.Column(db.String)
-    faculty = db.Column(db.String)
-    specialty = db.Column(db.String)
+    status = db.Column(db.String(50))
+    faculty = db.Column(db.String(10))
+    specialty = db.Column(db.String(50))
     date_in = db.Column(db.Date)
     date_out = db.Column(db.Date)
-    about = db.Column(db.String)
-    avatar = db.Column(db.String)
-    parent_id = db.Column(UUIDType(binary=False), db.ForeignKey(
+    about = db.Column(db.String(200))
+    avatar = db.Column(db.String(100))
+    parent_id = db.Column(BinaryUUID, db.ForeignKey(
         'person.id', ondelete='SET NULL'), nullable=True)
 
     activities = relationship('Activity', back_populates='person')
@@ -62,6 +61,8 @@ class Person(BaseEntity):
     @classmethod
     def transform_data(cls, dataframe):
         dataframe = super(Person, cls).transform_data(dataframe)
+        dataframe['parent_id'] = dataframe['parent_id'].apply(
+            lambda _id: uuid.UUID(_id) if _id is not None else None)
         dataframe['date_birth'] = dataframe['date_birth'].apply(cls.transform_date)
         dataframe['date_in'] = dataframe['date_in'].apply(cls.transform_date)
         dataframe['date_out'] = dataframe['date_out'].apply(cls.transform_date)

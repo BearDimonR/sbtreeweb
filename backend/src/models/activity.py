@@ -1,7 +1,8 @@
-from sqlalchemy_utils import UUIDType
+import uuid
+
 from sqlalchemy.orm import relationship, backref
 
-from helpers import db, ApiSheetHelper
+from helpers import db, ApiSheetHelper, BinaryUUID
 from models.base_entity import BaseEntity
 
 
@@ -10,9 +11,9 @@ class Activity(BaseEntity):
 
     sheet_helper = ApiSheetHelper(__tablename__)
 
-    person_id = db.Column(UUIDType(binary=False), db.ForeignKey('person.id', ondelete='CASCADE'))
-    event_id = db.Column(UUIDType(binary=False), db.ForeignKey('event.id', ondelete='CASCADE'))
-    position = db.Column(db.String, nullable=False)
+    person_id = db.Column(BinaryUUID, db.ForeignKey('person.id', ondelete='CASCADE'))
+    event_id = db.Column(BinaryUUID, db.ForeignKey('event.id', ondelete='CASCADE'))
+    position = db.Column(db.String(50), nullable=False)
     contribution = db.Column(db.Text)
 
     event = relationship("Event", back_populates="activities")
@@ -37,6 +38,15 @@ class Activity(BaseEntity):
     def filter_data(cls, dataframe):
         dataframe = super(Activity, cls).filter_data(dataframe)
         return dataframe[(dataframe['person_id'].notna()) & (dataframe['event_id'].notna())]
+
+    @classmethod
+    def transform_data(cls, dataframe):
+        dataframe = super(Activity, cls).transform_data(dataframe)
+        dataframe['person_id'] = dataframe['person_id'].apply(
+            lambda _id: uuid.UUID(_id) if _id is not None else None)
+        dataframe['event_id'] = dataframe['event_id'].apply(
+            lambda _id: uuid.UUID(_id) if _id is not None else None)
+        return dataframe
 
     def to_dict(self):
         return {

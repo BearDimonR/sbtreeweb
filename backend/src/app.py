@@ -8,7 +8,7 @@ sys.path.extend([root, os.path.join(root, 'src')])
 from helpers.db_helper import import_data
 from helpers import db
 from exceptions import init_exception_handlers
-from config import DATETIME_FORMAT, LOG_FOLDER, LOG_FORMAT, DATABASE_URI, DATA_FOLDER, API_FILE, FLASK_ENV, DEV_PORT, \
+from config import DATETIME_FORMAT, LOG_FOLDER, LOG_FORMAT, DATABASE_URI, API_FILE, FLASK_ENV, DEV_PORT, \
     KEY, CRT
 from connexion import FlaskApp, App
 import logging
@@ -43,9 +43,6 @@ def init_app():
     # initialize additions
     init_exception_handlers(app)
     init_logs()
-
-    # create and initialize SQLite database
-    os.makedirs(DATA_FOLDER, exist_ok=True)
 
     app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
