@@ -1,10 +1,6 @@
 import os
-from dotenv import load_dotenv
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-
-# loading variables to environment from .env file
-load_dotenv()
 
 # loading Flask envs
 # TODO make a reasonable configuration according to the env (production\dev)

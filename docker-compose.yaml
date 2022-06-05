@@ -15,6 +15,8 @@ services:
         - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
   # sbtree_backend:
   #   build: .
+  #   environment:
+  #     - FLASK_ENV=docker
   #   restart: always
   # proxy:
   #   image: nginx:1.19.10-alpine

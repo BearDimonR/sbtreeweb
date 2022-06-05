@@ -59,8 +59,10 @@ init_app()
 
 if __name__ == '__main__':
     try:
-        if FLASK_ENV == 'production':
+        if FLASK_ENV == 'docker':
             app.run(ssl_context=(CRT, KEY), host="0.0.0.0", port=443)
+        elif FLASK_ENV == 'production':
+            app.run(ssl_context='adhoc', host="0.0.0.0", port=3002)
         else:
             app.run(ssl_context='adhoc', use_reloader=False, port=DEV_PORT)
     except Exception as error:

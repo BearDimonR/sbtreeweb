@@ -20,7 +20,7 @@ def render_unexpected_error(exception: Exception):
 
 
 def render_http_error(exception: HTTPException):
-    logging.error(f'{exception.name} : {exception.description}', exception)
+    logging.error(f'{exception.name} : {exception.description}')
     return Response(response=json.dumps({
         'title': exception.name,
         'details': exception.description,

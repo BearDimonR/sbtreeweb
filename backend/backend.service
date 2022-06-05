@@ -1,11 +1,11 @@
 [Unit]
-Description=Gunicorn instance for a backend
+Description=instance for a backend
 After=network.target
 [Service]
 User=ec2-user
 Group=ec2-user
 WorkingDirectory=/home/ec2-user/backend
-ExecStart=/bin/bash /home/ec2-user/backend/backend.sh
+ExecStart=/bin/bash /home/ec2-user/backend/backend.sh ./.env.production
 Restart=always
 [Install]
 WantedBy=multi-user.target

@@ -147,7 +147,12 @@ resource "aws_iam_role_policy" "ec2_policy" {
         "ecr:GetDownloadUrlForLayer"
       ],
       "Effect": "Allow",
-      "Resource": "*"
+      "Resource": "*",
+      "Condition": {
+                "StringEquals": {
+                    "aws:RequestedRegion": "eu-central-1"
+                }
+            }
     }
   ]
 }

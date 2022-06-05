@@ -1,7 +1,8 @@
 #!/bin/sh
 
-. ../.env
-. .env
+ENV_FILE=${1:-./.env.development}
+
+. $ENV_FILE
 
 export MYSQL_USER=$MYSQL_USER
 export MYSQL_PASSWORD=$MYSQL_PASSWORD
@@ -14,7 +15,9 @@ export JWT_ISSUER=$JWT_ISSUER
 export JWT_SECRET=$JWT_SECRET
 export JWT_LIFETIME_SECONDS=$JWT_LIFETIME_SECONDS
 export JWT_ALGORITHM=$JWT_ALGORITHM
+export FLASK_ENV=$FLASK_ENV
 
 source venv/bin/activate
 cd src
-gunicorn -b localhost:8000 app:app
+python3 app.py
+

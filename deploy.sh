@@ -47,6 +47,7 @@ sudo rpm -Uvh dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-*.r
 sudo yum-config-manager --enable epel*
 sudo yum install -y certbot 
 sudo yum install -y python-certbot-nginx
+sudo rm -r dl.fedoraproject.org/
 
 # generate sertificate for your domain
 sudo certbot certonly --noninteractive --agree-tos --standalone --debug -d $DOMAIN_NAME -m $DOMAIN_EMAIL

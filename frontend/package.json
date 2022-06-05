@@ -53,7 +53,7 @@
     "uuid": "^8.3.2"
   },
   "scripts": {
-    "build:ec2": "env-cmd -f .env npm run build",
+    "build:ec2": "env-cmd -f .env.production npm run build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
