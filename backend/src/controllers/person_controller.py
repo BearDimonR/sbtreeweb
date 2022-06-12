@@ -40,7 +40,7 @@ def get_tree():
 
 def get_person_short(id):
     person = person_service.get_by_id(id)
-    return person.to_short_dict()
+    return person.to_short_full_dict()
 
 
 def get_person(id):

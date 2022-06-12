@@ -89,6 +89,12 @@ class Person(BaseEntity):
             'parentId': self.transform_field('id', self.parent_id),
         }
 
+    def to_short_full_dict(self):
+        return {
+            **self.to_short_dict(),
+            'events': list(map(lambda x: x.to_dict_with_event(), self.activities))
+        }
+
     def to_dict(self):
         return {
             **self.to_short_dict(),
