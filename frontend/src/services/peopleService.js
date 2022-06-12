@@ -35,6 +35,19 @@ export const getPerson = async (id, events = true) => {
   return person;
 };
 
+export const getPersonShort = async (id, events = true) => {
+  const response = await callWebApi({
+    type: "GET",
+    endpoint: `/api/person/${id}/short`,
+    query: {
+      events,
+    },
+  });
+
+  const person = (await response.json()) || null;
+  return person;
+};
+
 export const getPeopleFullNames = async () => {
   const response = await callWebApi({
     type: "GET",

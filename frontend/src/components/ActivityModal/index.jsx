@@ -43,7 +43,6 @@ const getInputPicker = (props) => (
 
 const ActivityModal = ({
   open,
-  user,
   activity = {},
   fullNames,
   eventNames,

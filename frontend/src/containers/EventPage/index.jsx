@@ -27,12 +27,12 @@ const EventPage = () => {
   const path = location.pathname;
   const [editing, setEditing] = useState(false);
 
-  const user = useSelector((state) => state.profile.user);
   const event = useSelector((state) => state.event.instance);
   const activity = useSelector((state) => state.event.activity);
   const fullNames = useSelector((state) => state.person.fullNames);
   const eventNames = useSelector((state) => state.event.names);
   const categories = useSelector((state) => state.event.categories);
+  const access = useSelector((state) => state.profile.access);
 
   useEffect(() => {
     dispatch(loadEvent(id));
@@ -88,11 +88,11 @@ const EventPage = () => {
         onActivityEdit={handleActivityEdit}
         onActivityDelete={handleActivityDelete}
         onActivityClicked={handleActivityClicked}
+        access={access}
       />
       <EventModal
         open={editing}
         onClose={handleModalClose}
-        user={user}
         event={event}
         categories={categories}
         onSubmit={handleSubmit}
@@ -100,7 +100,6 @@ const EventPage = () => {
       <ActivityModal
         open={activity !== null}
         onClose={handleModalClose}
-        user={user}
         activity={activity}
         fullNames={fullNames}
         eventNames={eventNames}

@@ -4,6 +4,7 @@ import _ from "lodash";
 import { Grid, Image, List, Label } from "semantic-ui-react";
 import { Panel } from "rsuite";
 import Ratio from "react-ratio";
+import { ROLES } from "../../utils/rolesConstrants";
 
 const EventView = ({
   event,
@@ -12,6 +13,7 @@ const EventView = ({
   onActivityEdit,
   onActivityDelete,
   onActivityClicked,
+  access,
 }) => {
   const ref = useRef();
   const [maxHeight, setMaxHeight] = useState();
@@ -23,7 +25,10 @@ const EventView = ({
   const getHeader = () => (
     <div className={style.infoTitle}>
       <p>Інформація про подію</p>
+      {
+          access >= ROLES.EDITOR &&
       <div className={style.icons}>
+        
         <Label
           as="a"
           icon="edit"
@@ -39,6 +44,7 @@ const EventView = ({
           onClick={(e) => onDelete(event.id)}
         />
       </div>
+      }
     </div>
   );
 
@@ -95,6 +101,7 @@ const EventView = ({
                     key={val.id}
                     onClick={() => onActivityClicked(val.person?.id)}
                   >
+                    { access >= ROLES.EDITOR &&
                     <div className={style.actionIcons}>
                       <Label
                         as="a"
@@ -117,6 +124,7 @@ const EventView = ({
                         }}
                       />
                     </div>
+}
                     <Image avatar src={val.person?.avatar} />
                     <List.Content>
                       <List.Header as="a" className={style.activityInfo}>

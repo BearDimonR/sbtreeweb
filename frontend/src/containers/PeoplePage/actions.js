@@ -44,10 +44,17 @@ export const loadPeople = () => async (dispatch, getRootState) => {
   });
 };
 
-export const loadPerson = (id) => async (dispatch) => {
+export const loadPerson = (id) => async (dispatch, getRootState) => {
   handleError(async () => {
     dispatch(setContentIsLoading(true));
-    const person = await peopleService.getPerson(id);
+    const store = getRootState();
+    const access = store.profile.access;
+    let person = {};
+    if (access) {
+      person = await peopleService.getPerson(id);
+    } else {
+      person = await peopleService.getPersonShort(id);
+    }
     dispatch(setInstance(person));
     dispatch(setContentIsLoading(false));
   });

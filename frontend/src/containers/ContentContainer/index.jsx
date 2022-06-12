@@ -103,7 +103,7 @@ const ContentContainer = ({ component: Component, setSidebarVisible }) => {
                   onChange={handleSearchChange}
                   value={search}
                 />
-                {!profilePage && (
+                {!profilePage && user && (
                   <NavLink to="/profile" className={style.avatarContainer}>
                     <Image
                       circular

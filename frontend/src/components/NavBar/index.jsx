@@ -1,4 +1,6 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import style from "./index.module.scss";
 import {
@@ -8,12 +10,19 @@ import {
   BiLogOutCircle,
   BiSitemap,
   BiInfoCircle,
+  BiLogInCircle,
 } from "react-icons/bi";
 import Logo from "../Logo";
 
 const Navbar = ({ logout }) => {
+  const history = useHistory();
+  const user = useSelector((state) => state.profile.user);
   const signOut = () => {
     logout();
+    history.push('/home')
+  };
+  const login = () => {
+    history.push('/login')
   };
   return (
     <div className={style.navbarContainer}>
@@ -63,10 +72,20 @@ const Navbar = ({ logout }) => {
         <BiInfoCircle className={style.menuItemIcon} />
         <p>About</p>
       </NavLink>
+      {
+        user &&
       <div className={style.menuItem} onClick={signOut}>
         <BiLogOutCircle className={style.menuItemIcon} />
         <p>Log out</p>
       </div>
+      }
+      {
+        !user &&
+      <div className={style.menuItem} onClick={login}>
+        <BiLogInCircle className={style.menuItemIcon} />
+        <p>Login</p>
+      </div>
+      }
     </div>
   );
 };

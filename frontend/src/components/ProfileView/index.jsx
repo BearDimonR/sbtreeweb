@@ -4,6 +4,7 @@ import _ from "lodash";
 import { Grid, Image, List, Label, Icon } from "semantic-ui-react";
 import { Panel } from "rsuite";
 import Ratio from "react-ratio";
+import { ROLES } from "../../utils/rolesConstrants";
 
 const ProfileView = ({
   user,
@@ -12,6 +13,7 @@ const ProfileView = ({
   onActivityEdit,
   onActivityDelete,
   onActivityClicked,
+  access,
 }) => {
   const ref = useRef();
   const [maxHeight, setMaxHeight] = useState();
@@ -23,6 +25,7 @@ const ProfileView = ({
   const getHeader = () => (
     <div className={style.infoTitle}>
       <p>Профіль</p>
+      { access >= ROLES.EDITOR &&
       <div className={style.icons}>
         <Label
           as="a"
@@ -39,6 +42,7 @@ const ProfileView = ({
           onClick={() => onDelete(user.id)}
         />
       </div>
+    }
     </div>
   );
 
@@ -121,6 +125,7 @@ const ProfileView = ({
                   className={style.activityItem}
                   onClick={(e) => onActivityClicked(val.event?.id)}
                 >
+                 { access >= ROLES.EDITOR &&
                   <div className={style.actionIcons}>
                     <Label
                       as="a"
@@ -143,6 +148,7 @@ const ProfileView = ({
                       }}
                     />
                   </div>
+                }
                   <Image avatar src={val.event?.photo} />
                   <List.Content>
                     <List.Header as="a" className={style.activityInfo}>

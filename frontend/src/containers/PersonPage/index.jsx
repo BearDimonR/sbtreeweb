@@ -25,12 +25,12 @@ const PersonPage = () => {
   const path = location.pathname;
   const [editing, setEditing] = useState(false);
 
-  const user = useSelector((state) => state.profile.user);
   const person = useSelector((state) => state.person.instance);
   const activity = useSelector((state) => state.event.activity);
   const fullNames = useSelector((state) => state.person.fullNames);
   const specialties = useSelector((state) => state.person.specialties);
   const eventNames = useSelector((state) => state.event.names);
+  const access = useSelector((state) => state.profile.access);
 
   useEffect(() => {
     dispatch(loadPerson(id));
@@ -87,11 +87,11 @@ const PersonPage = () => {
         onActivityEdit={handleActivityEdit}
         onActivityDelete={handleActivityDelete}
         onActivityClicked={handleActivityClicked}
+        access={access}
       />
       <PersonModal
         open={editing}
         onClose={handleModalClose}
-        user={user}
         person={person}
         fullNames={fullNames}
         specialties={specialties}
@@ -100,7 +100,6 @@ const PersonPage = () => {
       <ActivityModal
         open={activity !== null}
         onClose={handleModalClose}
-        user={user}
         activity={activity}
         fullNames={fullNames}
         eventNames={eventNames}

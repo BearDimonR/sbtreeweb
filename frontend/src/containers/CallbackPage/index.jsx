@@ -19,6 +19,7 @@ const CallbackPage = (props) => {
 
         dispatch(setUser(body.auth));
         localStorage.setItem("token", body.token);
+        history.push("/home");
       })
       .catch((error) => {
         if (error.status === 401) {
@@ -26,7 +27,7 @@ const CallbackPage = (props) => {
             message: "",
           });
         } else {
-          errorHandler("Internal server error ocured")({ message: "" });
+          errorHandler("Internal server error occurred")({ message: "" });
         }
         history.push("/login");
       });
