@@ -45,7 +45,10 @@ class BaseEntity(db.Model, SheetEntity):
         if field_type == 'id':
             if isinstance(val, uuid.UUID):
                 return str(val)
-            return str(uuid.UUID(val))
+            elif isinstance(val, str):
+                return str(uuid.UUID(val))
+            else:
+                return str(uuid.UUID(bytes=val))
         if field_type == 'datetime':
             return val.strftime(DATETIME_FORMAT)
         if field_type == 'date':
