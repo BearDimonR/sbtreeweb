@@ -4,7 +4,7 @@
 
 # Initialization of deployment
 
-The full initialization of infrastructure described [here]()
+The full initialization of infrastructure described [here](https://github.com/BearDimonR/aws_deployment)
 
 Note!
 Before running `deploy.sh`, generate and add to github public ssh key
