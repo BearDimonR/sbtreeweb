@@ -11,8 +11,8 @@ import {
   BiLogInCircle,
 } from "react-icons/bi";
 import Logo from "../Logo";
-
-const LANDING_URL = process.env.REACT_APP_LANDING_URL;
+import { localization } from "../../utils/localization";
+import { LANDING_URL } from "../../helpers/constants";
 
 const Navbar = ({ logout }) => {
   const history = useHistory();
@@ -41,7 +41,7 @@ const Navbar = ({ logout }) => {
         to="/tree"
       >
         <BiSitemap className={style.menuItemIcon} />
-        <p>Tree</p>
+        <p>{localization.tree}</p>
       </NavLink>
       <NavLink
         exact
@@ -50,7 +50,7 @@ const Navbar = ({ logout }) => {
         to="/events"
       >
         <BiCollection className={style.menuItemIcon} />
-        <p>Events</p>
+        <p>{localization.events}</p>
       </NavLink>
       <NavLink
         exact
@@ -59,20 +59,20 @@ const Navbar = ({ logout }) => {
         to="/people"
       >
         <BiGroup className={style.menuItemIcon} />
-        <p>People</p>
+        <p>{localization.people}</p>
       </NavLink>
       {
         user &&
       <div className={style.menuItem} onClick={signOut}>
         <BiLogOutCircle className={style.menuItemIcon} />
-        <p>Log out</p>
+        <p>{localization.logOut}</p>
       </div>
       }
       {
         !user &&
       <div className={style.menuItem} onClick={login}>
         <BiLogInCircle className={style.menuItemIcon} />
-        <p>Login</p>
+        <p>{localization.login}</p>
       </div>
       }
     </div>

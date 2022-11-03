@@ -1,4 +1,4 @@
-import { EVENTS_SORT_OPTIONS } from "../../utils/shared";
+import { EVENTS_SORT_OPTIONS } from "../../helpers/constants";
 import {
   SET_EVENTS,
   SET_INSTANCE,

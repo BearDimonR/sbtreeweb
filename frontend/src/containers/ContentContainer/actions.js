@@ -1,7 +1,7 @@
-import { PAGE_TYPE } from "../../utils/shared";
 import { setSearch } from "../LoginPage/actions";
 import { loadEvents, applyEventSort } from "../EventsPage/actions";
 import { loadPeople, applyPersonSort } from "../PeoplePage/actions";
+import { PAGE_TYPE } from "../../helpers/constants";
 
 export const setSort = (path, value) => async (dispatch) => {
   switch (path) {

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import callWebApi from "../../helpers/webApiHelper";
+import { localization } from "../../utils/localization";
 import { errorHandler } from "../../utils/shared";
 import { setUser } from "../LoginPage/actions";
 import style from "./index.module.scss";
@@ -16,18 +17,17 @@ const CallbackPage = (props) => {
     })
       .then(async (response) => {
         const body = await response.json();
-
         dispatch(setUser(body.auth));
         localStorage.setItem("token", body.token);
         history.push("/tree");
       })
       .catch((error) => {
         if (error.status === 401) {
-          errorHandler("Unfortunately you don't have access to the service")({
+          errorHandler(localization.doNotHaveAccess)({
             message: "",
           });
         } else {
-          errorHandler("Internal server error occurred")({ message: "" });
+          errorHandler(localization.internalServerError)({ message: "" });
         }
         history.push("/login");
       });
@@ -35,7 +35,7 @@ const CallbackPage = (props) => {
 
   return (
     <div className={style.callbackPageContainer}>
-      <p className={style.title}>Pending Google response...</p>
+      <p className={style.title}>{localization.pendingResponse}</p>
     </div>
   );
 };

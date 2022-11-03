@@ -4,7 +4,8 @@ import _ from "lodash";
 import { Grid, Image, List, Label, Icon } from "semantic-ui-react";
 import { Panel } from "rsuite";
 import Ratio from "react-ratio";
-import { ROLES } from "../../utils/rolesConstrants";
+import { localization } from "../../utils/localization";
+import { ROLES } from "../../helpers/constants";
 
 const ProfileView = ({
   user,
@@ -24,7 +25,7 @@ const ProfileView = ({
 
   const getHeader = () => (
     <div className={style.infoTitle}>
-      <p>Профіль</p>
+      <p>{localization.profile}</p>
       { access >= ROLES.EDITOR &&
       <div className={style.icons}>
         <Label
@@ -74,19 +75,19 @@ const ProfileView = ({
             <List divided selection>
               <List.Item>
                 <Label color="blue" horizontal>
-                  ПІБ
+                  {localization.fullName}
                 </Label>
                 {`${user.surname} ${user.name} ${user.parental}`}
               </List.Item>
               <List.Item>
                 <Label color="green" horizontal>
-                  Статус
+                  {localization.status}
                 </Label>
                 {user.status}
               </List.Item>
               <List.Item>
                 <Label color="purple" horizontal>
-                  Членство
+                  {localization.membership}
                 </Label>
                 {user.dateIn}
                 {" - "}
@@ -94,7 +95,7 @@ const ProfileView = ({
               </List.Item>
               <List.Item>
                 <Label color="violet" horizontal>
-                  Контакти
+                  {localization.contact}
                 </Label>
                 <Label as="a">
                   <Icon name="mail" />
@@ -107,7 +108,7 @@ const ProfileView = ({
               </List.Item>
               <List.Item>
                 <Label color="orange" horizontal>
-                  Опис
+                  {localization.description}
                 </Label>
                 {user.about}
               </List.Item>
@@ -116,7 +117,7 @@ const ProfileView = ({
         </Grid.Column>
       </Grid.Row>
       <Grid.Row className={style.row}>
-        <Panel header="Події" bordered prefix="people-custom-panel">
+        <Panel header={localization.events} bordered prefix="people-custom-panel">
           <List divided selection className={style.activity}>
             {user.events &&
               _.map(user.events, (val) => (

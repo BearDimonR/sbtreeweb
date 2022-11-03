@@ -1,5 +1,7 @@
 import moment from "moment";
 
+export const LANDING_URL = process.env.REACT_APP_LANDING_URL;
+
 export const FACULTIES = [
   {
     label: "ФІ",
@@ -47,6 +49,50 @@ export const PERSON_STATUS_TYPES = {
   student: "Малюк",
   graduated: "Пошанований",
 };
+
+export const ROLES = {
+  VISITOR: 0,
+  MEMBER: 1,
+  EDITOR: 2,
+  ADMIN: 3,
+};
+
+export const PAGE_TYPE = {
+  events: "/events",
+  people: "/people",
+  profile: "/profile",
+};
+
+export const EVENTS_SORT_OPTIONS = [
+  {
+    key: "dateStart",
+    value: "dateEnd",
+    text: "Дата",
+  },
+  {
+    key: "name",
+    value: "name",
+    text: "Назва",
+  },
+  {
+    key: "category",
+    value: "category",
+    text: "Категорія",
+  },
+];
+
+export const PEOPLE_SORT_OPTIONS = [
+  {
+    key: "dateIn",
+    value: "dateOut",
+    text: "Членство",
+  },
+  {
+    key: "status",
+    value: "status",
+    text: "Статус",
+  },
+];
 
 export const DATE_FORMAT = "dd.mm.yyyy";
 export const DATE_FORMAT_UPPER = "DD.MM.YYYY";

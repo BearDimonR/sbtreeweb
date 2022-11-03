@@ -1,10 +1,10 @@
+import { ROLES } from "../../helpers/constants";
 import {
   SET_IS_LOADING,
   SET_USER,
   SET_CONTENT_IS_LOADING,
   SET_SEARCH,
 } from "./actionTypes";
-import { ROLES } from "../../utils/rolesConstrants";
 
 const reducer = (
   state = {

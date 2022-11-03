@@ -4,7 +4,8 @@ import _ from "lodash";
 import { Grid, Image, List, Label } from "semantic-ui-react";
 import { Panel } from "rsuite";
 import Ratio from "react-ratio";
-import { ROLES } from "../../utils/rolesConstrants";
+import { localization } from "../../utils/localization";
+import { ROLES } from "../../helpers/constants";
 
 const EventView = ({
   event,
@@ -24,7 +25,7 @@ const EventView = ({
 
   const getHeader = () => (
     <div className={style.infoTitle}>
-      <p>Інформація про подію</p>
+      <p>{localization.eventInfo}</p>
       {
           access >= ROLES.EDITOR &&
       <div className={style.icons}>
@@ -61,25 +62,25 @@ const EventView = ({
             <List divided selection>
               <List.Item>
                 <Label color="green" horizontal>
-                  Назва
+                  {localization.name}
                 </Label>
                 {event.name}
               </List.Item>
               <List.Item>
                 <Label color="blue" horizontal>
-                  Категорія
+                  {localization.category}
                 </Label>
                 {event.category}
               </List.Item>
               <List.Item>
                 <Label color="purple" horizontal>
-                  Дата проведення
+                  {localization.date}
                 </Label>
                 {event.dateStart} - {event.dateEnd ? event.dateEnd : "Present"}
               </List.Item>
               <List.Item>
                 <Label color="orange" horizontal>
-                  Опис
+                  {localization.description}
                 </Label>
                 <p>{event.description}</p>
               </List.Item>
@@ -87,7 +88,7 @@ const EventView = ({
           </Panel>
         </Grid.Column>
         <Grid.Column className={style.infoColumn}>
-          <Panel header="Учасники події" bordered prefix="event-custom-panel">
+          <Panel header={localization.members} bordered prefix="event-custom-panel">
             <List
               divided
               selection

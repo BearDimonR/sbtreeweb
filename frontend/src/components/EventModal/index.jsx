@@ -17,24 +17,23 @@ import {
   dateToString,
   DATE_FORMAT_FOR_FORMS,
 } from "../../helpers/constants";
+import { localization } from "../../utils/localization";
 
 const { StringType, DateType, ObjectType } = Schema.Types;
 
-const reqField = "Це поле не може бути пустим";
-
 const model = Schema.Model({
-  name: StringType().isRequired(reqField),
-  dateStart: DateType().isRequired(reqField),
+  name: StringType().isRequired(localization.reqField),
+  dateStart: DateType().isRequired(localization.reqField),
   dateEnd: DateType(),
   about: StringType()
-    .isRequired(reqField)
+    .isRequired(localization.reqField)
     .minLength(10, "Мінімально 10 символів.")
     .maxLength(100, "Максимально 100 символів."),
   description: StringType()
-    .isRequired(reqField)
+    .isRequired(localization.reqField)
     .minLength(30, "Мінімально 30 символів.")
     .maxLength(1000, "Максимально 1000 символів."),
-  category: StringType().isRequired(reqField),
+  category: StringType().isRequired(localization.reqField),
   uploader: ObjectType(),
 });
 
@@ -50,7 +49,7 @@ const getInitial = (event) => ({
 const getUploader = () => (
   <Uploader draggable action="">
     <div style={{ lineHeight: "50px" }}>
-      Click or Drag files to this area to upload
+      {localization.uploadArea}
     </div>
   </Uploader>
 );
@@ -108,7 +107,7 @@ const EventModal = ({ open, categories, event = {}, onClose, onSubmit }) => {
   return (
     <Modal open={open} onClose={onClose} size="xs">
       <Modal.Header>
-        <Modal.Title>Подія</Modal.Title>
+        <Modal.Title>{localization.event}</Modal.Title>
       </Modal.Header>
       <Modal.Body className={style.form}>
         <Form
@@ -120,11 +119,11 @@ const EventModal = ({ open, categories, event = {}, onClose, onSubmit }) => {
           formValue={formValue}
         >
           <Form.Group controlId="name">
-            <Form.ControlLabel>Назва події</Form.ControlLabel>
+            <Form.ControlLabel>{localization.name}</Form.ControlLabel>
             <Form.Control name="name" error={formError.name} />
           </Form.Group>
           <Form.Group controlId="category">
-            <Form.ControlLabel>Категорія</Form.ControlLabel>
+            <Form.ControlLabel>{localization.category}</Form.ControlLabel>
             <Form.Control
               name="category"
               error={formError.category}
@@ -135,7 +134,7 @@ const EventModal = ({ open, categories, event = {}, onClose, onSubmit }) => {
             />
           </Form.Group>
           <Form.Group controlId="dateStart">
-            <Form.ControlLabel>Дата початку події</Form.ControlLabel>
+            <Form.ControlLabel>{localization.eventStart}</Form.ControlLabel>
             <Form.Control
               name="dateStart"
               format={DATE_FORMAT_FOR_FORMS}
@@ -146,7 +145,7 @@ const EventModal = ({ open, categories, event = {}, onClose, onSubmit }) => {
             />
           </Form.Group>
           <Form.Group controlId="dateEnd">
-            <Form.ControlLabel>Дата завершення події</Form.ControlLabel>
+            <Form.ControlLabel>{localization.eventEnd}</Form.ControlLabel>
             <Form.Control
               name="dateEnd"
               format={DATE_FORMAT_FOR_FORMS}
@@ -157,11 +156,11 @@ const EventModal = ({ open, categories, event = {}, onClose, onSubmit }) => {
             />
           </Form.Group>
           <Form.Group controlId="uploader">
-            <Form.ControlLabel>Картинка</Form.ControlLabel>
+            <Form.ControlLabel>{localization.image}</Form.ControlLabel>
             <Form.Control name="uploader" accepter={getUploader} />
           </Form.Group>
           <Form.Group controlId="about">
-            <Form.ControlLabel>Короткий опис події</Form.ControlLabel>
+            <Form.ControlLabel>{localization.shortDescription}</Form.ControlLabel>
             <Form.Control
               name="about"
               error={formError.about}
@@ -169,7 +168,7 @@ const EventModal = ({ open, categories, event = {}, onClose, onSubmit }) => {
             />
           </Form.Group>
           <Form.Group controlId="description">
-            <Form.ControlLabel>Детальний опис події</Form.ControlLabel>
+            <Form.ControlLabel>{localization.details}</Form.ControlLabel>
             <Form.Control
               name="description"
               error={formError.description}
@@ -179,10 +178,10 @@ const EventModal = ({ open, categories, event = {}, onClose, onSubmit }) => {
           <Form.Group>
             <ButtonToolbar style={{ margin: "auto", width: "fit-content" }}>
               <Button appearance="primary" onClick={handleSubmit}>
-                Змінити
+                {localization.apply}
               </Button>
               <Button appearance="default" onClick={handleReset}>
-                Відмінити
+                {localization.cancel}
               </Button>
             </ButtonToolbar>
           </Form.Group>
