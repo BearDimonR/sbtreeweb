@@ -10,19 +10,18 @@ import {
   Schema,
   Input,
 } from "rsuite";
+import { localization } from "../../utils/localization";
 
 const { StringType } = Schema.Types;
 
-const reqField = "Це поле не може бути пустим";
-
 const model = Schema.Model({
-  person: StringType().isRequired(reqField),
-  event: StringType().isRequired(reqField),
+  person: StringType().isRequired(localization.reqField),
+  event: StringType().isRequired(localization.reqField),
   contribution: StringType()
-    .isRequired(reqField)
+    .isRequired(localization.reqField)
     .minLength(10, "Мінімально 10 символів.")
     .maxLength(500, "Максимально 500 символів."),
-  position: StringType().isRequired(reqField),
+  position: StringType().isRequired(localization.reqField),
 });
 
 const getInitial = (activity) => {
@@ -93,7 +92,7 @@ const ActivityModal = ({
   return (
     <Modal open={open} onClose={onClose} size="xs">
       <Modal.Header>
-        <Modal.Title>Активність в події</Modal.Title>
+        <Modal.Title>{localization.activity}</Modal.Title>
       </Modal.Header>
       <Modal.Body className={style.form}>
         <Form
@@ -105,7 +104,7 @@ const ActivityModal = ({
           formValue={formValue}
         >
           <Form.Group controlId="person">
-            <Form.ControlLabel>Людина:</Form.ControlLabel>
+            <Form.ControlLabel>{localization.person}:</Form.ControlLabel>
             <Form.Control
               name="person"
               error={formError.person}
@@ -114,7 +113,7 @@ const ActivityModal = ({
             />
           </Form.Group>
           <Form.Group controlId="event">
-            <Form.ControlLabel>Подія:</Form.ControlLabel>
+            <Form.ControlLabel>{localization.event}:</Form.ControlLabel>
             <Form.Control
               name="event"
               error={formError.event}
@@ -123,11 +122,11 @@ const ActivityModal = ({
             />
           </Form.Group>
           <Form.Group controlId="position">
-            <Form.ControlLabel>Роль</Form.ControlLabel>
+            <Form.ControlLabel>{localization.role}</Form.ControlLabel>
             <Form.Control name="position" error={formError.position} />
           </Form.Group>
           <Form.Group controlId="contribution">
-            <Form.ControlLabel>Опис вкладу</Form.ControlLabel>
+            <Form.ControlLabel>{localization.jobDescription}</Form.ControlLabel>
             <Form.Control
               name="contribution"
               error={formError.contribution}
@@ -137,10 +136,10 @@ const ActivityModal = ({
           <Form.Group>
             <ButtonToolbar style={{ margin: "auto", width: "fit-content" }}>
               <Button appearance="primary" onClick={handleSubmit}>
-                Змінити
+                {localization.apply}
               </Button>
               <Button appearance="default" onClick={handleReset}>
-                Відмінити
+                {localization.cancel}
               </Button>
             </ButtonToolbar>
           </Form.Group>

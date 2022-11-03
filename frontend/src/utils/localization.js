@@ -50,7 +50,10 @@ const getLocalization = () => ({
     goToTheTree: 'Перейти на сторінку з Деревом',
     looksLikeError: 'Виглядає наче сталася помилка',
     ops: 'Ой',
-    reqField: 'Це поле не може бути пустим'
+    reqField: 'Це поле не може бути пустим',
+    jobDescription: 'Опис вкладу',
+    role: 'Роль',
+    activity: 'Активність в події',
 });
 
 export const localization = getLocalization();
