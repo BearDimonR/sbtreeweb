@@ -8,7 +8,7 @@ const NotFound = () => (
     <p className={style.title}>Page Not Found</p>
     <NavLink className={style.redirect} to="/">
       {" "}
-      Go to home page
+      Go to tree page
     </NavLink>
   </div>
 );

@@ -19,7 +19,7 @@ const CallbackPage = (props) => {
 
         dispatch(setUser(body.auth));
         localStorage.setItem("token", body.token);
-        history.push("/home");
+        history.push("/tree");
       })
       .catch((error) => {
         if (error.status === 401) {

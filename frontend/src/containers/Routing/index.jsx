@@ -7,12 +7,10 @@ import PublicRoute from "../PublicRoute";
 import { Dimmer, Loader } from "semantic-ui-react";
 import LoginPage from "../LoginPage";
 import { loadCurrentUser } from "../LoginPage/actions";
-import HomePage from "../HomePage";
 import EventsPage from "../EventsPage";
 import PeoplePage from "../PeoplePage";
 import ProfilePage from "../ProfilePage";
 import EventPage from "../EventPage";
-import AboutPage from "../AboutPage";
 import PersonPage from "../PersonPage";
 import CallbackPage from "../CallbackPage";
 import TreePage from "../TreePage";
@@ -37,19 +35,18 @@ const Routing = () => {
         <Switch>
           <PublicRoute exact path="/login/callback" component={CallbackPage} />
           <PublicRoute exact path="/login" component={LoginPage} />
-          <PublicRoute exact path="/home" container component={HomePage} />
           <PublicRoute exact path="/events" container component={EventsPage} />
           <PublicRoute exact path="/events/:id" container component={EventPage} />
           <PublicRoute exact path="/people" container component={PeoplePage} />
           <PublicRoute exact path="/people/:id" container component={PersonPage} />
           <PrivateRoute exact path="/profile" container component={ProfilePage} />
-          <PublicRoute exact path="/about" container component={AboutPage} />
           <PublicRoute exact path="/tree" container component={TreePage} />
+          <PublicRoute exact path="/tree/integrated" component={TreePage} />
           <PublicRoute
             exact
             path=""
             component={() => (
-              <Redirect to={{ pathname: "/home", state: { from: location } }} />
+              <Redirect to={{ pathname: "/tree", state: { from: location } }} />
             )}
           />
           <Route path="*" exact component={NotFound} />

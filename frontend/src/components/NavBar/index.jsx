@@ -5,37 +5,35 @@ import { NavLink } from "react-router-dom";
 import style from "./index.module.scss";
 import {
   BiCollection,
-  BiHomeAlt,
   BiGroup,
   BiLogOutCircle,
   BiSitemap,
-  BiInfoCircle,
   BiLogInCircle,
 } from "react-icons/bi";
 import Logo from "../Logo";
 
+const LANDING_URL = process.env.REACT_APP_LANDING_URL;
+
 const Navbar = ({ logout }) => {
   const history = useHistory();
   const user = useSelector((state) => state.profile.user);
+  
   const signOut = () => {
     logout();
-    history.push('/home')
+    history.push('/tree')
   };
+
   const login = () => {
     history.push('/login')
   };
+
+  const redirectToLanding = () => {
+    window.location.href = LANDING_URL;
+  };
+
   return (
     <div className={style.navbarContainer}>
-      <Logo />
-      <NavLink
-        exact
-        activeClassName={style.menuItemActive}
-        className={style.menuItem}
-        to="/home"
-      >
-        <BiHomeAlt className={style.menuItemIcon} />
-        <p>Home</p>
-      </NavLink>
+      <Logo onClick={redirectToLanding} />
       <NavLink
         exact
         activeClassName={style.menuItemActive}
@@ -62,15 +60,6 @@ const Navbar = ({ logout }) => {
       >
         <BiGroup className={style.menuItemIcon} />
         <p>People</p>
-      </NavLink>
-      <NavLink
-        exact
-        activeClassName={style.menuItemActive}
-        className={style.menuItem}
-        to="/about"
-      >
-        <BiInfoCircle className={style.menuItemIcon} />
-        <p>About</p>
       </NavLink>
       {
         user &&
