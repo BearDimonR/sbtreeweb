@@ -5,7 +5,7 @@ provider "aws" {
 
 variable "hostname" {
   type = string
-  default = "sbtreeweb.ml"
+  default = "tree.sbukma.ml"
 }
 
 variable "email" {
@@ -292,33 +292,6 @@ output "rds_db_port" {
   description = "The port for RDS"
 }
 
-
-### HOST
-
-resource "aws_route53_zone" "host" {
-  name = var.hostname
-
-  tags = {
-    project = var.project
-  }
-}
-
-resource "aws_route53_record" "redirect_ec2" {
-  zone_id = aws_route53_zone.host.zone_id
-  name    = var.hostname
-  type    = "A"
-  ttl     = "300"
-  records = [ aws_eip_association.eip_assoc.public_ip ]
-}
-
-resource "aws_route53_record" "www_redirect_ec2" {
-  zone_id = aws_route53_zone.host.zone_id
-  name    = "www"
-  type    = "A"
-  ttl     = "300"
-  records = [ aws_eip_association.eip_assoc.public_ip ]
-}
-
 output "domain_name" {
   value = var.hostname
   description = "The domain name for this infrastructure"
@@ -327,9 +300,4 @@ output "domain_name" {
 output "domain_email" {
   value = var.email
   description = "The domain email for this infrastructure"
-}
-
-output "name_servers" {
-  value       = aws_route53_zone.host.name_servers
-  description = "The nameservers for our domain"
 }

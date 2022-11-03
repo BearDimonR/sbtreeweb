@@ -3,6 +3,8 @@
 # build frontend
 cd frontend
 
+npm i --legacy-peer-deps
+
 npm run build:ec2
 
 cd ..
@@ -24,6 +26,7 @@ chmod 400 $EC2_KEY_NAME_WITH_EXTENSION
 # copy .env to the ec2
 scp -i $EC2_KEY_NAME_WITH_EXTENSION .env ec2-user@$EC2_PUBLIC_IP:/home/ec2-user/
 # copy build to the ec2
+ssh -tt -i $EC2_KEY_NAME_WITH_EXTENSION ec2-user@$EC2_PUBLIC_IP 'mkdir -p /home/ec2-user/frontend'
 scp -i $EC2_KEY_NAME_WITH_EXTENSION -r ./frontend/build/* ec2-user@$EC2_PUBLIC_IP:/home/ec2-user/frontend
 # copy nginx config
 scp -i $EC2_KEY_NAME_WITH_EXTENSION  nginx_ec2.conf ec2-user@$EC2_PUBLIC_IP:/home/ec2-user/nginx.conf

@@ -7,16 +7,8 @@
 The full initialization of infrastructure described [here](https://github.com/BearDimonR/aws_deployment)
 
 Note!
-Before running `deploy.sh`, generate and add to github public ssh key
-Just run `ssh-keygen -y -f key_name.pem > key_name.pub`, where `key_name` - name of AWS key you use to connect to EC2 instance
-Then add this key to the deploy keys of the repo to make EC2 instance copy this repo
-
-
-
-
-
-
-
+1. Don't forget to properly create all .env files
+2. Don't forget to change DNS configs for new instances
 
 # Development sector
 
