@@ -5,7 +5,8 @@ import style from "./index.module.scss";
 import { loadEvents, setPage } from "./actions";
 import _ from "lodash";
 import EventCard from "../../components/EventCard";
-import { Grid, Pagination } from "@mui/material";
+import { Grid, Pagination, IconButton } from "@mui/material";
+import Add from "@mui/icons-material/Add"
 
 const EventsPage = () => {
   const dispatch = useDispatch();
@@ -56,6 +57,11 @@ const EventsPage = () => {
           />
         )}
       </Grid>
+       <div className={style.paginator}>
+        <IconButton aria-label="add" color="primary" style={{marginTop: '20px', margin: "auto"}} onClick={() => setEventId('new')} >
+          <Add />
+        </IconButton>
+      </div>
       {events.length ? (
         <div className={style.paginator} ref={paginator}>
           <Pagination

@@ -80,24 +80,48 @@ export const loadActivity = (id) => async (dispatch) => {
   });
 };
 
+export const createEvent = (data) => async (dispatch, getRootState) => {
+  handleError(async () => {
+    dispatch(setContentIsLoading(true));
+    const event = await eventService.postEvent(data);
+    dispatch(loadEvent(event.id));
+    dispatch(setContentIsLoading(false));
+  });
+};
+
 export const editEvent = (data) => async (dispatch, getRootState) => {
   handleError(async () => {
+    dispatch(setContentIsLoading(true));
     await eventService.putEvent(data);
     dispatch(loadEvent(data.id));
+    dispatch(setContentIsLoading(false));
+  });
+};
+
+export const createActivity = (data) => async (dispatch, getRootState) => {
+  handleError(async () => {
+    dispatch(setContentIsLoading(true));
+    const activity = await eventService.postActivity(data);
+    dispatch(loadEvent(activity.eventId));
+    dispatch(setContentIsLoading(false));
   });
 };
 
 export const editActivity = (data) => async (dispatch, getRootState) => {
   handleError(async () => {
+    dispatch(setContentIsLoading(true));
     await eventService.putActivity(data);
     dispatch(loadEvent(data.eventId));
+    dispatch(setContentIsLoading(false));
   });
 };
 
 export const removeEvent = (id) => async (dispatch, getRootState) => {
   handleError(async () => {
+    dispatch(setContentIsLoading(true));
     await eventService.deleteEvent(id);
     dispatch(loadEvents());
+    dispatch(setContentIsLoading(false));
   });
 };
 
@@ -105,8 +129,10 @@ export const removeActivity = (id) => async (dispatch, getRootState) => {
   const store = getRootState();
   const eventId = store.event.instance.id;
   handleError(async () => {
+    dispatch(setContentIsLoading(true));
     await eventService.deleteActivity(id);
     dispatch(loadEvent(eventId));
+    dispatch(setContentIsLoading(false));
   });
 };
 

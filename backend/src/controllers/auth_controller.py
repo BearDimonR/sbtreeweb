@@ -29,7 +29,7 @@ def login():
     request_uri = app_client.prepare_request_uri(
         authorization_endpoint,
         # ! important, this uri must be in google console allowed domains
-        redirect_uri=f'{parsed_url.geturl()}/callback',
+        redirect_uri=f'{parsed_url.scheme}://{parsed_url.netloc}/login/callback',
         scope=['openid', 'email', 'profile'],
     )
     return redirect(request_uri)
@@ -46,7 +46,7 @@ def callback():
         token_endpoint,
         authorization_response=request.url,
         # ! important, this uri must be in google console allowed domains
-        redirect_url=parsed_url._replace(query='').geturl(),
+        redirect_url=f'{parsed_url.scheme}://{parsed_url.netloc}/login/callback',
         code=code
     )
 

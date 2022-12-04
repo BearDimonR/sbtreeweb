@@ -41,7 +41,7 @@ const Routing = () => {
           <PublicRoute exact path="/people/:id" container component={PersonPage} />
           <PrivateRoute exact path="/profile" container component={ProfilePage} />
           <PublicRoute exact path="/tree" container component={TreePage} />
-          <PublicRoute exact path="/tree/integrated" component={TreePage} />
+          <PublicRoute exact path="/tree/integrated" external component={TreePage} />
           <PublicRoute
             exact
             path=""

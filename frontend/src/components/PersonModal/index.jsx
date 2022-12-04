@@ -18,10 +18,11 @@ import {
   FACULTIES,
   STATUSES,
   dateToString,
+  IMAGE_FORMATS,
 } from "../../helpers/constants";
 import { localization } from "../../utils/localization";
 
-const { StringType, DateType, ObjectType } = Schema.Types;
+const { StringType, DateType } = Schema.Types;
 
 const model = Schema.Model({
   pib: StringType()
@@ -47,13 +48,12 @@ const model = Schema.Model({
   telephone: StringType().pattern(
     /^[+][0-9]{2}?[\s]?[(]?[0-9]{3}[)]?[\s]?[0-9]{3}[-\s]?[0-9]{4}$/im,
     "Не вірний формат: (+38(098) 123-1234)"
-  ),
-  uploader: ObjectType(),
+  )
 });
 
 const getInitial = (person) => {
   return {
-    pib: `${person.surname} ${person.name} ${person.parental}`.trim() || "",
+    pib: `${person.surname || ''} ${person.name || ''} ${person.parental || ''}`.trim() || "",
     status: person.status || "",
     email: person.email || "",
     telephone: person.telephone || "",
@@ -64,11 +64,20 @@ const getInitial = (person) => {
     specialty: person.specialty || "",
     parent: person.parentId || "",
     about: person.about || "",
+    avatar: person.avatar || "",
   };
 };
 
-const getUploader = () => (
-  <Uploader draggable action="">
+const getUploader = props => (
+  <Uploader 
+    {...props}
+    draggable
+    shouldQueueUpdate={(fileList, newFile) => fileList.length <= 1 && _.includes(IMAGE_FORMATS, newFile?.[0]?.blobFile.type)}
+    action="/api/image" 
+    method="POST"
+    headers={{Authorization: `Bearer ${localStorage.getItem("token")}`}} 
+    name="image"
+  >
     <div style={{ lineHeight: "50px" }}>
       {localization.uploadArea}
     </div>
@@ -91,10 +100,13 @@ const PersonModal = ({
   onSubmit,
 }) => {
   const formRef = React.useRef();
+  const uploader = React.useRef();
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState(getInitial({}));
   const [specialtyData, setSpecialtyData] = React.useState([]);
   const [fullNamesData, setFullNamesData] = React.useState([]);
+  const [imageLoading, setImageLoading] = React.useState(false);
+
 
   useEffect(() => {
     setFormValue(getInitial(person));
@@ -109,6 +121,12 @@ const PersonModal = ({
       _.map(fullNames, (data) => ({ label: data.fullName, value: data.id }))
     );
   }, [fullNames]);
+
+  const handleReset = () => {
+    setFormError({});
+    setFormValue(getInitial(person));
+    onClose();
+  };
 
   const handleSubmit = () => {
     if (!formRef.current.check()) {
@@ -125,19 +143,28 @@ const PersonModal = ({
       dateBirth: dateToString(formValue.dateBirth),
       dateOut: dateToString(formValue.dateOut),
       id: person.id,
+      avatar: _.isString(formValue.avatar) ? formValue.avatar : person.photo,
     });
-    handleReset();
-  };
 
-  const handleReset = () => {
-    setFormError({});
-    setFormValue(getInitial(person));
-    onClose();
+    handleReset();
   };
 
   const onCreateSpecialty = (value, item) => {
     setSpecialtyData([...specialtyData, { label: value, value }]);
   };
+
+  const onSuccess = response => {
+    setFormValue({...formValue, avatar: response.url});
+    onLoadEnd();
+  }
+
+  const onRemove = () => {
+    setFormValue({...formValue, avatar: person.avatar || ''});
+    onLoadEnd()
+  }
+
+  const onLoadStart = () => setImageLoading(true);
+  const onLoadEnd = () => setImageLoading(false);
 
   return (
     <Modal open={open} onClose={onClose} size="xs">
@@ -237,9 +264,9 @@ const PersonModal = ({
               accepter={getInputPicker}
             />
           </Form.Group>
-          <Form.Group controlId="uploader">
+          <Form.Group controlId="avatar">
             <Form.ControlLabel>{localization.avatar}</Form.ControlLabel>
-            <Form.Control name="uploader" accepter={getUploader} />
+            <Form.Control name="avatar" accepter={getUploader} ref={uploader} onSuccess={onSuccess} onUpload={onLoadStart} onError={onLoadEnd} onRemove={onRemove} />
           </Form.Group>
           <Form.Group controlId="about">
             <Form.ControlLabel>{localization.about}</Form.ControlLabel>
@@ -251,10 +278,10 @@ const PersonModal = ({
           </Form.Group>
           <Form.Group>
             <ButtonToolbar style={{ margin: "auto", width: "fit-content" }}>
-              <Button appearance="primary" onClick={handleSubmit}>
+              <Button appearance="primary" onClick={handleSubmit} disabled={imageLoading}>
                 {localization.apply}
               </Button>
-              <Button appearance="default" onClick={handleReset}>
+              <Button appearance="default" onClick={handleReset} disabled={imageLoading}>
                 {localization.cancel}
               </Button>
             </ButtonToolbar>

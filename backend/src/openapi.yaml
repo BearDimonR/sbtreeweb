@@ -435,6 +435,17 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Login"
+  /image:
+    post:
+      tags:
+        - image
+      summary: Upload image
+      operationId: controllers.image_controller.upload_image
+      security:
+        - editorAuth: [ ]
+      responses:
+        200:
+          description: Success
 components:
   schemas:
     BaseEntity:

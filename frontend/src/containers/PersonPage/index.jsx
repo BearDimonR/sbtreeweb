@@ -11,19 +11,25 @@ import {
   editActivity,
   removeActivity,
   loadSpecialties,
+  createPerson,
+  createActivity,
 } from "../PeoplePage/actions";
 import { loadActivity, loadNames, setActivity } from "../EventsPage/actions";
 import _ from "lodash";
 import ActivityModal from "../../components/ActivityModal";
 import PersonModal from "../../components/PersonModal";
+import { NEW } from "../../helpers/constants";
 
 const PersonPage = () => {
   const dispatch = useDispatch();
-  const { id } = useParams();
   const location = useLocation();
   const history = useHistory();
+
+  const { id } = useParams();
+  const isNew = id === NEW;
   const path = location.pathname;
-  const [editing, setEditing] = useState(false);
+
+  const [editing, setEditing] = useState(isNew);
 
   const person = useSelector((state) => state.person.instance);
   const activity = useSelector((state) => state.event.activity);
@@ -33,11 +39,19 @@ const PersonPage = () => {
   const access = useSelector((state) => state.profile.access);
 
   useEffect(() => {
-    dispatch(loadPerson(id));
-  }, [dispatch, id]);
+    if (!isNew) {
+      dispatch(loadPerson(id));
+    } else {
+      dispatch(loadSpecialties());
+      dispatch(loadFullNames());
+    }
+  }, [dispatch, id, isNew]);
 
   const handleModalClose = () => {
     setEditing(false);
+    if (isNew) {
+      history.push(`/people`);
+    }
     if (activity) {
       dispatch(setActivity(null));
     }
@@ -57,7 +71,11 @@ const PersonPage = () => {
   };
 
   const handleActivityEdit = (id) => {
-    dispatch(loadActivity(id));
+     if (id !== NEW) {
+      dispatch(loadActivity(id));
+    } else {
+      dispatch(setActivity({id: NEW, personId: person.id}))
+    }
     dispatch(loadNames());
     dispatch(loadFullNames());
   };
@@ -67,32 +85,42 @@ const PersonPage = () => {
   };
 
   const handleSubmit = (data) => {
-    dispatch(editPerson(data));
+    if (isNew) {
+      dispatch(createPerson(_.omit(data, ['id'])));
+    } else {
+      dispatch(editPerson(data));
+    }
   };
 
   const handleActivitySubmit = (data) => {
-    dispatch(editActivity(data));
+    if (data.id === NEW) {
+      dispatch(createActivity(_.omit(data, ['id'])))
+    } else {
+      dispatch(editActivity(data));
+    }
   };
 
-  const handleActivityClicked = (id) => {
-    history.push(`/events/${id}`);
-  };
+  const handleActivityClicked = (id) => history.push(`/events/${id}`);
+  const handleActivityAdd = () => handleActivityEdit(NEW); 
+
+  const displayPerson = isNew ? {} : person;
 
   return (
     <div className={style.profileContainer}>
       <ProfileView
-        user={person}
+        user={displayPerson}
         onEdit={handleEdit}
         onDelete={handleDelete}
         onActivityEdit={handleActivityEdit}
         onActivityDelete={handleActivityDelete}
         onActivityClicked={handleActivityClicked}
+        onActivityAdd={handleActivityAdd}
         access={access}
       />
       <PersonModal
         open={editing}
         onClose={handleModalClose}
-        person={person}
+        person={displayPerson}
         fullNames={fullNames}
         specialties={specialties}
         onSubmit={handleSubmit}

@@ -28,14 +28,15 @@ def get_all_filtered():
         formatted_search = [('surname', formatted_search[0])]
         if len(formatted_search) > 1:
             formatted_search.append(('name', formatted_search[1]))
+
     (total, page) = person_service.get_all(sort=body['sort'], search=formatted_search, page=body['page'],
                                            filters=body['filters'])
     return {'pages': total, 'items': list(map(lambda x: x.to_short_dict(), page))}
 
 
-# TODO implement tree
 def get_tree():
-    return person_service.get_tree()
+    nodes, links = person_service.get_tree()
+    return {'nodes': list(map(lambda x: x.to_short_dict(), nodes)), 'links': links}
 
 
 def get_person_short(id):

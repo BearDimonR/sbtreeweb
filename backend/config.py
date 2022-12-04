@@ -57,8 +57,12 @@ DATE_COMPARISON_FORMAT = "%Y-%m-%d"
 # Import size for importing data from Google sheet
 MAX_IMPORT_SIZE = 10000
 
+# Image temp folder
+IMAGE_TEMP_FOLDER = os.path.join(ROOT_DIR, 'tmp/')
+IMAGE_API_KEY = os.environ.get('IMAGE_API_KEY')
+
 # Logs configs
-LOG_FOLDER = '../logs'
+LOG_FOLDER = os.path.join(ROOT_DIR, 'logs/')
 LOG_FORMAT = '%(asctime)s [%(levelname)s] {%(name)s %(threadName)s} : %(message)s'
 
 # Certs path

@@ -5,12 +5,17 @@ import { PERSON_STATUS_TYPES } from "../../helpers/constants";
 
 import "./res/styles/custom-node.css";
 
-function CustomNode({ person }) {
+function CustomNode({ person, external }) {
   const history = useHistory();
   const fullName = `${person.name} ${person.surname}`;
 
   const handleClick = (e) => {
-    history.push(`/people/${person.id}`);
+    const redirect = `/people/${person.id}`
+    if (external) {
+      window.location.href = window.location.origin + redirect;
+      return;
+    }
+    history.push(redirect);
   };
 
   return (

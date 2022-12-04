@@ -67,6 +67,15 @@ export const getActivity = async (id, additional = true) => {
   return resultPage;
 };
 
+export const postEvent = async (data) => {
+  const response = await callWebApi({
+    type: "POST",
+    endpoint: '/api/event',
+    request: data,
+  });
+  return response.json();
+};
+
 export const putEvent = async (data) => {
   const response = await callWebApi({
     type: "PUT",
@@ -81,6 +90,15 @@ export const deleteEvent = async (id) => {
     type: "DELETE",
     endpoint: `/api/event/${id}`,
   });
+};
+
+export const postActivity = async (data) => {
+  const response = await callWebApi({
+    type: "POST",
+    endpoint: '/api/activity',
+    request: data,
+  });
+  return response.json();
 };
 
 export const putActivity = async (data) => {

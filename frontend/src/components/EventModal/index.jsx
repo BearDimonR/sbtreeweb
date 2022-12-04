@@ -16,10 +16,11 @@ import {
   stringToDateObj,
   dateToString,
   DATE_FORMAT_FOR_FORMS,
+  IMAGE_FORMATS
 } from "../../helpers/constants";
 import { localization } from "../../utils/localization";
 
-const { StringType, DateType, ObjectType } = Schema.Types;
+const { StringType, DateType } = Schema.Types;
 
 const model = Schema.Model({
   name: StringType().isRequired(localization.reqField),
@@ -33,8 +34,7 @@ const model = Schema.Model({
     .isRequired(localization.reqField)
     .minLength(30, "Мінімально 30 символів.")
     .maxLength(1000, "Максимально 1000 символів."),
-  category: StringType().isRequired(localization.reqField),
-  uploader: ObjectType(),
+  category: StringType().isRequired(localization.reqField)
 });
 
 const getInitial = (event) => ({
@@ -44,10 +44,20 @@ const getInitial = (event) => ({
   about: event.about || "",
   description: event.description || "",
   category: event.category || "",
+  photo: event.photo || "",
 });
 
-const getUploader = () => (
-  <Uploader draggable action="">
+const getUploader = props => (
+  <Uploader 
+    {...props}
+    draggable
+    listType="picture-text"
+    shouldQueueUpdate={(fileList, newFile) => fileList.length <= 1 && _.includes(IMAGE_FORMATS, newFile?.[0]?.blobFile.type)}
+    action="/api/image" 
+    method="POST"
+    headers={{Authorization: `Bearer ${localStorage.getItem("token")}`}} 
+    name="image"
+  >
     <div style={{ lineHeight: "50px" }}>
       {localization.uploadArea}
     </div>
@@ -64,9 +74,11 @@ const getInputPicker = (props) => (
 
 const EventModal = ({ open, categories, event = {}, onClose, onSubmit }) => {
   const formRef = React.useRef();
+  const uploader = React.useRef();
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState(getInitial({}));
   const [categoryData, setCategoryData] = React.useState([]);
+  const [imageLoading, setImageLoading] = React.useState(false);
 
   useEffect(() => {
     setFormValue(getInitial(event));
@@ -81,6 +93,12 @@ const EventModal = ({ open, categories, event = {}, onClose, onSubmit }) => {
     );
   }, [categories]);
 
+  const handleReset = () => {
+    setFormError({});
+    setFormValue(getInitial(event));
+    onClose();
+  };
+
   const handleSubmit = () => {
     if (!formRef.current.check()) {
       return;
@@ -90,19 +108,28 @@ const EventModal = ({ open, categories, event = {}, onClose, onSubmit }) => {
       dateStart: dateToString(formValue.dateStart),
       dateEnd: dateToString(formValue.dateEnd),
       id: event.id,
+      photo: _.isString(formValue.photo) ? formValue.photo : event.photo,
     });
-    handleReset();
-  };
 
-  const handleReset = () => {
-    setFormError({});
-    setFormValue(getInitial(event));
-    onClose();
+    handleReset();
   };
 
   const onCreateCategory = (value, item) => {
     setCategoryData([...categoryData, { label: value, value }]);
   };
+
+  const onSuccess = response => {
+    setFormValue({...formValue, photo: response.url});
+    onLoadEnd();
+  }
+
+  const onRemove = () => {
+    setFormValue({...formValue, photo: event.photo || ''});
+    onLoadEnd()
+  }
+
+  const onLoadStart = () => setImageLoading(true);
+  const onLoadEnd = () => setImageLoading(false);
 
   return (
     <Modal open={open} onClose={onClose} size="xs">
@@ -155,9 +182,9 @@ const EventModal = ({ open, categories, event = {}, onClose, onSubmit }) => {
               )}
             />
           </Form.Group>
-          <Form.Group controlId="uploader">
+          <Form.Group controlId="photo">
             <Form.ControlLabel>{localization.image}</Form.ControlLabel>
-            <Form.Control name="uploader" accepter={getUploader} />
+            <Form.Control name="photo" accepter={getUploader} ref={uploader} onSuccess={onSuccess} onUpload={onLoadStart} onError={onLoadEnd} onRemove={onRemove} />
           </Form.Group>
           <Form.Group controlId="about">
             <Form.ControlLabel>{localization.shortDescription}</Form.ControlLabel>
@@ -176,11 +203,11 @@ const EventModal = ({ open, categories, event = {}, onClose, onSubmit }) => {
             />
           </Form.Group>
           <Form.Group>
-            <ButtonToolbar style={{ margin: "auto", width: "fit-content" }}>
-              <Button appearance="primary" onClick={handleSubmit}>
+            <ButtonToolbar style={{ margin: "auto", width: "fit-content" }}  >
+              <Button appearance="primary" onClick={handleSubmit} disabled={imageLoading}>
                 {localization.apply}
               </Button>
-              <Button appearance="default" onClick={handleReset}>
+              <Button appearance="default" onClick={handleReset} disabled={imageLoading}>
                 {localization.cancel}
               </Button>
             </ButtonToolbar>

@@ -6,6 +6,8 @@ import { Panel } from "rsuite";
 import Ratio from "react-ratio";
 import { localization } from "../../utils/localization";
 import { ROLES } from "../../helpers/constants";
+import Add from "@mui/icons-material/Add"
+import { IconButton } from "@mui/material";
 
 const EventView = ({
   event,
@@ -14,6 +16,7 @@ const EventView = ({
   onActivityEdit,
   onActivityDelete,
   onActivityClicked,
+  onActivityAdd,
   access,
 }) => {
   const ref = useRef();
@@ -98,7 +101,7 @@ const EventView = ({
               {event.people &&
                 _.map(event.people, (val) => (
                   <List.Item
-                    className={style.content}
+                    className={style.item}
                     key={val.id}
                     onClick={() => onActivityClicked(val.person?.id)}
                   >
@@ -125,17 +128,20 @@ const EventView = ({
                         }}
                       />
                     </div>
-}
+                    }
                     <Image avatar src={val.person?.avatar} />
-                    <List.Content>
+                    <List.Content className={style.content}>
                       <List.Header as="a" className={style.activityInfo}>
                         {val.person?.surname} {val.person?.name}
                       </List.Header>
-                      <List.Content>{val.position}</List.Content>
-                      <List.Description>{val.contribution}</List.Description>
+                      <List.Content className={style.overflow}>{val.position}</List.Content>
+                      <List.Description className={style.overflow}>{val.contribution}</List.Description>
                     </List.Content>
                   </List.Item>
                 ))}
+               <IconButton aria-label="add" color="primary" style={{marginTop: '20px', margin: "auto"}} onClick={onActivityAdd} >
+                <Add />
+              </IconButton>
             </List>
           </Panel>
         </Grid.Column>

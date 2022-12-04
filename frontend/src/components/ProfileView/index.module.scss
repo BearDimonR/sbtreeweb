@@ -84,7 +84,22 @@ div[prefix="people-custom-panel"] {
 }
 .actionIcons {
   position: absolute;
-  right: 5%;
+  right: 2%;
+}
+
+.content {
+  width: 80% !important;
+
+  .overflow {
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.add {
+  width: fit-content;
+  margin: auto;
 }
 
 @media (max-width: 700px) {

@@ -1,4 +1,5 @@
 from datetime import datetime
+import uuid
 
 from sqlalchemy import column, func
 
@@ -47,6 +48,7 @@ class BaseService:
 
     def create(self, body):
         parsed_body = self.model.parse_request(body)
+        parsed_body['id'] = uuid.uuid4()
         return self.model.create(**parsed_body)
 
     def update(self, row_id, body):

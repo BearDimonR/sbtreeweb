@@ -2,6 +2,10 @@ import moment from "moment";
 
 export const LANDING_URL = process.env.REACT_APP_LANDING_URL;
 
+export const IMAGE_FORMATS = ['image/jpeg', 'image/png', 'image/jpg']
+
+export const NEW = 'new';
+
 export const FACULTIES = [
   {
     label: "ФІ",

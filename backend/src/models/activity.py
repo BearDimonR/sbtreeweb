@@ -15,6 +15,8 @@ class Activity(BaseEntity):
     event_id = db.Column(BinaryUUID, db.ForeignKey('event.id', ondelete='CASCADE'))
     position = db.Column(db.String(50), nullable=False)
     contribution = db.Column(db.Text)
+    
+    __table_args__ = (db.UniqueConstraint('person_id', 'event_id', name='_event_location_uc_'),)
 
     event = relationship("Event", back_populates="activities")
     person = relationship("Person", back_populates="activities")

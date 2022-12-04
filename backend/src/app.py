@@ -9,7 +9,7 @@ from helpers.db_helper import import_data
 from helpers import db
 from exceptions import init_exception_handlers
 from config import DATETIME_FORMAT, LOG_FOLDER, LOG_FORMAT, DATABASE_URI, API_FILE, FLASK_ENV, DEV_PORT, \
-    KEY, CRT
+    KEY, CRT, IMAGE_TEMP_FOLDER
 from connexion import FlaskApp, App
 import logging
 from logging.handlers import RotatingFileHandler
@@ -43,6 +43,8 @@ def init_app():
     # initialize additions
     init_exception_handlers(app)
     init_logs()
+
+    os.makedirs(IMAGE_TEMP_FOLDER, exist_ok=True)
 
     app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

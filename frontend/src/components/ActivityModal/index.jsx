@@ -21,7 +21,7 @@ const model = Schema.Model({
     .isRequired(localization.reqField)
     .minLength(10, "Мінімально 10 символів.")
     .maxLength(500, "Максимально 500 символів."),
-  position: StringType().isRequired(localization.reqField),
+  position: StringType().isRequired(localization.reqField).maxLength(50, "Максимально 50 символів."),
 });
 
 const getInitial = (activity) => {

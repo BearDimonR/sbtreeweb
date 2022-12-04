@@ -3,7 +3,7 @@ RUN pip install --upgrade pip
 
 COPY ./requirements.txt /app/requirements.txt
 COPY ./google_creds.json /app/google_creds.json
-COPY ./.env /app/.env
+COPY ./.env.development /app/.env.development
 COPY ./proxy /app/proxy
 
 ENV FLASK_ENV=production

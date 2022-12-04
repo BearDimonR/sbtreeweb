@@ -30,3 +30,4 @@ venv
 .name_servers
 .infrastructure_output
 nginx_ec2.conf
+.vscode/*

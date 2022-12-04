@@ -78,11 +78,29 @@ export const loadFullNames = () => async (dispatch) => {
   });
 };
 
+export const createPerson = (data) => async (dispatch, getRootState) => {
+  handleError(async () => {
+    dispatch(setContentIsLoading(true));
+    const person = await peopleService.postPerson(data);
+    dispatch(loadPerson(person.id));
+    dispatch(setContentIsLoading(false));
+  });
+};
+
 export const editPerson = (data) => async (dispatch, getRootState) => {
   handleError(async () => {
     dispatch(setContentIsLoading(true));
     await peopleService.putPerson(data);
     dispatch(loadPerson(data.id));
+    dispatch(setContentIsLoading(false));
+  });
+};
+
+export const createActivity = (data) => async (dispatch, getRootState) => {
+  handleError(async () => {
+    dispatch(setContentIsLoading(true));
+    const activity = await eventService.postActivity(data);
+    dispatch(loadPerson(activity.personId));
     dispatch(setContentIsLoading(false));
   });
 };

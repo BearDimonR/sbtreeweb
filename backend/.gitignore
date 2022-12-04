@@ -135,3 +135,5 @@ data/
 *.key
 
 google_creds.json
+
+tmp/

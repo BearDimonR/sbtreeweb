@@ -19,6 +19,7 @@ class ApiSheetHelper:
         self.title = self.worksheet.row_values(1)
         self.filter_cell = lambda item: item.row != 1
         self.range = chr(64 + len(self.title))
+        pass
 
     def load_values(self, from_row, to_row):
         # TODO request limit

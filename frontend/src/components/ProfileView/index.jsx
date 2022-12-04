@@ -6,6 +6,8 @@ import { Panel } from "rsuite";
 import Ratio from "react-ratio";
 import { localization } from "../../utils/localization";
 import { ROLES } from "../../helpers/constants";
+import Add from "@mui/icons-material/Add"
+import { IconButton } from "@mui/material";
 
 const ProfileView = ({
   user,
@@ -14,6 +16,7 @@ const ProfileView = ({
   onActivityEdit,
   onActivityDelete,
   onActivityClicked,
+  onActivityAdd,
   access,
 }) => {
   const ref = useRef();
@@ -151,15 +154,21 @@ const ProfileView = ({
                   </div>
                 }
                   <Image avatar src={val.event?.photo} />
-                  <List.Content>
+                  <List.Content className={style.content}>
                     <List.Header as="a" className={style.activityInfo}>
                       {val.event?.name} {val.event?.dateStart}
                     </List.Header>
-                    <List.Content>{val.position}</List.Content>
-                    <List.Description>{val.contribution}</List.Description>
+                    <List.Content className={style.overflow}>{val.position}</List.Content>
+                    <List.Description className={style.overflow}>{val.contribution}</List.Description>
                   </List.Content>
                 </List.Item>
               ))}
+              <div className={style.add}>
+                 <IconButton aria-label="add" color="primary" style={{marginTop: '20px', margin: "auto"}} onClick={onActivityAdd} >
+                <Add />
+              </IconButton>
+              </div>
+              
           </List>
         </Panel>
       </Grid.Row>
