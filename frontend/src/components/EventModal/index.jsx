@@ -16,7 +16,7 @@ import {
   stringToDateObj,
   dateToString,
   DATE_FORMAT_FOR_FORMS,
-  IMAGE_FORMATS
+  IMAGE_FORMATS,
 } from "../../helpers/constants";
 import { localization } from "../../utils/localization";
 
@@ -34,7 +34,7 @@ const model = Schema.Model({
     .isRequired(localization.reqField)
     .minLength(30, "Мінімально 30 символів.")
     .maxLength(1000, "Максимально 1000 символів."),
-  category: StringType().isRequired(localization.reqField)
+  category: StringType().isRequired(localization.reqField),
 });
 
 const getInitial = (event) => ({
@@ -47,20 +47,21 @@ const getInitial = (event) => ({
   photo: event.photo || "",
 });
 
-const getUploader = props => (
-  <Uploader 
+const getUploader = (props) => (
+  <Uploader
     {...props}
     draggable
     listType="picture-text"
-    shouldQueueUpdate={(fileList, newFile) => fileList.length <= 1 && _.includes(IMAGE_FORMATS, newFile?.[0]?.blobFile.type)}
-    action="/api/image" 
+    shouldQueueUpdate={(fileList, newFile) =>
+      fileList.length <= 1 &&
+      _.includes(IMAGE_FORMATS, newFile?.[0]?.blobFile.type)
+    }
+    action="/api/image"
     method="POST"
-    headers={{Authorization: `Bearer ${localStorage.getItem("token")}`}} 
+    headers={{ Authorization: `Bearer ${localStorage.getItem("token")}` }}
     name="image"
   >
-    <div style={{ lineHeight: "50px" }}>
-      {localization.uploadArea}
-    </div>
+    <div style={{ lineHeight: "50px" }}>{localization.uploadArea}</div>
   </Uploader>
 );
 
@@ -118,15 +119,15 @@ const EventModal = ({ open, categories, event = {}, onClose, onSubmit }) => {
     setCategoryData([...categoryData, { label: value, value }]);
   };
 
-  const onSuccess = response => {
-    setFormValue({...formValue, photo: response.url});
+  const onSuccess = (response) => {
+    setFormValue({ ...formValue, photo: response.url });
     onLoadEnd();
-  }
+  };
 
   const onRemove = () => {
-    setFormValue({...formValue, photo: event.photo || ''});
-    onLoadEnd()
-  }
+    setFormValue({ ...formValue, photo: event.photo || "" });
+    onLoadEnd();
+  };
 
   const onLoadStart = () => setImageLoading(true);
   const onLoadEnd = () => setImageLoading(false);
@@ -184,10 +185,20 @@ const EventModal = ({ open, categories, event = {}, onClose, onSubmit }) => {
           </Form.Group>
           <Form.Group controlId="photo">
             <Form.ControlLabel>{localization.image}</Form.ControlLabel>
-            <Form.Control name="photo" accepter={getUploader} ref={uploader} onSuccess={onSuccess} onUpload={onLoadStart} onError={onLoadEnd} onRemove={onRemove} />
+            <Form.Control
+              name="photo"
+              accepter={getUploader}
+              ref={uploader}
+              onSuccess={onSuccess}
+              onUpload={onLoadStart}
+              onError={onLoadEnd}
+              onRemove={onRemove}
+            />
           </Form.Group>
           <Form.Group controlId="about">
-            <Form.ControlLabel>{localization.shortDescription}</Form.ControlLabel>
+            <Form.ControlLabel>
+              {localization.shortDescription}
+            </Form.ControlLabel>
             <Form.Control
               name="about"
               error={formError.about}
@@ -203,11 +214,19 @@ const EventModal = ({ open, categories, event = {}, onClose, onSubmit }) => {
             />
           </Form.Group>
           <Form.Group>
-            <ButtonToolbar style={{ margin: "auto", width: "fit-content" }}  >
-              <Button appearance="primary" onClick={handleSubmit} disabled={imageLoading}>
+            <ButtonToolbar style={{ margin: "auto", width: "fit-content" }}>
+              <Button
+                appearance="primary"
+                onClick={handleSubmit}
+                disabled={imageLoading}
+              >
                 {localization.apply}
               </Button>
-              <Button appearance="default" onClick={handleReset} disabled={imageLoading}>
+              <Button
+                appearance="default"
+                onClick={handleReset}
+                disabled={imageLoading}
+              >
                 {localization.cancel}
               </Button>
             </ButtonToolbar>

@@ -17,14 +17,14 @@ import { LANDING_URL } from "../../helpers/constants";
 const Navbar = ({ logout }) => {
   const history = useHistory();
   const user = useSelector((state) => state.profile.user);
-  
+
   const signOut = () => {
     logout();
-    history.push('/tree')
+    history.push("/tree");
   };
 
   const login = () => {
-    history.push('/login')
+    history.push("/login");
   };
 
   const redirectToLanding = () => {
@@ -61,20 +61,18 @@ const Navbar = ({ logout }) => {
         <BiGroup className={style.menuItemIcon} />
         <p>{localization.people}</p>
       </NavLink>
-      {
-        user &&
-      <div className={style.menuItem} onClick={signOut}>
-        <BiLogOutCircle className={style.menuItemIcon} />
-        <p>{localization.logOut}</p>
-      </div>
-      }
-      {
-        !user &&
-      <div className={style.menuItem} onClick={login}>
-        <BiLogInCircle className={style.menuItemIcon} />
-        <p>{localization.login}</p>
-      </div>
-      }
+      {user && (
+        <div className={style.menuItem} onClick={signOut}>
+          <BiLogOutCircle className={style.menuItemIcon} />
+          <p>{localization.logOut}</p>
+        </div>
+      )}
+      {!user && (
+        <div className={style.menuItem} onClick={login}>
+          <BiLogInCircle className={style.menuItemIcon} />
+          <p>{localization.login}</p>
+        </div>
+      )}
     </div>
   );
 };

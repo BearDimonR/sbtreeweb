@@ -36,7 +36,7 @@ def get_all_filtered():
 
 def get_tree():
     nodes, links = person_service.get_tree()
-    return {'nodes': list(map(lambda x: x.to_short_dict(), nodes)), 'links': links}
+    return {'nodes': list(map(lambda x: x.to_tree_dict(), nodes)), 'links': links}
 
 
 def get_person_short(id):

@@ -73,6 +73,16 @@ class Person(BaseEntity):
         # TODO person required params
         return super(Person, cls).filter_data(dataframe)
 
+    def to_tree_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'surname': self.surname,
+            'parental': self.parental,
+            'status': self.status,
+            'avatar': self.avatar,
+        }
+
     def to_short_dict(self):
         return {
             **super(Person, self).to_dict(),

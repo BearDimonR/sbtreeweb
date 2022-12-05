@@ -8,7 +8,7 @@ const PublicRoute = ({ component: Component, container, ...rest }) => {
       {...rest}
       render={(props) => {
         if (container) {
-          return <PageContainer component={Component} />
+          return <PageContainer component={Component} />;
         }
         return <Component {...props} {...rest} />;
       }}

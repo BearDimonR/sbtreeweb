@@ -59,6 +59,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "style": "npx prettier --write .",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

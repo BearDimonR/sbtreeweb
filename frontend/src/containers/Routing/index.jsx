@@ -36,12 +36,32 @@ const Routing = () => {
           <PublicRoute exact path="/login/callback" component={CallbackPage} />
           <PublicRoute exact path="/login" component={LoginPage} />
           <PublicRoute exact path="/events" container component={EventsPage} />
-          <PublicRoute exact path="/events/:id" container component={EventPage} />
+          <PublicRoute
+            exact
+            path="/events/:id"
+            container
+            component={EventPage}
+          />
           <PublicRoute exact path="/people" container component={PeoplePage} />
-          <PublicRoute exact path="/people/:id" container component={PersonPage} />
-          <PrivateRoute exact path="/profile" container component={ProfilePage} />
+          <PublicRoute
+            exact
+            path="/people/:id"
+            container
+            component={PersonPage}
+          />
+          <PrivateRoute
+            exact
+            path="/profile"
+            container
+            component={ProfilePage}
+          />
           <PublicRoute exact path="/tree" container component={TreePage} />
-          <PublicRoute exact path="/tree/integrated" external component={TreePage} />
+          <PublicRoute
+            exact
+            path="/tree/integrated"
+            external
+            component={TreePage}
+          />
           <PublicRoute
             exact
             path=""

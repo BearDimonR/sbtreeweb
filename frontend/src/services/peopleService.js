@@ -78,7 +78,7 @@ export const getPeopleSpecialties = async () => {
 export const postPerson = async (data) => {
   const response = await callWebApi({
     type: "POST",
-    endpoint: '/api/person',
+    endpoint: "/api/person",
     request: data,
   });
   return response.json();
@@ -101,7 +101,7 @@ export const deletePerson = async (id) => {
 };
 
 export const getTreeData = async () => {
-   const response = await callWebApi({
+  const response = await callWebApi({
     type: "GET",
     endpoint: `/api/person/tree`,
   });

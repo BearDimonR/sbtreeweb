@@ -48,12 +48,15 @@ const model = Schema.Model({
   telephone: StringType().pattern(
     /^[+][0-9]{2}?[\s]?[(]?[0-9]{3}[)]?[\s]?[0-9]{3}[-\s]?[0-9]{4}$/im,
     "Не вірний формат: (+38(098) 123-1234)"
-  )
+  ),
 });
 
 const getInitial = (person) => {
   return {
-    pib: `${person.surname || ''} ${person.name || ''} ${person.parental || ''}`.trim() || "",
+    pib:
+      `${person.surname || ""} ${person.name || ""} ${
+        person.parental || ""
+      }`.trim() || "",
     status: person.status || "",
     email: person.email || "",
     telephone: person.telephone || "",
@@ -68,19 +71,20 @@ const getInitial = (person) => {
   };
 };
 
-const getUploader = props => (
-  <Uploader 
+const getUploader = (props) => (
+  <Uploader
     {...props}
     draggable
-    shouldQueueUpdate={(fileList, newFile) => fileList.length <= 1 && _.includes(IMAGE_FORMATS, newFile?.[0]?.blobFile.type)}
-    action="/api/image" 
+    shouldQueueUpdate={(fileList, newFile) =>
+      fileList.length <= 1 &&
+      _.includes(IMAGE_FORMATS, newFile?.[0]?.blobFile.type)
+    }
+    action="/api/image"
     method="POST"
-    headers={{Authorization: `Bearer ${localStorage.getItem("token")}`}} 
+    headers={{ Authorization: `Bearer ${localStorage.getItem("token")}` }}
     name="image"
   >
-    <div style={{ lineHeight: "50px" }}>
-      {localization.uploadArea}
-    </div>
+    <div style={{ lineHeight: "50px" }}>{localization.uploadArea}</div>
   </Uploader>
 );
 const getInput = (props) => (
@@ -106,7 +110,6 @@ const PersonModal = ({
   const [specialtyData, setSpecialtyData] = React.useState([]);
   const [fullNamesData, setFullNamesData] = React.useState([]);
   const [imageLoading, setImageLoading] = React.useState(false);
-
 
   useEffect(() => {
     setFormValue(getInitial(person));
@@ -153,15 +156,15 @@ const PersonModal = ({
     setSpecialtyData([...specialtyData, { label: value, value }]);
   };
 
-  const onSuccess = response => {
-    setFormValue({...formValue, avatar: response.url});
+  const onSuccess = (response) => {
+    setFormValue({ ...formValue, avatar: response.url });
     onLoadEnd();
-  }
+  };
 
   const onRemove = () => {
-    setFormValue({...formValue, avatar: person.avatar || ''});
-    onLoadEnd()
-  }
+    setFormValue({ ...formValue, avatar: person.avatar || "" });
+    onLoadEnd();
+  };
 
   const onLoadStart = () => setImageLoading(true);
   const onLoadEnd = () => setImageLoading(false);
@@ -266,7 +269,15 @@ const PersonModal = ({
           </Form.Group>
           <Form.Group controlId="avatar">
             <Form.ControlLabel>{localization.avatar}</Form.ControlLabel>
-            <Form.Control name="avatar" accepter={getUploader} ref={uploader} onSuccess={onSuccess} onUpload={onLoadStart} onError={onLoadEnd} onRemove={onRemove} />
+            <Form.Control
+              name="avatar"
+              accepter={getUploader}
+              ref={uploader}
+              onSuccess={onSuccess}
+              onUpload={onLoadStart}
+              onError={onLoadEnd}
+              onRemove={onRemove}
+            />
           </Form.Group>
           <Form.Group controlId="about">
             <Form.ControlLabel>{localization.about}</Form.ControlLabel>
@@ -278,10 +289,18 @@ const PersonModal = ({
           </Form.Group>
           <Form.Group>
             <ButtonToolbar style={{ margin: "auto", width: "fit-content" }}>
-              <Button appearance="primary" onClick={handleSubmit} disabled={imageLoading}>
+              <Button
+                appearance="primary"
+                onClick={handleSubmit}
+                disabled={imageLoading}
+              >
                 {localization.apply}
               </Button>
-              <Button appearance="default" onClick={handleReset} disabled={imageLoading}>
+              <Button
+                appearance="default"
+                onClick={handleReset}
+                disabled={imageLoading}
+              >
                 {localization.cancel}
               </Button>
             </ButtonToolbar>

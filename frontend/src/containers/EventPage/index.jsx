@@ -41,7 +41,7 @@ const EventPage = () => {
   const access = useSelector((state) => state.profile.access);
 
   useEffect(() => {
-     if (!isNew) {
+    if (!isNew) {
       dispatch(loadEvent(id));
     } else {
       dispatch(loadCategories());
@@ -74,7 +74,7 @@ const EventPage = () => {
     if (id !== NEW) {
       dispatch(loadActivity(id));
     } else {
-      dispatch(setActivity({id: NEW, eventId: event.id}))
+      dispatch(setActivity({ id: NEW, eventId: event.id }));
     }
     dispatch(loadNames());
     dispatch(loadFullNames());
@@ -86,7 +86,7 @@ const EventPage = () => {
 
   const handleSubmit = (data) => {
     if (isNew) {
-      dispatch(createEvent(_.omit(data, ['id'])));
+      dispatch(createEvent(_.omit(data, ["id"])));
     } else {
       dispatch(editEvent(data));
     }
@@ -94,15 +94,15 @@ const EventPage = () => {
 
   const handleActivitySubmit = (data) => {
     if (data.id === NEW) {
-      dispatch(createActivity(_.omit(data, ['id'])))
+      dispatch(createActivity(_.omit(data, ["id"])));
     } else {
       dispatch(editActivity(data));
     }
   };
 
   const handleActivityClicked = (id) => history.push(`/people/${id}`);
-  const handleActivityAdd = () => handleActivityEdit(NEW); 
-  
+  const handleActivityAdd = () => handleActivityEdit(NEW);
+
   const displayEvent = isNew ? {} : event;
 
   return (

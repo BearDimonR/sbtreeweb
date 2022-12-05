@@ -1,18 +1,18 @@
 # docker-compose for running backend server with reversed proxy
-version: '3.9'
+version: "3.9"
 
 services:
   db:
-      image: mysql:8.0
-      restart: always
-      environment:
-        - MYSQL_ROOT_PASSWORD=admin
-      ports:
-        - "3306:3306"
-      expose:
-        - 3306
-      volumes:
-        - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+    ports:
+      - "3306:3306"
+    expose:
+      - 3306
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
   # sbtree_backend:
   #   build: .
   #   environment:

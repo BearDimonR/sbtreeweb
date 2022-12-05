@@ -5,7 +5,9 @@ export const errorHandler =
   (msg, callback = () => {}) =>
   (e) => {
     toast(
-      `🤯 ${localization.ops}! ${msg || localization.looksLikeError + ":"} ${e.message ?? e}`
+      `🤯 ${localization.ops}! ${msg || localization.looksLikeError + ":"} ${
+        e.message ?? e
+      }`
     );
     callback(e);
   };

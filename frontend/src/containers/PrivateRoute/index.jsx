@@ -11,13 +11,14 @@ const PrivateRoute = ({ component: Component, container, ...rest }) => {
       {...rest}
       render={(props) => {
         if (!access) {
-          return <Redirect to={{ pathname: "/login", state: { from: location } }} />
+          return (
+            <Redirect to={{ pathname: "/login", state: { from: location } }} />
+          );
         } else if (container) {
-          return <PageContainer component={Component} />
+          return <PageContainer component={Component} />;
         }
         return <Component {...props} />;
-      }
-      }
+      }}
     />
   );
 };

@@ -1,6 +1,4 @@
-import {
-  SET_TREE_DATA,
-} from "./actionTypes";
+import { SET_TREE_DATA } from "./actionTypes";
 
 const reducer = (
   state = {
@@ -11,7 +9,7 @@ const reducer = (
 ) => {
   switch (action.type) {
     case SET_TREE_DATA:
-      const {nodes, links} = action.value
+      const { nodes, links } = action.value;
       return {
         ...state,
         nodes,

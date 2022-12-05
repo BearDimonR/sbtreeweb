@@ -13,7 +13,11 @@ import { NavLink, useLocation } from "react-router-dom";
 import _ from "lodash";
 import { setSort, applySearch } from "./actions";
 import { localization } from "../../utils/localization";
-import { EVENTS_SORT_OPTIONS, PAGE_TYPE, PEOPLE_SORT_OPTIONS } from "../../helpers/constants";
+import {
+  EVENTS_SORT_OPTIONS,
+  PAGE_TYPE,
+  PEOPLE_SORT_OPTIONS,
+} from "../../helpers/constants";
 
 const getPageOptions = (path) => {
   switch (path) {

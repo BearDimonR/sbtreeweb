@@ -71,10 +71,10 @@ const PersonPage = () => {
   };
 
   const handleActivityEdit = (id) => {
-     if (id !== NEW) {
+    if (id !== NEW) {
       dispatch(loadActivity(id));
     } else {
-      dispatch(setActivity({id: NEW, personId: person.id}))
+      dispatch(setActivity({ id: NEW, personId: person.id }));
     }
     dispatch(loadNames());
     dispatch(loadFullNames());
@@ -86,7 +86,7 @@ const PersonPage = () => {
 
   const handleSubmit = (data) => {
     if (isNew) {
-      dispatch(createPerson(_.omit(data, ['id'])));
+      dispatch(createPerson(_.omit(data, ["id"])));
     } else {
       dispatch(editPerson(data));
     }
@@ -94,14 +94,14 @@ const PersonPage = () => {
 
   const handleActivitySubmit = (data) => {
     if (data.id === NEW) {
-      dispatch(createActivity(_.omit(data, ['id'])))
+      dispatch(createActivity(_.omit(data, ["id"])));
     } else {
       dispatch(editActivity(data));
     }
   };
 
   const handleActivityClicked = (id) => history.push(`/events/${id}`);
-  const handleActivityAdd = () => handleActivityEdit(NEW); 
+  const handleActivityAdd = () => handleActivityEdit(NEW);
 
   const displayPerson = isNew ? {} : person;
 

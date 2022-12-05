@@ -10,12 +10,10 @@ function CustomNode({ person, external }) {
   const fullName = `${person.name} ${person.surname}`;
 
   const handleClick = (e) => {
-    const redirect = `/people/${person.id}`
-    if (external) {
-      window.location.href = window.location.origin + redirect;
-      return;
+    const redirect = `/people/${person.id}`;
+    if (!external) {
+      history.push(redirect);
     }
-    history.push(redirect);
   };
 
   return (

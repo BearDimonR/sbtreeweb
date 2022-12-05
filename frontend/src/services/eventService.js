@@ -70,7 +70,7 @@ export const getActivity = async (id, additional = true) => {
 export const postEvent = async (data) => {
   const response = await callWebApi({
     type: "POST",
-    endpoint: '/api/event',
+    endpoint: "/api/event",
     request: data,
   });
   return response.json();
@@ -95,7 +95,7 @@ export const deleteEvent = async (id) => {
 export const postActivity = async (data) => {
   const response = await callWebApi({
     type: "POST",
-    endpoint: '/api/activity',
+    endpoint: "/api/activity",
     request: data,
   });
   return response.json();
