@@ -1,32 +1,39 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import style from "./index.module.scss";
 import {
   BiCollection,
-  BiHomeAlt,
   BiGroup,
   BiLogOutCircle,
   BiSitemap,
-  BiInfoCircle,
+  BiLogInCircle,
 } from "react-icons/bi";
 import Logo from "../Logo";
+import { localization } from "../../utils/localization";
+import { LANDING_URL } from "../../helpers/constants";
 
 const Navbar = ({ logout }) => {
+  const history = useHistory();
+  const user = useSelector((state) => state.profile.user);
+
   const signOut = () => {
     logout();
+    history.push("/tree");
   };
+
+  const login = () => {
+    history.push("/login");
+  };
+
+  const redirectToLanding = () => {
+    window.location.href = LANDING_URL;
+  };
+
   return (
     <div className={style.navbarContainer}>
-      <Logo />
-      <NavLink
-        exact
-        activeClassName={style.menuItemActive}
-        className={style.menuItem}
-        to="/home"
-      >
-        <BiHomeAlt className={style.menuItemIcon} />
-        <p>Home</p>
-      </NavLink>
+      <Logo onClick={redirectToLanding} />
       <NavLink
         exact
         activeClassName={style.menuItemActive}
@@ -34,7 +41,7 @@ const Navbar = ({ logout }) => {
         to="/tree"
       >
         <BiSitemap className={style.menuItemIcon} />
-        <p>Tree</p>
+        <p>{localization.tree}</p>
       </NavLink>
       <NavLink
         exact
@@ -43,7 +50,7 @@ const Navbar = ({ logout }) => {
         to="/events"
       >
         <BiCollection className={style.menuItemIcon} />
-        <p>Events</p>
+        <p>{localization.events}</p>
       </NavLink>
       <NavLink
         exact
@@ -52,21 +59,20 @@ const Navbar = ({ logout }) => {
         to="/people"
       >
         <BiGroup className={style.menuItemIcon} />
-        <p>People</p>
+        <p>{localization.people}</p>
       </NavLink>
-      <NavLink
-        exact
-        activeClassName={style.menuItemActive}
-        className={style.menuItem}
-        to="/about"
-      >
-        <BiInfoCircle className={style.menuItemIcon} />
-        <p>About</p>
-      </NavLink>
-      <div className={style.menuItem} onClick={signOut}>
-        <BiLogOutCircle className={style.menuItemIcon} />
-        <p>Log out</p>
-      </div>
+      {user && (
+        <div className={style.menuItem} onClick={signOut}>
+          <BiLogOutCircle className={style.menuItemIcon} />
+          <p>{localization.logOut}</p>
+        </div>
+      )}
+      {!user && (
+        <div className={style.menuItem} onClick={login}>
+          <BiLogInCircle className={style.menuItemIcon} />
+          <p>{localization.login}</p>
+        </div>
+      )}
     </div>
   );
 };

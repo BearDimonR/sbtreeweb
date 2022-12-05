@@ -1,6 +1,7 @@
 import React from "react";
 import style from "./index.module.scss";
 import { login } from "../../services/authService";
+import { localization } from "../../utils/localization";
 
 const LandingPage = () => {
   const handleLoginClick = () => login();
@@ -15,7 +16,7 @@ const LandingPage = () => {
         <img className={style.image} src="/login_image.png" alt="" />
         <div onClick={handleLoginClick} className={style.buttonContainer}>
           <img src="/google.png" alt="" />
-          <p>Login with Google</p>
+          <p>{localization.loginWithGoogle}</p>
         </div>
       </div>
     </div>

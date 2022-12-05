@@ -86,7 +86,6 @@ const PersonPage = () => {
       <PersonModal
         open={editing}
         onClose={handleModalClose}
-        user={user}
         person={person}
         fullNames={fullNames}
         specialties={specialties}
@@ -95,7 +94,6 @@ const PersonPage = () => {
       <ActivityModal
         open={activity !== null}
         onClose={handleModalClose}
-        user={user}
         activity={activity}
         fullNames={fullNames}
         eventNames={eventNames}

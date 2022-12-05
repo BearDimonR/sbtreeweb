@@ -35,9 +35,18 @@
     margin: 0;
   }
 }
-.content {
-  width: 100%;
+.item {
+  width: 100% !important;
   position: relative;
+}
+.content {
+  width: 80% !important;
+
+  .overflow {
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 .activityInfo {
   display: flex;

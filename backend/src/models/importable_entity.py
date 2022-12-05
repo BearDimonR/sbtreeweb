@@ -24,7 +24,7 @@ class SheetEntity:
 
     @classmethod
     def import_in_range(cls, from_row, to_row):
-        logging.info(f'{cls.__name__} importing range: {from_row}:{to_row}')
+        logging.info(f"{cls.__name__} importing range: {from_row}:{to_row}")
         values = cls.sheet_helper.load_values(from_row, to_row)
         data = cls.transform_data(cls.filter_data(values))
         if data.empty:
@@ -34,7 +34,7 @@ class SheetEntity:
     @classmethod
     def import_from_sheet(cls):
         rows_count = cls.sheet_helper.worksheet.row_count
-        logging.info(f'{cls.__name__} has {rows_count} rows')
+        logging.info(f"{cls.__name__} has {rows_count} rows")
         from_row = 2
         to_row = MAX_IMPORT_SIZE
         while rows_count >= to_row:

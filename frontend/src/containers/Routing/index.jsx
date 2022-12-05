@@ -7,12 +7,10 @@ import PublicRoute from "../PublicRoute";
 import { Dimmer, Loader } from "semantic-ui-react";
 import LoginPage from "../LoginPage";
 import { loadCurrentUser } from "../LoginPage/actions";
-import HomePage from "../HomePage";
 import EventsPage from "../EventsPage";
 import PeoplePage from "../PeoplePage";
 import ProfilePage from "../ProfilePage";
 import EventPage from "../EventPage";
-import AboutPage from "../AboutPage";
 import PersonPage from "../PersonPage";
 import CallbackPage from "../CallbackPage";
 import TreePage from "../TreePage";
@@ -37,19 +35,38 @@ const Routing = () => {
         <Switch>
           <PublicRoute exact path="/login/callback" component={CallbackPage} />
           <PublicRoute exact path="/login" component={LoginPage} />
-          <PrivateRoute exact path="/home" component={HomePage} />
-          <PrivateRoute exact path="/events" component={EventsPage} />
-          <PrivateRoute exact path="/events/:id" component={EventPage} />
-          <PrivateRoute exact path="/people" component={PeoplePage} />
-          <PrivateRoute exact path="/people/:id" component={PersonPage} />
-          <PrivateRoute exact path="/profile" component={ProfilePage} />
-          <PrivateRoute exact path="/about" component={AboutPage} />
-          <PrivateRoute exact path="/tree" component={TreePage} />
+          <PublicRoute exact path="/events" container component={EventsPage} />
+          <PublicRoute
+            exact
+            path="/events/:id"
+            container
+            component={EventPage}
+          />
+          <PublicRoute exact path="/people" container component={PeoplePage} />
+          <PublicRoute
+            exact
+            path="/people/:id"
+            container
+            component={PersonPage}
+          />
           <PrivateRoute
+            exact
+            path="/profile"
+            container
+            component={ProfilePage}
+          />
+          <PublicRoute exact path="/tree" container component={TreePage} />
+          <PublicRoute
+            exact
+            path="/tree/integrated"
+            external
+            component={TreePage}
+          />
+          <PublicRoute
             exact
             path=""
             component={() => (
-              <Redirect to={{ pathname: "/home", state: { from: location } }} />
+              <Redirect to={{ pathname: "/tree", state: { from: location } }} />
             )}
           />
           <Route path="*" exact component={NotFound} />

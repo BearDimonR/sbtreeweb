@@ -1,51 +1,52 @@
-## SBTree repository
+# SBTree repository
 
-# How to start frontend for the first time?
+## Development sector
 
-1. `npm i --legacy-peer-deps` - there is conflict with react v17 and graph lib, to be fixed
+### How to run project in the docker?
 
-2. create `.env` from `.env.example` - or ask someone to provide you it
+1. follow instructions in `backend/proxy/certs/README.md` and create self-signed certificate
 
-3. `npm start`
+2. (optional) edit `backend/src/data/test_data.py` and add more entities
 
-# How to start frontend later?
+    or
 
-1. `npm start`
+    add `google_creds.json` into the backend root to load test data from GoogleSheet
 
-# How to start backend in the docker?
+3. run `docker compose up`
 
-1. follow instructions in `proxy/certs/README.md` and create self-signed certificate
+4. visit `https://sbukma.ml:3000` and `https://sbukma.ml:3000/api/ui`
 
-2. `cd backend`
+5. to enable google auth 
 
-3. create `.env` from `.env.example` - or ask someone to provide you it
+Go to the https://console.cloud.google.com/apis/credentials and create new `OAuth client ID` (and project if not have one).
 
-4. ask someone to provide you `google_creds.json` file 
+After creation paste `Client ID` and `Client secret` to the `.env.docker`.
 
-5. run `docker build -t sbtree-backend .`
+```
+GOOGLE_CLIENT_ID=<client_id>
+GOOGLE_CLIENT_SECRET=<client_secret>
+```
 
-6. run `docker run --rm -p 3002:443 sbtree-backend`
+Add `https://sbukma.ml:3000` to `Authorized JavaScript origins` and `https://sbukma.ml:3000/login/callback` to `Authorized redirect URIs`.
 
-# How to start backend for the first time?
+Also go to the https://console.cloud.google.com/apis/credentials/consent and add Test user with your email.
 
-1. `cd backend`
+Modify `backend/src/data/test_data.py` auth entry with your gmail to have access.
 
-2. `python3 -m pip install --user virtualenv`
+6. to connect image uploading
 
-3. `python3 -m venv venv`
+Go to the https://api.imgbb.com, register and get key, paste it to the `.env.docker`
 
-4. `source venv/bin/activate`
+```
+IMAGE_API_KEY=<token>
+```
+----------------------------------
 
-5. `pip install -r requirements.txt`
+## Deployment sector
 
-6. create `.env` from `.env.example` - or ask someone to provide you it
+The full initialization of infrastructure described [here](https://github.com/BearDimonR/aws_deployment)
 
-8. ask someone to provide you `google_creds.json` file
+Note!
+1. Don't forget to properly create all .env files
+2. Don't forget to change DNS configs for new instances
 
-10. `python src/app.py`
-
-# How to start backend later?
-
-1. `source venv/bin/activate`
-
-3. `python src/app.py`

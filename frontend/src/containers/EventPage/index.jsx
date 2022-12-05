@@ -12,36 +12,49 @@ import {
   removeActivity,
   setActivity,
   loadCategories,
+  createEvent,
+  createActivity,
 } from "../EventsPage/actions";
 import { loadFullNames } from "../PeoplePage/actions";
 import { useParams, useLocation, useHistory } from "react-router-dom";
 import EventModal from "../../components/EventModal";
 import ActivityModal from "../../components/ActivityModal";
 import _ from "lodash";
+import { NEW } from "../../helpers/constants";
 
 const EventPage = () => {
   const dispatch = useDispatch();
-  const { id } = useParams();
   const location = useLocation();
   const history = useHistory();
-  const path = location.pathname;
-  const [editing, setEditing] = useState(false);
 
-  const user = useSelector((state) => state.profile.user);
+  const { id } = useParams();
+  const isNew = id === NEW;
+  const path = location.pathname;
+
+  const [editing, setEditing] = useState(isNew);
+
   const event = useSelector((state) => state.event.instance);
   const activity = useSelector((state) => state.event.activity);
   const fullNames = useSelector((state) => state.person.fullNames);
   const eventNames = useSelector((state) => state.event.names);
   const categories = useSelector((state) => state.event.categories);
+  const access = useSelector((state) => state.profile.access);
 
   useEffect(() => {
-    dispatch(loadEvent(id));
-  }, [dispatch, id]);
+    if (!isNew) {
+      dispatch(loadEvent(id));
+    } else {
+      dispatch(loadCategories());
+    }
+  }, [dispatch, id, isNew]);
 
   const handleModalClose = () => {
     setEditing(false);
     if (activity) {
       dispatch(setActivity(null));
+    }
+    if (isNew) {
+      history.push(`/events`);
     }
   };
 
@@ -58,7 +71,11 @@ const EventPage = () => {
   };
 
   const handleActivityEdit = (id) => {
-    dispatch(loadActivity(id));
+    if (id !== NEW) {
+      dispatch(loadActivity(id));
+    } else {
+      dispatch(setActivity({ id: NEW, eventId: event.id }));
+    }
     dispatch(loadNames());
     dispatch(loadFullNames());
   };
@@ -68,39 +85,48 @@ const EventPage = () => {
   };
 
   const handleSubmit = (data) => {
-    dispatch(editEvent(data));
+    if (isNew) {
+      dispatch(createEvent(_.omit(data, ["id"])));
+    } else {
+      dispatch(editEvent(data));
+    }
   };
 
   const handleActivitySubmit = (data) => {
-    dispatch(editActivity(data));
+    if (data.id === NEW) {
+      dispatch(createActivity(_.omit(data, ["id"])));
+    } else {
+      dispatch(editActivity(data));
+    }
   };
 
-  const handleActivityClicked = (id) => {
-    history.push(`/people/${id}`);
-  };
+  const handleActivityClicked = (id) => history.push(`/people/${id}`);
+  const handleActivityAdd = () => handleActivityEdit(NEW);
+
+  const displayEvent = isNew ? {} : event;
 
   return (
     <div className={style.profileContainer}>
       <EventView
-        event={event}
+        event={displayEvent}
         onEdit={handleEdit}
         onDelete={handleDelete}
         onActivityEdit={handleActivityEdit}
         onActivityDelete={handleActivityDelete}
         onActivityClicked={handleActivityClicked}
+        onActivityAdd={handleActivityAdd}
+        access={access}
       />
       <EventModal
         open={editing}
         onClose={handleModalClose}
-        user={user}
-        event={event}
+        event={displayEvent}
         categories={categories}
         onSubmit={handleSubmit}
       />
       <ActivityModal
         open={activity !== null}
         onClose={handleModalClose}
-        user={user}
         activity={activity}
         fullNames={fullNames}
         eventNames={eventNames}

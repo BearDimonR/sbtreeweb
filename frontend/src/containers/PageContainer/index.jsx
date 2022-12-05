@@ -2,13 +2,13 @@ import React from "react";
 import style from "./index.module.scss";
 import { useDispatch } from "react-redux";
 import { logout } from "../LoginPage/actions";
-import { PAGE_TYPE } from "../../utils/shared";
 import EventFilterWrapper from "../EventFilterWrapper";
 import PersonFilterWrapper from "../PersonFilterWrapper";
 import { useLocation } from "react-router-dom";
 import Navbar from "../../components/NavBar";
 import Sidebar from "../../components/SideBar";
 import ContentContainer from "../ContentContainer";
+import { PAGE_TYPE } from "../../helpers/constants";
 
 const getPageOptions = (path) => {
   switch (path) {

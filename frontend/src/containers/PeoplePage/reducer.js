@@ -1,4 +1,4 @@
-import { PEOPLE_SORT_OPTIONS } from "../../utils/shared";
+import { PEOPLE_SORT_OPTIONS } from "../../helpers/constants";
 import {
   SET_PEOPLE,
   SET_INSTANCE,

@@ -67,7 +67,7 @@ paths:
       summary: Creates new person
       operationId: controllers.person_controller.create_person
       security:
-        - adminAuth: [ ]
+        - adminAuth: []
       requestBody:
         description: Person data
         required: true
@@ -149,7 +149,7 @@ paths:
       summary: Get person info
       operationId: controllers.person_controller.get_person
       security:
-        - personalAuth: [ ]
+        - personalAuth: []
       responses:
         200:
           description: Success
@@ -163,7 +163,7 @@ paths:
       summary: Update person
       operationId: controllers.person_controller.update_person
       security:
-        - adminAuth: [ ]
+        - adminAuth: []
       requestBody:
         description: Request data
         required: true
@@ -184,7 +184,7 @@ paths:
       summary: Delete person
       operationId: controllers.person_controller.delete_person
       security:
-        - adminAuth: [ ]
+        - adminAuth: []
       responses:
         200:
           description: Success
@@ -292,7 +292,7 @@ paths:
       summary: Update event
       operationId: controllers.event_controller.update_event
       security:
-        - editorAuth: [ ]
+        - editorAuth: []
       requestBody:
         description: Request data
         required: true
@@ -313,7 +313,7 @@ paths:
       summary: Delete event
       operationId: controllers.event_controller.delete_event
       security:
-        - adminAuth: [ ]
+        - adminAuth: []
       responses:
         200:
           description: Success
@@ -324,7 +324,7 @@ paths:
       summary: Create new activity
       operationId: controllers.activity_controller.create_connection
       security:
-        - adminAuth: [ ]
+        - adminAuth: []
       responses:
         200:
           description: Success
@@ -358,7 +358,7 @@ paths:
       summary: Update activity
       operationId: controllers.activity_controller.update_connection
       security:
-        - editorAuth: [ ]
+        - editorAuth: []
       requestBody:
         description: Request data
         required: true
@@ -379,7 +379,7 @@ paths:
       summary: Delete activity
       operationId: controllers.activity_controller.delete_connection
       security:
-        - adminAuth: [ ]
+        - adminAuth: []
       responses:
         200:
           description: Success
@@ -390,7 +390,7 @@ paths:
       summary: Get current user info
       operationId: controllers.auth_controller.get_current_user
       security:
-        - personalAuth: [ ]
+        - personalAuth: []
       responses:
         200:
           description: Success
@@ -407,26 +407,26 @@ paths:
       responses:
         200:
           description: Success
-          content: { }
+          content: {}
       security:
-        - personalAuth: [ ]
+        - personalAuth: []
   /auth/login:
     get:
       tags:
         - auth
       summary: Logs user into the system
       operationId: controllers.auth_controller.login
-      security: [ ]
+      security: []
       responses:
         302:
           description: Redirect to login
-          content: { }
+          content: {}
   /auth/login/callback:
     get:
       tags:
         - auth
       summary: Return access token
-      security: [ ]
+      security: []
       operationId: controllers.auth_controller.callback
       responses:
         200:
@@ -435,6 +435,17 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Login"
+  /image:
+    post:
+      tags:
+        - image
+      summary: Upload image
+      operationId: controllers.image_controller.upload_image
+      security:
+        - editorAuth: []
+      responses:
+        200:
+          description: Success
 components:
   schemas:
     BaseEntity:

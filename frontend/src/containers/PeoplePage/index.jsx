@@ -5,7 +5,9 @@ import style from "./index.module.scss";
 import { loadPeople, setPage } from "./actions";
 import _ from "lodash";
 import PersonCard from "../../components/PersonCard";
-import { Grid, Pagination } from "@mui/material";
+import Add from "@mui/icons-material/Add";
+import { ROLES } from "../../helpers/constants";
+import { Grid, IconButton, Pagination } from "@mui/material";
 
 const PeoplePage = () => {
   const dispatch = useDispatch();
@@ -15,6 +17,7 @@ const PeoplePage = () => {
   const page = useSelector((state) => state.person.page);
   const paginator = useRef(null);
   const [personId, setPersonId] = useState(null);
+  const access = useSelector((state) => state.profile.access);
 
   useEffect(() => {
     dispatch(loadPeople());
@@ -56,6 +59,18 @@ const PeoplePage = () => {
           />
         )}
       </Grid>
+      {access >= ROLES.EDITOR && (
+        <div className={style.paginator}>
+          <IconButton
+            aria-label="add"
+            color="primary"
+            style={{ marginTop: "20px", margin: "auto" }}
+            onClick={() => setPersonId("new")}
+          >
+            <Add />
+          </IconButton>
+        </div>
+      )}
       {people.length ? (
         <div className={style.paginator} ref={paginator}>
           <Pagination

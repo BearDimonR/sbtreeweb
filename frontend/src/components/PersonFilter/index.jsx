@@ -8,7 +8,6 @@ import {
   InputLabel,
   OutlinedInput,
   Select,
-  useTheme,
   MenuItem,
   Checkbox,
   ListItemText,
@@ -17,6 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import { dateToString, stringToDateObj } from "../../helpers/constants";
+import { localization } from "../../utils/localization";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -35,15 +35,6 @@ const MenuProps = {
   },
 };
 
-function getStyles(name, personName, theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
 const PersonFilter = ({ filters, statuses, apply, reset }) => {
   const [currentFilters, setCurrentFilters] = useState({
     ...filters,
@@ -52,8 +43,6 @@ const PersonFilter = ({ filters, statuses, apply, reset }) => {
     ),
     [FILTER_PROPERTIES.end]: stringToDateObj(filters[FILTER_PROPERTIES.end]),
   });
-
-  const theme = useTheme();
 
   const handleChange = (value, type) => {
     setCurrentFilters({ ...currentFilters, [type]: value });
@@ -79,11 +68,11 @@ const PersonFilter = ({ filters, statuses, apply, reset }) => {
   return (
     <form className={style.form}>
       <Typography variant="h5" gutterBottom component="div">
-        Filters
+        {localization.filters}
       </Typography>
       <div className={style.section}>
         <DatePicker
-          label="Start date"
+          label={localization.from}
           mask="__.__.____"
           value={currentFilters[FILTER_PROPERTIES.start] || null}
           onChange={(value) => handleChange(value, FILTER_PROPERTIES.start)}
@@ -92,7 +81,7 @@ const PersonFilter = ({ filters, statuses, apply, reset }) => {
       </div>
       <div className={style.section}>
         <DatePicker
-          label="End date"
+          label={localization.to}
           mask="__.__.____"
           value={currentFilters[FILTER_PROPERTIES.end] || null}
           onChange={(value) => handleChange(value, FILTER_PROPERTIES.end)}
@@ -101,14 +90,14 @@ const PersonFilter = ({ filters, statuses, apply, reset }) => {
       </div>
       <div className={style.section}>
         <FormControl sx={{ m: 1, width: "80%", height: "100%" }}>
-          <InputLabel>Statuses</InputLabel>
+          <InputLabel>{localization.statuses}</InputLabel>
           <Select
             multiple
             value={currentFilters[FILTER_PROPERTIES.status] || []}
             onChange={(e) =>
               handleChange(e.target?.value, FILTER_PROPERTIES.status)
             }
-            input={<OutlinedInput label="Statuses" />}
+            input={<OutlinedInput label={localization.statuses} />}
             renderValue={(selected) => (
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                 {selected.map((value) => (
@@ -134,8 +123,8 @@ const PersonFilter = ({ filters, statuses, apply, reset }) => {
         </FormControl>
       </div>
       <div className={style.buttons}>
-        <Button onClick={handleApply}>Apply</Button>
-        <Button onClick={handleReset}>Reset</Button>
+        <Button onClick={handleApply}>{localization.apply}</Button>
+        <Button onClick={handleReset}>{localization.reset}</Button>
       </div>
     </form>
   );

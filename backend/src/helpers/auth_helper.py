@@ -3,7 +3,13 @@ import time
 import requests
 from jose import jwt
 
-from config import GOOGLE_DISCOVERY_URL, JWT_ISSUER, JWT_LIFETIME_SECONDS, JWT_SECRET, JWT_ALGORITHM
+from config import (
+    GOOGLE_DISCOVERY_URL,
+    JWT_ISSUER,
+    JWT_LIFETIME_SECONDS,
+    JWT_SECRET,
+    JWT_ALGORITHM,
+)
 
 
 def get_google_provider_cfg():

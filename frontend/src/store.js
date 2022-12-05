@@ -6,6 +6,7 @@ import { createBrowserHistory } from "history";
 import profileReducer from "./containers/LoginPage/reducer";
 import eventReducer from "./containers/EventsPage/reducer";
 import personReducer from "./containers/PeoplePage/reducer";
+import treeReducer from "./containers/TreePage/reducer";
 
 export const history = createBrowserHistory();
 
@@ -17,6 +18,7 @@ const reducers = {
   profile: profileReducer,
   event: eventReducer,
   person: personReducer,
+  tree: treeReducer,
 };
 
 const rootReducer = combineReducers({

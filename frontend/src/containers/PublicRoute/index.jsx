@@ -1,21 +1,16 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { Route, Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
+import PageContainer from "../PageContainer";
 
-const PublicRoute = ({ component: Component, ...rest }) => {
-  const access = useSelector((state) => state.profile.access);
+const PublicRoute = ({ component: Component, container, ...rest }) => {
   return (
     <Route
       {...rest}
       render={(props) => {
-        if (access) {
-          return (
-            <Redirect
-              to={{ pathname: "/home", state: { from: props.location } }}
-            />
-          );
+        if (container) {
+          return <PageContainer component={Component} />;
         }
-        return <Component {...props} />;
+        return <Component {...props} {...rest} />;
       }}
     />
   );

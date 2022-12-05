@@ -17,6 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import { dateToString, stringToDateObj } from "../../helpers/constants";
+import { localization } from "../../utils/localization";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -79,11 +80,11 @@ const EventFilter = ({ filters, categories, apply, reset }) => {
   return (
     <form className={style.form}>
       <Typography variant="h5" gutterBottom component="div">
-        Filters
+        {localization.filters}
       </Typography>
       <div className={style.section}>
         <DatePicker
-          label="Start date"
+          label={localization.from}
           mask="__.__.____"
           value={currentFilters[FILTER_PROPERTIES.start] || null}
           onChange={(value) => handleChange(value, FILTER_PROPERTIES.start)}
@@ -92,7 +93,7 @@ const EventFilter = ({ filters, categories, apply, reset }) => {
       </div>
       <div className={style.section}>
         <DatePicker
-          label="End date"
+          label={localization.to}
           mask="__.__.____"
           value={currentFilters[FILTER_PROPERTIES.end] || null}
           onChange={(value) => handleChange(value, FILTER_PROPERTIES.end)}
@@ -101,7 +102,7 @@ const EventFilter = ({ filters, categories, apply, reset }) => {
       </div>
       <div className={style.section}>
         <FormControl sx={{ m: 1, width: "80%", height: "100%" }}>
-          <InputLabel>Category</InputLabel>
+          <InputLabel>{localization.category}</InputLabel>
           <Select
             multiple
             value={currentFilters[FILTER_PROPERTIES.category] || []}
@@ -142,8 +143,8 @@ const EventFilter = ({ filters, categories, apply, reset }) => {
         </FormControl>
       </div>
       <div className={style.buttons}>
-        <Button onClick={handleApply}>Apply</Button>
-        <Button onClick={handleReset}>Reset</Button>
+        <Button onClick={handleApply}>{localization.apply}</Button>
+        <Button onClick={handleReset}>{localization.reset}</Button>
       </div>
     </form>
   );

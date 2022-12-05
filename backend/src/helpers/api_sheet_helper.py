@@ -2,31 +2,53 @@ import gspread
 import pandas as pd
 from oauth2client.service_account import ServiceAccountCredentials
 
-from config import GOOGLE_CREDS_FILE_PATH, DRIVE_FILE_NAME, GOOGLE_SHEET_SCOPE
+from config import (
+    GOOGLE_CREDS_FILE_PATH,
+    GOOGLE_CREDS_FILE_EXIST,
+    DRIVE_FILE_NAME,
+    GOOGLE_SHEET_SCOPE,
+)
 
-sheet_client = \
-    gspread.authorize(
-        ServiceAccountCredentials.from_json_keyfile_name(GOOGLE_CREDS_FILE_PATH, GOOGLE_SHEET_SCOPE)
+sheet_client = None
+sheet_database = None
+
+
+def authorize_google_disk():
+    global sheet_client
+    global sheet_database
+    sheet_client = gspread.authorize(
+        ServiceAccountCredentials.from_json_keyfile_name(
+            GOOGLE_CREDS_FILE_PATH, GOOGLE_SHEET_SCOPE
+        )
     )
+    sheet_database = sheet_client.open(DRIVE_FILE_NAME)
 
-sheet_database = sheet_client.open(DRIVE_FILE_NAME)
+
+def get_sheet_helper(table_name):
+    if GOOGLE_CREDS_FILE_EXIST:
+        if not sheet_database:
+            authorize_google_disk()
+        return ApiSheetHelper(table_name)
 
 
 class ApiSheetHelper:
-
     def __init__(self, sheet_name):
         self.worksheet = sheet_database.worksheet(sheet_name)
         self.title = self.worksheet.row_values(1)
         self.filter_cell = lambda item: item.row != 1
         self.range = chr(64 + len(self.title))
+        pass
 
     def load_values(self, from_row, to_row):
         # TODO request limit
-        values = self.worksheet.get_values(f'A{from_row}:{self.range}{to_row}',
-                                           value_render_option='UNFORMATTED_VALUE',
-                                           date_time_render_option='FORMATTED_STRING'
-                                           )
-        dataframe = pd.DataFrame(values, columns=self.title).replace({r'^\s*$': None}, regex=True)
+        values = self.worksheet.get_values(
+            f"A{from_row}:{self.range}{to_row}",
+            value_render_option="UNFORMATTED_VALUE",
+            date_time_render_option="FORMATTED_STRING",
+        )
+        dataframe = pd.DataFrame(values, columns=self.title).replace(
+            {r"^\s*$": None}, regex=True
+        )
         return dataframe
 
     def filter_values(self, value):
@@ -37,8 +59,11 @@ class ApiSheetHelper:
         return None
 
     def cell_to_row(self, cell):
-        values = self.worksheet.row_values(cell.row, value_render_option='UNFORMATTED_VALUE',
-                                           date_time_render_option='FORMATTED_STRING')
+        values = self.worksheet.row_values(
+            cell.row,
+            value_render_option="UNFORMATTED_VALUE",
+            date_time_render_option="FORMATTED_STRING",
+        )
         return values
 
     def row_to_dict(self, row):
@@ -67,7 +92,7 @@ class ApiSheetHelper:
         return None
 
     def get_all(self):
-        return self.worksheet.get_all_records(value_render_option='UNFORMATTED_VALUE')
+        return self.worksheet.get_all_records(value_render_option="UNFORMATTED_VALUE")
 
     def get_all_by_field(self, field_name, value):
         cells = self.find_cells_by_field(field_name, value)
@@ -77,7 +102,7 @@ class ApiSheetHelper:
         pass
 
     def save(self, value):
-        self.worksheet.append_row(value, value_input_option='USER_ENTERED')
+        self.worksheet.append_row(value, value_input_option="USER_ENTERED")
 
     def update_cells_by_field(self, field_name, field_value, value):
         cells = self.find_cell_by_field(field_name, field_value)

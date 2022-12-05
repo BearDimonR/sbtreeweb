@@ -35,6 +35,19 @@ export const getPerson = async (id, events = true) => {
   return person;
 };
 
+export const getPersonShort = async (id, events = true) => {
+  const response = await callWebApi({
+    type: "GET",
+    endpoint: `/api/person/${id}/short`,
+    query: {
+      events,
+    },
+  });
+
+  const person = (await response.json()) || null;
+  return person;
+};
+
 export const getPeopleFullNames = async () => {
   const response = await callWebApi({
     type: "GET",
@@ -62,6 +75,15 @@ export const getPeopleSpecialties = async () => {
   return _.map(peopleStatuses, "specialty");
 };
 
+export const postPerson = async (data) => {
+  const response = await callWebApi({
+    type: "POST",
+    endpoint: "/api/person",
+    request: data,
+  });
+  return response.json();
+};
+
 export const putPerson = async (data) => {
   const response = await callWebApi({
     type: "PUT",
@@ -76,4 +98,12 @@ export const deletePerson = async (id) => {
     type: "DELETE",
     endpoint: `/api/person/${id}`,
   });
+};
+
+export const getTreeData = async () => {
+  const response = await callWebApi({
+    type: "GET",
+    endpoint: `/api/person/tree`,
+  });
+  return response.json();
 };

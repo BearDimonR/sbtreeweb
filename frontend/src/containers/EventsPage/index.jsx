@@ -5,7 +5,9 @@ import style from "./index.module.scss";
 import { loadEvents, setPage } from "./actions";
 import _ from "lodash";
 import EventCard from "../../components/EventCard";
-import { Grid, Pagination } from "@mui/material";
+import { ROLES } from "../../helpers/constants";
+import { Grid, Pagination, IconButton } from "@mui/material";
+import Add from "@mui/icons-material/Add";
 
 const EventsPage = () => {
   const dispatch = useDispatch();
@@ -15,6 +17,7 @@ const EventsPage = () => {
   const page = useSelector((state) => state.event.page);
   const paginator = useRef(null);
   const [eventId, setEventId] = useState(null);
+  const access = useSelector((state) => state.profile.access);
 
   useEffect(() => {
     dispatch(loadEvents());
@@ -56,6 +59,18 @@ const EventsPage = () => {
           />
         )}
       </Grid>
+      {access >= ROLES.EDITOR && (
+        <div className={style.paginator}>
+          <IconButton
+            aria-label="add"
+            color="primary"
+            style={{ marginTop: "20px", margin: "auto" }}
+            onClick={() => setEventId("new")}
+          >
+            <Add />
+          </IconButton>
+        </div>
+      )}
       {events.length ? (
         <div className={style.paginator} ref={paginator}>
           <Pagination

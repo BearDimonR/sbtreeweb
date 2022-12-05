@@ -4,6 +4,10 @@ import _ from "lodash";
 import { Grid, Image, List, Label, Icon } from "semantic-ui-react";
 import { Panel } from "rsuite";
 import Ratio from "react-ratio";
+import { localization } from "../../utils/localization";
+import { ROLES } from "../../helpers/constants";
+import Add from "@mui/icons-material/Add";
+import { IconButton } from "@mui/material";
 
 const ProfileView = ({
   user,
@@ -12,6 +16,8 @@ const ProfileView = ({
   onActivityEdit,
   onActivityDelete,
   onActivityClicked,
+  onActivityAdd,
+  access,
 }) => {
   const ref = useRef();
   const [maxHeight, setMaxHeight] = useState();
@@ -22,23 +28,25 @@ const ProfileView = ({
 
   const getHeader = () => (
     <div className={style.infoTitle}>
-      <p>Профіль</p>
-      <div className={style.icons}>
-        <Label
-          as="a"
-          icon="edit"
-          basic
-          className={style.label}
-          onClick={() => onEdit(user.id)}
-        />
-        <Label
-          as="a"
-          icon="delete"
-          basic
-          className={style.label}
-          onClick={() => onDelete(user.id)}
-        />
-      </div>
+      <p>{localization.profile}</p>
+      {access >= ROLES.EDITOR && (
+        <div className={style.icons}>
+          <Label
+            as="a"
+            icon="edit"
+            basic
+            className={style.label}
+            onClick={() => onEdit(user.id)}
+          />
+          <Label
+            as="a"
+            icon="delete"
+            basic
+            className={style.label}
+            onClick={() => onDelete(user.id)}
+          />
+        </div>
+      )}
     </div>
   );
 
@@ -70,19 +78,19 @@ const ProfileView = ({
             <List divided selection>
               <List.Item>
                 <Label color="blue" horizontal>
-                  ПІБ
+                  {localization.fullName}
                 </Label>
                 {`${user.surname} ${user.name} ${user.parental}`}
               </List.Item>
               <List.Item>
                 <Label color="green" horizontal>
-                  Статус
+                  {localization.status}
                 </Label>
                 {user.status}
               </List.Item>
               <List.Item>
                 <Label color="purple" horizontal>
-                  Членство
+                  {localization.membership}
                 </Label>
                 {user.dateIn}
                 {" - "}
@@ -90,7 +98,7 @@ const ProfileView = ({
               </List.Item>
               <List.Item>
                 <Label color="violet" horizontal>
-                  Контакти
+                  {localization.contact}
                 </Label>
                 <Label as="a">
                   <Icon name="mail" />
@@ -103,7 +111,7 @@ const ProfileView = ({
               </List.Item>
               <List.Item>
                 <Label color="orange" horizontal>
-                  Опис
+                  {localization.description}
                 </Label>
                 {user.about}
               </List.Item>
@@ -112,7 +120,11 @@ const ProfileView = ({
         </Grid.Column>
       </Grid.Row>
       <Grid.Row className={style.row}>
-        <Panel header="Події" bordered prefix="people-custom-panel">
+        <Panel
+          header={localization.events}
+          bordered
+          prefix="people-custom-panel"
+        >
           <List divided selection className={style.activity}>
             {user.events &&
               _.map(user.events, (val) => (
@@ -121,38 +133,56 @@ const ProfileView = ({
                   className={style.activityItem}
                   onClick={(e) => onActivityClicked(val.event?.id)}
                 >
-                  <div className={style.actionIcons}>
-                    <Label
-                      as="a"
-                      icon="edit"
-                      basic
-                      className={style.label}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onActivityEdit(val.id);
-                      }}
-                    />
-                    <Label
-                      as="a"
-                      icon="delete"
-                      basic
-                      className={style.label}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onActivityDelete(val.id);
-                      }}
-                    />
-                  </div>
+                  {access >= ROLES.EDITOR && (
+                    <div className={style.actionIcons}>
+                      <Label
+                        as="a"
+                        icon="edit"
+                        basic
+                        className={style.label}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onActivityEdit(val.id);
+                        }}
+                      />
+                      <Label
+                        as="a"
+                        icon="delete"
+                        basic
+                        className={style.label}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onActivityDelete(val.id);
+                        }}
+                      />
+                    </div>
+                  )}
                   <Image avatar src={val.event?.photo} />
-                  <List.Content>
+                  <List.Content className={style.content}>
                     <List.Header as="a" className={style.activityInfo}>
                       {val.event?.name} {val.event?.dateStart}
                     </List.Header>
-                    <List.Content>{val.position}</List.Content>
-                    <List.Description>{val.contribution}</List.Description>
+                    <List.Content className={style.overflow}>
+                      {val.position}
+                    </List.Content>
+                    <List.Description className={style.overflow}>
+                      {val.contribution}
+                    </List.Description>
                   </List.Content>
                 </List.Item>
               ))}
+            {access >= ROLES.EDITOR && (
+              <div className={style.add}>
+                <IconButton
+                  aria-label="add"
+                  color="primary"
+                  style={{ marginTop: "20px", margin: "auto" }}
+                  onClick={onActivityAdd}
+                >
+                  <Add />
+                </IconButton>
+              </div>
+            )}
           </List>
         </Panel>
       </Grid.Row>

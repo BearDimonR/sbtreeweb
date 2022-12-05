@@ -12,11 +12,12 @@ import {
 import { NavLink, useLocation } from "react-router-dom";
 import _ from "lodash";
 import { setSort, applySearch } from "./actions";
+import { localization } from "../../utils/localization";
 import {
-  PAGE_TYPE,
   EVENTS_SORT_OPTIONS,
+  PAGE_TYPE,
   PEOPLE_SORT_OPTIONS,
-} from "../../utils/shared";
+} from "../../helpers/constants";
 
 const getPageOptions = (path) => {
   switch (path) {
@@ -74,7 +75,7 @@ const ContentContainer = ({ component: Component, setSidebarVisible }) => {
               <div className={style.rightContainer}>
                 {setSidebarVisible && (
                   <Dropdown
-                    text="Filter"
+                    text={localization.filter}
                     className={style.filterWrapper}
                     multiple
                     icon="filter"
@@ -82,10 +83,10 @@ const ContentContainer = ({ component: Component, setSidebarVisible }) => {
                   />
                 )}
                 <div className={style.sortWrapper}>
-                  <p>Sort</p>
+                  <p>{localization.sortBy}</p>
                   <Dropdown
                     inline
-                    header="Sort by"
+                    header={localization.sortBy}
                     value={sort}
                     options={sortOptions}
                     onChange={handleSortChange}
@@ -103,7 +104,7 @@ const ContentContainer = ({ component: Component, setSidebarVisible }) => {
                   onChange={handleSearchChange}
                   value={search}
                 />
-                {!profilePage && (
+                {!profilePage && user && (
                   <NavLink to="/profile" className={style.avatarContainer}>
                     <Image
                       circular

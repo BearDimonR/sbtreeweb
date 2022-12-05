@@ -44,8 +44,8 @@ const getConfig = ({ width, height }) => ({
   },
   d3: {
     alphaTarget: 1,
-    gravity: -1300,
-    linkLength: 350,
+    gravity: -4000,
+    linkLength: 400,
     linkStrength: 1,
   },
   link: {

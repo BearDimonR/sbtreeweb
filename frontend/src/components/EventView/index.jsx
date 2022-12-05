@@ -4,6 +4,10 @@ import _ from "lodash";
 import { Grid, Image, List, Label } from "semantic-ui-react";
 import { Panel } from "rsuite";
 import Ratio from "react-ratio";
+import { localization } from "../../utils/localization";
+import { ROLES } from "../../helpers/constants";
+import Add from "@mui/icons-material/Add";
+import { IconButton } from "@mui/material";
 
 const EventView = ({
   event,
@@ -12,6 +16,8 @@ const EventView = ({
   onActivityEdit,
   onActivityDelete,
   onActivityClicked,
+  onActivityAdd,
+  access,
 }) => {
   const ref = useRef();
   const [maxHeight, setMaxHeight] = useState();
@@ -22,23 +28,25 @@ const EventView = ({
 
   const getHeader = () => (
     <div className={style.infoTitle}>
-      <p>Інформація про подію</p>
-      <div className={style.icons}>
-        <Label
-          as="a"
-          icon="edit"
-          basic
-          className={style.label}
-          onClick={(e) => onEdit(event.id)}
-        />
-        <Label
-          as="a"
-          icon="delete"
-          basic
-          className={style.label}
-          onClick={(e) => onDelete(event.id)}
-        />
-      </div>
+      <p>{localization.eventInfo}</p>
+      {access >= ROLES.EDITOR && (
+        <div className={style.icons}>
+          <Label
+            as="a"
+            icon="edit"
+            basic
+            className={style.label}
+            onClick={(e) => onEdit(event.id)}
+          />
+          <Label
+            as="a"
+            icon="delete"
+            basic
+            className={style.label}
+            onClick={(e) => onDelete(event.id)}
+          />
+        </div>
+      )}
     </div>
   );
 
@@ -55,25 +63,25 @@ const EventView = ({
             <List divided selection>
               <List.Item>
                 <Label color="green" horizontal>
-                  Назва
+                  {localization.name}
                 </Label>
                 {event.name}
               </List.Item>
               <List.Item>
                 <Label color="blue" horizontal>
-                  Категорія
+                  {localization.category}
                 </Label>
                 {event.category}
               </List.Item>
               <List.Item>
                 <Label color="purple" horizontal>
-                  Дата проведення
+                  {localization.date}
                 </Label>
                 {event.dateStart} - {event.dateEnd ? event.dateEnd : "Present"}
               </List.Item>
               <List.Item>
                 <Label color="orange" horizontal>
-                  Опис
+                  {localization.description}
                 </Label>
                 <p>{event.description}</p>
               </List.Item>
@@ -81,7 +89,11 @@ const EventView = ({
           </Panel>
         </Grid.Column>
         <Grid.Column className={style.infoColumn}>
-          <Panel header="Учасники події" bordered prefix="event-custom-panel">
+          <Panel
+            header={localization.members}
+            bordered
+            prefix="event-custom-panel"
+          >
             <List
               divided
               selection
@@ -91,42 +103,58 @@ const EventView = ({
               {event.people &&
                 _.map(event.people, (val) => (
                   <List.Item
-                    className={style.content}
+                    className={style.item}
                     key={val.id}
                     onClick={() => onActivityClicked(val.person?.id)}
                   >
-                    <div className={style.actionIcons}>
-                      <Label
-                        as="a"
-                        icon="edit"
-                        basic
-                        className={style.label}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onActivityEdit(val.id);
-                        }}
-                      />
-                      <Label
-                        as="a"
-                        icon="delete"
-                        basic
-                        className={style.label}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onActivityDelete(val.id);
-                        }}
-                      />
-                    </div>
+                    {access >= ROLES.EDITOR && (
+                      <div className={style.actionIcons}>
+                        <Label
+                          as="a"
+                          icon="edit"
+                          basic
+                          className={style.label}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onActivityEdit(val.id);
+                          }}
+                        />
+                        <Label
+                          as="a"
+                          icon="delete"
+                          basic
+                          className={style.label}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onActivityDelete(val.id);
+                          }}
+                        />
+                      </div>
+                    )}
                     <Image avatar src={val.person?.avatar} />
-                    <List.Content>
+                    <List.Content className={style.content}>
                       <List.Header as="a" className={style.activityInfo}>
                         {val.person?.surname} {val.person?.name}
                       </List.Header>
-                      <List.Content>{val.position}</List.Content>
-                      <List.Description>{val.contribution}</List.Description>
+                      <List.Content className={style.overflow}>
+                        {val.position}
+                      </List.Content>
+                      <List.Description className={style.overflow}>
+                        {val.contribution}
+                      </List.Description>
                     </List.Content>
                   </List.Item>
                 ))}
+              {access >= ROLES.EDITOR && (
+                <IconButton
+                  aria-label="add"
+                  color="primary"
+                  style={{ marginTop: "20px", margin: "auto" }}
+                  onClick={onActivityAdd}
+                >
+                  <Add />
+                </IconButton>
+              )}
             </List>
           </Panel>
         </Grid.Column>
