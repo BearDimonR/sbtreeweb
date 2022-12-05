@@ -9,7 +9,7 @@ from helpers.db_helper import import_data
 from helpers import db
 from exceptions import init_exception_handlers
 from config import DATETIME_FORMAT, LOG_FOLDER, LOG_FORMAT, DATABASE_URI, API_FILE, FLASK_ENV, DEV_PORT, \
-    KEY, CRT, IMAGE_TEMP_FOLDER
+    KEY, CRT, IMAGE_TEMP_FOLDER, GOOGLE_CREDS_FILE_EXIST
 from connexion import FlaskApp, App
 import logging
 from logging.handlers import RotatingFileHandler
@@ -55,8 +55,9 @@ def init_app():
     with app.app_context():
         db.drop_all()
         db.create_all()
-        
-        import_data()
+
+        if GOOGLE_CREDS_FILE_EXIST:
+            import_data()
 
 init_app()
 

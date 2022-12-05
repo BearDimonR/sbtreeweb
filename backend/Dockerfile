@@ -3,8 +3,6 @@ RUN pip install --upgrade pip
 
 RUN mkdir -p /app/proxy
 COPY ./requirements.txt /app/requirements.txt
-COPY ./google_creds.json /app/google_creds.json
-COPY ./.env.development /app/.env.development
 COPY ./proxy /app/proxy
 
 WORKDIR /app

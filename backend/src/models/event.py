@@ -1,13 +1,13 @@
 from sqlalchemy.orm import relationship
 
-from helpers import db, ApiSheetHelper
+from helpers import db, get_sheet_helper
 from models.base_entity import BaseEntity
 
 
 class Event(BaseEntity):
     __tablename__ = 'event'
 
-    sheet_helper = ApiSheetHelper(__tablename__)
+    sheet_helper = get_sheet_helper(__tablename__)
     start = 'date_start'
     end = 'date_end'
 

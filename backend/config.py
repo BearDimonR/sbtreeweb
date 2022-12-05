@@ -26,6 +26,7 @@ GOOGLE_SHEET_SCOPE = ['https://spreadsheets.google.com/feeds', 'https://www.goog
 
 # Google creds location
 GOOGLE_CREDS_FILE_PATH = os.path.join(ROOT_DIR, 'google_creds.json')
+GOOGLE_CREDS_FILE_EXIST = os.path.lexists(GOOGLE_CREDS_FILE_PATH)
 
 # Database URI
 user = os.environ['MYSQL_USER']

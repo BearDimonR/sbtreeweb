@@ -2,14 +2,14 @@ import uuid
 
 from sqlalchemy.orm import relationship
 
-from helpers import db, ApiSheetHelper, BinaryUUID
+from helpers import db, get_sheet_helper, BinaryUUID
 from models.base_entity import BaseEntity
 
 
 class Auth(BaseEntity):
     __tablename__ = 'auth'
 
-    sheet_helper = ApiSheetHelper(__tablename__)
+    sheet_helper = get_sheet_helper(__tablename__)
 
     person_id = db.Column(BinaryUUID, db.ForeignKey('person.id', ondelete='CASCADE'))
     access = db.Column(db.Integer, default=0)

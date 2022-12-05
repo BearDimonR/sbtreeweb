@@ -2,14 +2,14 @@ import uuid
 
 from sqlalchemy.orm import relationship
 
-from helpers import db, ApiSheetHelper, BinaryUUID
+from helpers import db, get_sheet_helper, BinaryUUID
 from models.base_entity import BaseEntity
 
 
 class Person(BaseEntity):
     __tablename__ = 'person'
 
-    sheet_helper = ApiSheetHelper(__tablename__)
+    sheet_helper = get_sheet_helper(__tablename__)
     start = 'date_in'
     end = 'date_out'
 

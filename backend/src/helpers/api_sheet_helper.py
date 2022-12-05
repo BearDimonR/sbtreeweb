@@ -2,14 +2,26 @@ import gspread
 import pandas as pd
 from oauth2client.service_account import ServiceAccountCredentials
 
-from config import GOOGLE_CREDS_FILE_PATH, DRIVE_FILE_NAME, GOOGLE_SHEET_SCOPE
+from config import GOOGLE_CREDS_FILE_PATH, GOOGLE_CREDS_FILE_EXIST, DRIVE_FILE_NAME, GOOGLE_SHEET_SCOPE
 
-sheet_client = \
-    gspread.authorize(
-        ServiceAccountCredentials.from_json_keyfile_name(GOOGLE_CREDS_FILE_PATH, GOOGLE_SHEET_SCOPE)
-    )
+sheet_client = None
+sheet_database = None
 
-sheet_database = sheet_client.open(DRIVE_FILE_NAME)
+def authorize_google_disk():
+    global sheet_client
+    global sheet_database
+    sheet_client = \
+                gspread.authorize(
+                    ServiceAccountCredentials.from_json_keyfile_name(GOOGLE_CREDS_FILE_PATH, GOOGLE_SHEET_SCOPE)
+                )
+    sheet_database = sheet_client.open(DRIVE_FILE_NAME)
+        
+
+def get_sheet_helper(table_name):
+    if GOOGLE_CREDS_FILE_EXIST:
+        if not sheet_database:
+            authorize_google_disk()
+        return ApiSheetHelper(table_name)
 
 
 class ApiSheetHelper:
