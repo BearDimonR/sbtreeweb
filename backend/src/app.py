@@ -55,6 +55,7 @@ def init_app():
     with app.app_context():
         db.drop_all()
         db.create_all()
+        
         import_data()
 
 init_app()

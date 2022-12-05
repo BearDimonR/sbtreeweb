@@ -132,6 +132,7 @@ dmypy.json
 logs/
 data/
 *.crt
+*.cert
 *.key
 
 google_creds.json

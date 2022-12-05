@@ -66,6 +66,6 @@ LOG_FOLDER = os.path.join(ROOT_DIR, 'logs/')
 LOG_FORMAT = '%(asctime)s [%(levelname)s] {%(name)s %(threadName)s} : %(message)s'
 
 # Certs path
-CERT_FOLDER = os.path.join(ROOT_DIR, '../proxy/certs')
-CRT = os.path.join(CERT_FOLDER, 'sbtree.local.crt')
-KEY = os.path.join(CERT_FOLDER, 'sbtree.local.key')
+CERT_FOLDER = os.path.join(ROOT_DIR, 'proxy/certs')
+CRT = os.path.join(CERT_FOLDER, 'sbukma.ml.crt')
+KEY = os.path.join(CERT_FOLDER, 'sbukma.ml.key')
