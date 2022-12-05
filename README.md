@@ -11,17 +11,21 @@
 
 1. follow instructions in `backend/proxy/certs/README.md` and create self-signed certificate
 
-2. (optional) edit `backend/src/data/test_data.py` and add more entities
+2. edit `backend/src/data/test_data.py` and add more entities
 
     or
 
     add `google_creds.json` into the backend root to load test data from GoogleSheet
 
-3. run `docker compose up`
+3. edit `backend/.env.docker` to have all required envs
 
-4. visit `https://sbukma.ml:3000` and `https://sbukma.ml:3000/api/ui`
+4. run `docker compose up`
 
-5. to enable google auth 
+5. visit `https://sbukma.ml:3000` and `https://sbukma.ml:3000/api/ui`
+
+#### Other
+
+1. to enable google auth 
 
 Go to the https://console.cloud.google.com/apis/credentials and create new `OAuth client ID` (and project if not have one).
 
@@ -38,7 +42,7 @@ Also go to the https://console.cloud.google.com/apis/credentials/consent and add
 
 If you use local data modify `backend/src/data/test_data.py` auth entry with your gmail to have access. Otherwise edit sheet database or add entry via database.
 
-6. to connect image uploading
+2. to connect image uploading
 
 Go to the https://api.imgbb.com, register and get key, paste it to the `.env.docker`
 
