@@ -2,7 +2,7 @@ import uuid
 
 from sqlalchemy.orm import relationship, backref
 
-from helpers import db, ApiSheetHelper, BinaryUUID, 
+from helpers import db, ApiSheetHelper, BinaryUUID
 from models.base_entity import BaseEntity
 
 
