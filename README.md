@@ -36,7 +36,7 @@ Add `https://sbukma.ml:3000` to `Authorized JavaScript origins` and `https://sbu
 
 Also go to the https://console.cloud.google.com/apis/credentials/consent and add Test user with your email.
 
-Modify `backend/src/data/test_data.py` auth entry with your gmail to have access.
+If you use local data modify `backend/src/data/test_data.py` auth entry with your gmail to have access. Otherwise edit sheet database or add entry via database.
 
 6. to connect image uploading
 
