@@ -1,5 +1,10 @@
 # SBTree repository
 
+## Hosted version (Demo): 
+[Full project](https://www.sbukma.ml) 
+
+[Only this part](https://tree.sbukma.ml)
+
 ## Development sector
 
 ### How to run project in the docker?
