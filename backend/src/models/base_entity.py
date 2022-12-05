@@ -18,20 +18,22 @@ class BaseEntity(db.Model, SheetEntity):
 
     id = db.Column(BinaryUUID, primary_key=True, default=uuid.uuid4())
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
-    updated_at = db.Column(db.DateTime,
-                           default=db.func.current_timestamp(),
-                           onupdate=db.func.current_timestamp())
+    updated_at = db.Column(
+        db.DateTime,
+        default=db.func.current_timestamp(),
+        onupdate=db.func.current_timestamp(),
+    )
     types = {
-        'id': 'id',
-        'created_at': 'datetime',
-        'updated_at': 'datetime',
+        "id": "id",
+        "created_at": "datetime",
+        "updated_at": "datetime",
     }
 
     def to_dict(self):
         return {
-            'id': self.transform_field('id', self.id),
-            'createdAt': self.transform_field('datetime', self.created_at),
-            'updatedAt': self.transform_field('datetime', self.updated_at)
+            "id": self.transform_field("id", self.id),
+            "createdAt": self.transform_field("datetime", self.created_at),
+            "updatedAt": self.transform_field("datetime", self.updated_at),
         }
 
     @classmethod
@@ -42,16 +44,16 @@ class BaseEntity(db.Model, SheetEntity):
             field_type = key
         if val is None:
             return val
-        if field_type == 'id':
+        if field_type == "id":
             if isinstance(val, uuid.UUID):
                 return str(val)
             elif isinstance(val, str):
                 return str(uuid.UUID(val))
             else:
                 return str(uuid.UUID(bytes=val))
-        if field_type == 'datetime':
+        if field_type == "datetime":
             return val.strftime(DATETIME_FORMAT)
-        if field_type == 'date':
+        if field_type == "date":
             return val.strftime(DATE_FORMAT)
         return val
 
@@ -99,14 +101,21 @@ class BaseEntity(db.Model, SheetEntity):
 
     @classmethod
     def transform_data(cls, dataframe):
-        dataframe['id'] = dataframe['id'].apply(
-            lambda _id: uuid.UUID(_id) if _id is not None else None)
-        dataframe['updated_at'] = dataframe['updated_at'].apply(
-            lambda date: datetime.strptime(date, DATETIME_FORMAT) if date is not None else None)
-        dataframe['created_at'] = dataframe['created_at'].apply(
-            lambda date: datetime.strptime(date, DATETIME_FORMAT) if date is not None else None)
+        dataframe["id"] = dataframe["id"].apply(
+            lambda _id: uuid.UUID(_id) if _id is not None else None
+        )
+        dataframe["updated_at"] = dataframe["updated_at"].apply(
+            lambda date: datetime.strptime(date, DATETIME_FORMAT)
+            if date is not None
+            else None
+        )
+        dataframe["created_at"] = dataframe["created_at"].apply(
+            lambda date: datetime.strptime(date, DATETIME_FORMAT)
+            if date is not None
+            else None
+        )
         return dataframe
 
     @classmethod
     def filter_data(cls, dataframe):
-        return dataframe[dataframe['id'].notna()]
+        return dataframe[dataframe["id"].notna()]

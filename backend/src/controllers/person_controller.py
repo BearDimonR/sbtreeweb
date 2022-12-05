@@ -9,34 +9,40 @@ def get_all(sort=None, params=None, search=None, page=1):
     formatted_search = None
     # TODO rewrite it
     if search:
-        formatted_search = search.split(' ')
-        formatted_search = [('surname', formatted_search[0])]
+        formatted_search = search.split(" ")
+        formatted_search = [("surname", formatted_search[0])]
         if len(formatted_search) > 1:
-            formatted_search.append(('name', formatted_search[1]))
+            formatted_search.append(("name", formatted_search[1]))
 
-    (total, page) = person_service.get_all(sort=sort, search=formatted_search, page=page)
-    return {'pages': total, 'items': list(map(lambda x: x.to_short_dict(), page))}
+    (total, page) = person_service.get_all(
+        sort=sort, search=formatted_search, page=page
+    )
+    return {"pages": total, "items": list(map(lambda x: x.to_short_dict(), page))}
 
 
 def get_all_filtered():
     body = request.json
     formatted_search = None
     # TODO rewrite it
-    search = body['search']
+    search = body["search"]
     if search:
-        formatted_search = search.split(' ')
-        formatted_search = [('surname', formatted_search[0])]
+        formatted_search = search.split(" ")
+        formatted_search = [("surname", formatted_search[0])]
         if len(formatted_search) > 1:
-            formatted_search.append(('name', formatted_search[1]))
+            formatted_search.append(("name", formatted_search[1]))
 
-    (total, page) = person_service.get_all(sort=body['sort'], search=formatted_search, page=body['page'],
-                                           filters=body['filters'])
-    return {'pages': total, 'items': list(map(lambda x: x.to_short_dict(), page))}
+    (total, page) = person_service.get_all(
+        sort=body["sort"],
+        search=formatted_search,
+        page=body["page"],
+        filters=body["filters"],
+    )
+    return {"pages": total, "items": list(map(lambda x: x.to_short_dict(), page))}
 
 
 def get_tree():
     nodes, links = person_service.get_tree()
-    return {'nodes': list(map(lambda x: x.to_tree_dict(), nodes)), 'links': links}
+    return {"nodes": list(map(lambda x: x.to_tree_dict(), nodes)), "links": links}
 
 
 def get_person_short(id):

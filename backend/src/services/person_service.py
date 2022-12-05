@@ -8,5 +8,9 @@ class PersonService(BaseService):
 
     def get_tree(self):
         nodes = self.get_all()
-        links = [{'source': node.parent_id, 'target': node.id} for node in nodes if node.parent_id]
+        links = [
+            {"source": node.parent_id, "target": node.id}
+            for node in nodes
+            if node.parent_id
+        ]
         return nodes, links
