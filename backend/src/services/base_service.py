@@ -38,7 +38,7 @@ class BaseService:
                 else:
                     filter_obj.append(column(real_col).in_(filters[col]))
             query = query.filter(*filter_obj)
-        if search:
+        if search and search[0][1] is not None:
             query = query.filter(
                 *[column(self.model.get_key(s[0])).startswith(s[1]) for s in search]
             )
